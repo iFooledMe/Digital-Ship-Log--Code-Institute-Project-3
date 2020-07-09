@@ -25,13 +25,16 @@ The statuses can be one of the following (with á possible substatus):
   - “As a user i wish to create and login to my personal account”
   - “As a user I wish to be able to start and end a Journey (where all log entries during this time will be connected)
   - “As a user I wish to add log entries by different categories”
-	  - “I wish to add speed, course and weather data at any given time”
-    - “I wish to add personal notes and upload pictures at any given time”
-    - “I wish to add service and repair notes at any given time”
+     - “I wish to add speed, course and weather data at any given time”
+     - “I wish to add personal notes and upload pictures at any given time”
+     - “I wish to add service and repair notes at any given time”
  - “As a user I wish to see a map of all log entries for a certain journey or possibly for any other mean of filtering the results”
  - “As a user I wish to be able to sort and/or filter logentries by journeys, dates or category”  
  - “As a user I wish to be able to edit, or delete log entries as I see fit”
  - “As a user I wish all my log entries to be stored persistently so that they are accessible when I get back to the site next time”.
+
+## WIREFRAMES
+<img src="static/img/main_personal_page_WireFrame.png">
 
  
  
