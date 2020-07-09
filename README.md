@@ -36,5 +36,8 @@ The statuses can be one of the following (with á possible substatus):
 ## WIREFRAMES
 <img src="static/img/main_personal_page_WireFrame.png">
 
+## DATABASE MODEL
+<img src="static/img/db_model.png">
+
  
  
