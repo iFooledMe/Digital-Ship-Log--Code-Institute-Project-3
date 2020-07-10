@@ -1,6 +1,10 @@
 {
   "files.exclude": {
     "__pycache__": true,
-    ".vscode": true
+    ".vscode": true,
+    ".gitignore": true,
+    "env.py": true,
+    "Procfile": true,
+    "requirements.txt": true
   }
 }

@@ -14,7 +14,7 @@ mongo = PyMongo(app)
 
 @app.route('/')
 def index():
-  return render_template("index.html", users = mongo.db.users.find())
+  return render_template("index.html", users = mongo.db.users.find({"first_name" : "Mark"}))
 
 
 if __name__ == '__main__':
