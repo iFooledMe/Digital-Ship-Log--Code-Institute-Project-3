@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block pageTitle %}<title>Login</title>{% endblock %}
+
+{% block main %}
+  <div class="row mx-auto no-gutters">
+      <div class="col-md-12 col-lg-6">
+        <div class="login-window">
+          <h3>Welcome!</h3>
+          <p>Please sign in or <a href="{{ url_for('signup') }}">Sign up here!</a></p>
+            <form method="POST" action="{{ url_for('index') }}">
+                <input type="email" class="form-control form-override" id="email-username" name="email-username" placeholder="Login with your email adress">
+                <input type="password" class="form-control form-override" id="password" name="password" placeholder="Enter your password">
+                <button type="submit" class="btn btn-light form-override btn-override">Login</button>
+            </form>
+        </div>
+        <hr>
+      </div>
+      <div class="col-md-12 col-lg-6 map-box">
+        <img class="dummy_map_img" src="../static/img/dummy_map_800x800.png" alt="A dummy map from Google">
+      </div>
+  </div>
+{% endblock %}
+
+    

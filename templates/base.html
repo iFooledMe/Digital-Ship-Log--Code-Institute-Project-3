@@ -10,8 +10,6 @@
     {% block pageTitle %}{% endblock %}
 </head>
 
-
-
 <body>
     <div class="container-fluid"> <!-- Bootstrap container start-->
 
@@ -29,23 +27,10 @@
     </header>
 
     <main>
-        <div class="row mx-auto no-gutters">
-            <div class="col-md-12 col-lg-6 status-box">
-                {% block status %}
-                {% endblock %}
-            </div>
-            <div class="col-md-12 col-lg-6 map-box">
-                {% block map %}
-                {% endblock %}
-            </div>
-        </div>
-
-
-    </main>   
+        {% block main %}{% endblock %}
+    </main>
 
     <footer>
-
-
     </footer>
 
     <!-- ==== JAVASCRIPTS ========================================================================================================================= -->

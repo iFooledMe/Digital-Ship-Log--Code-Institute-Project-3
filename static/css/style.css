@@ -4,13 +4,13 @@ body {
 }
 
 header {
-    background-color: mediumblue;
+    background-color: #004080;
     color: white;
 }
 
 
 .status-box {
-
+    margin-bottom: 15px;
 }
 
 .map-box {
@@ -20,5 +20,26 @@ header {
 
 .dummy_map_img {
     max-width: 100%;
-    
 }
+
+.login-window {
+    text-align: center;
+    padding: 0 25%;
+    text-transform: uppercase;
+}
+
+.form-override {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 5px;
+    border: 1px solid #dfe3e8;
+}
+
+.sign-up {
+    width: 100%;
+    text-align: center;
+    padding: 0 25%;
+}
+
+
+

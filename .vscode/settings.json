@@ -3,8 +3,8 @@
     "__pycache__": true,
     ".vscode": true,
     ".gitignore": true,
-    "env.py": true,
     "Procfile": true,
+    "env.py": true,
     "requirements.txt": true
   }
 }
