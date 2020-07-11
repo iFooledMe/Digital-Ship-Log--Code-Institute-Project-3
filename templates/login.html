@@ -7,10 +7,15 @@
       <div class="col-md-12 col-lg-6">
         <div class="login-window">
           <h3>Welcome!</h3>
+          {% if badLogin %}
+          <p>WRONG USERNAME/PASSWORD! <span class="txt-sm"><a href="{{ url_for('signup') }}">Sign up here!</a></span></p>
+          {% else %}
           <p>Please sign in or <a href="{{ url_for('signup') }}">Sign up here!</a></p>
+          {% endif %}
+          
             <form method="POST" action="{{ url_for('login') }}">
                 <input type="email" class="form-control form-override" id="email" name="email" placeholder="Login with your email adress">
-                <input type="password" class="form-control form-override" id="password" name="password" placeholder="Enter your password">
+                <input type="password" class="form-control form-override" id="password" name="password" placeholder="Enter your password" required>
                 <button type="submit" class="btn btn-light form-override btn-override">Login</button>
             </form>
         </div>

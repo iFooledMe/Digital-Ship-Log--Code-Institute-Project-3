@@ -8,11 +8,14 @@
         <div class="sign-up">
           <h3>Sign Up!</h3>
           <p><a href="{{ url_for('index') }}">Back to Main Page</a></p>
+          {% if userNameExist %}
+          <p>THE SELECTED EMAIL ALREADY EXIST! <span class="txt-sm"><a href="{{ url_for('index') }}">Sign in here!</a></span></p>
+          {% endif %}
             <form method="POST" action="{{ url_for('signup') }}">
-                <input type="text" class="form-control form-override" id="first-name" name="first-name" placeholder="Your first name">
-                <input type="text" class="form-control form-override" id="last-name" name="last-name" placeholder="Your last name">
-                <input type="email" class="form-control form-override" id="email" name="email" placeholder="Enter email">
-                <input type="password" class="form-control form-override" id="password" name="password" placeholder="Choose a password">
+                <input type="text" class="form-control form-override" id="first-name" name="first-name" placeholder="Your first name" required>
+                <input type="text" class="form-control form-override" id="last-name" name="last-name" placeholder="Your last name" required>
+                <input type="email" class="form-control form-override" id="email" name="email" placeholder="Enter email" required>
+                <input type="password" class="form-control form-override" id="password" name="password" placeholder="Choose a password" required>
                 <button type="submit" class="btn btn-light form-override btn-override">Sign Up!</button>
             </form>
         </div>

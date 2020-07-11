@@ -38,20 +38,21 @@ def signup():
         session['userName'] = request.form["email"]
         return redirect(url_for("index"))
       
-      return "already!!!"
+      return render_template("signup.html", userNameExist = True)
     return render_template('signup.html')
 
-# ==== LOG IN  =====================================================================================================================================
+# ==== LOG IN VALIDATION =============================================================================================================================
 @app.route("/login", methods=["POST"])
 def login():
 	users = mongo.db.users
 	validUser = users.find_one({"email" : request.form["email"]})
+	renderBadLogin = render_template("login.html", badLogin = True)
 	if validUser:
 		if bcrypt.hashpw(request.form["password"].encode("utf-8"), validUser['password']) == validUser['password']:
 			session['userName'] = request.form["email"]
 			return redirect(url_for("index"))
-		return "wrong password"
-	return "wrong username"
+		return renderBadLogin
+	return renderBadLogin
 
 # ==== LOG OUT (Clear session vars) ================================================================================================================
 @app.route("/logout")

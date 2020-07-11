@@ -8,6 +8,12 @@ header {
     color: white;
 }
 
+/* ==== TEXT/FONT ====================================================  */
+
+.txt-sm {
+    font-size: 0.7rem;
+}
+
 
 .status-box {
     margin-bottom: 15px;
