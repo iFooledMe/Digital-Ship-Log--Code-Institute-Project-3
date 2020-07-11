@@ -21,7 +21,7 @@ def index():
     return render_template("login.html")
 
 # ==== SIGNUP FORM AND DB INSERT (if not in session and user already exists) =======================================================================
-# TODO: Fix issue with login users accessing this route    
+# TODO: Fix issue with logged in users accessing this route    
 @app.route("/signup", methods=["POST", "GET"])
 def signup():
     if request.method == "POST":
@@ -41,15 +41,23 @@ def signup():
       return "already!!!"
     return render_template('signup.html')
 
+# ==== LOG IN  =====================================================================================================================================
+@app.route("/login", methods=["POST"])
+def login():
+	users = mongo.db.users
+	validUser = users.find_one({"email" : request.form["email"]})
+	if validUser:
+		if bcrypt.hashpw(request.form["password"].encode("utf-8"), validUser['password']) == validUser['password']:
+			session['userName'] = request.form["email"]
+			return redirect(url_for("index"))
+		return "wrong password"
+	return "wrong username"
+
 # ==== LOG OUT (Clear session vars) ================================================================================================================
 @app.route("/logout")
 def logout():
 	session.clear()
 	return redirect(url_for('index'))
-
-	
-
-
 
 # ==== APP.RUN =====================================================================================================================================
 if __name__ == '__main__':
