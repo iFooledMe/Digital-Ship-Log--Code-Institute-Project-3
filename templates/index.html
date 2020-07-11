@@ -8,11 +8,11 @@
   <div class="row mx-auto no-gutters">
       <div class="col-md-12 col-lg-6 status-box">
         {% for user in users %}
-        <h3>Welcome {{user.first_name }} {{user.last_name }}</h3>
+        <h3>Welcome {{user.first_name}}</h3>
         <h4>CURRENT STATUS: ON JORNEY</h4>
         <p><strong>Last Logentry</strong> - 9 July, 2020 - 11:56</p>
-        {% endfor %}
         <hr>
+        {% endfor %}
             <!-- STATUS ACTION DROPDOWN MENU -->
     <div class="dropdown">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -24,10 +24,11 @@
         <a class="dropdown-item" href="#">Something else here</a>
       </div>
     </div>
+
     
       </div>
       <div class="col-md-12 col-lg-6 map-box">
-        <img class="dummy_map_img" src="../static/img/dummy_map_800x800.png" alt="A dummy map from Google">
+        <img class="img-fluid dummy_map_img" src="../static/img/dummy_map_800x800.png" alt="A dummy map from Google">
       </div>
   </div>
 

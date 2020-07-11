@@ -19,7 +19,8 @@ header {
 }
 
 .dummy_map_img {
-    max-width: 100%;
+    min-width: 100%;
+    height: 90vh;
 }
 
 .login-window {
