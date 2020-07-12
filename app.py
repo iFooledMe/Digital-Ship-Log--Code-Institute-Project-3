@@ -17,27 +17,29 @@ mongo = PyMongo(app)
 @app.route('/')
 def index():
     if "userName" in session:
-      users = mongo.db.users.find({"email" : session['userName']})
       activity = mongo.db.users.find_one({"email" : session['userName']})['activity_code']
-      #options = get_activity_options(activity)
-      #options = mongo.db.activity_options.find({ "show_on_status" : activity })
-      return render_template("index.html", users=users, render_activity=get_activity(activity), options=get_activity_options(activity) )
+      return render_template("index.html", users=find_users(), render_activity=get_activity(activity), options=get_activity_options(activity) )
     return render_template("login.html")
 
-# ==== Get activity by activity code ===
-def get_activity(activity):
-  if activity == 0:
-    return "No/Other activity"
-  elif activity == 1:
-    return "In Home dock"
-  elif activity == 2:
-    return "On Journey"
-  else:
-    return "No activity set"
+# ---- Get user in session  ----
+def find_users():
+  return mongo.db.users.find({"email" : session['userName']})
 
+# ---- Get activity by activity code ----
+def get_activity(activity):
+  if activity is not None:
+    return mongo.db.activity_statuses.find_one({"status_code" : activity})['status_name']
+  return "No activity set"
+
+# ---- Get activity options  ----
 def get_activity_options(activity):
   return mongo.db.activity_options.find({ "show_on_status" : activity })
 
+# ==== CHANGE ACTIVITY  ===============================================================================================================================
+@app.route('/change_activity/<int:new_activity>')
+def change_activity(new_activity):
+  mongo.db.users.update({"email" : session['userName']},{"$set":{"activity_code":new_activity}})
+  return redirect(url_for("index"))
 
 # ==== SIGNUP FORM AND DB INSERT (if not in session and user already exists) =======================================================================
 # TODO: Fix issue with logged in users accessing this route    

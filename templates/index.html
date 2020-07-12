@@ -21,7 +21,7 @@
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         {% for option in options %}
-        <a class="dropdown-item" href="#">{{option.opt_name}}</a>
+        <a class="dropdown-item" href="{{ url_for('change_activity', new_activity=option.set_to_status)}}">{{option.opt_name}}</a>
         {% endfor %}
       </div>
     </span>
