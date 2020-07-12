@@ -17,8 +17,27 @@ mongo = PyMongo(app)
 @app.route('/')
 def index():
     if "userName" in session:
-      return render_template("index.html", users = mongo.db.users.find({"email" : session['userName']}))
+      users = mongo.db.users.find({"email" : session['userName']})
+      activity = mongo.db.users.find_one({"email" : session['userName']})['activity_code']
+      #options = get_activity_options(activity)
+      #options = mongo.db.activity_options.find({ "show_on_status" : activity })
+      return render_template("index.html", users=users, render_activity=get_activity(activity), options=get_activity_options(activity) )
     return render_template("login.html")
+
+# ==== Get activity by activity code ===
+def get_activity(activity):
+  if activity == 0:
+    return "No/Other activity"
+  elif activity == 1:
+    return "In Home dock"
+  elif activity == 2:
+    return "On Journey"
+  else:
+    return "No activity set"
+
+def get_activity_options(activity):
+  return mongo.db.activity_options.find({ "show_on_status" : activity })
+
 
 # ==== SIGNUP FORM AND DB INSERT (if not in session and user already exists) =======================================================================
 # TODO: Fix issue with logged in users accessing this route    
@@ -33,7 +52,8 @@ def signup():
         users.insert({  'first_name' : request.form["first-name"], 
                         'last_name' : request.form["last-name"], 
                         'email' : request.form["email"], 
-                        'password' : password_hashed
+                        'password' : password_hashed,
+                        'activity_code' : 0
                     })
         session['userName'] = request.form["email"]
         return redirect(url_for("index"))

@@ -8,22 +8,34 @@
   <div class="row mx-auto no-gutters">
       <div class="col-md-12 col-lg-6 status-box">
         {% for user in users %}
-        <h3>Welcome {{user.first_name}}</h3>
-        <h4>CURRENT STATUS: ON JORNEY</h4>
+        <h4>Welcome {{user.first_name}}</h4>
+        <p>CURRENT ACTIVITY: <strong>{{render_activity}}</strong></p>
         <p><strong>Last Logentry</strong> - 9 July, 2020 - 11:56</p>
         <hr>
         {% endfor %}
             <!-- STATUS ACTION DROPDOWN MENU -->
-    <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Dropdown button
+  <div>
+    <span class="dropdown">
+      <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Change Activity
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        {% for option in options %}
+        <a class="dropdown-item" href="#">{{option.opt_name}}</a>
+        {% endfor %}
+      </div>
+    </span>
+    <span class="dropdown">
+      <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Add new log entry
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <a class="dropdown-item" href="#">Action</a>
         <a class="dropdown-item" href="#">Another action</a>
         <a class="dropdown-item" href="#">Something else here</a>
       </div>
-    </div>
+    </span>
+  </div>
 
     
       </div>
@@ -32,4 +44,4 @@
       </div>
   </div>
 
-  {% endblock %} 
+  {% endblock %}
