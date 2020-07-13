@@ -16,33 +16,44 @@ mongo = PyMongo(app)
 # ==== INDEX ====================================================================================================================================== 
 @app.route('/')
 def index():
-    if "userName" in session:
-      activity = mongo.db.users.find_one({"email" : session['userName']})['activity_code']
-      return render_template("index.html", users=find_users(), render_activity=get_activity(activity), options=get_activity_options(activity) )
-    return render_template("login.html")
+	if "userName" in session:
+		print(get_user_value("_id"))
+		return render_template("index.html", 
+                              users=find_users(), 
+                              render_activity=get_activity(get_user_value("activity_code")), 
+                              options=get_activity_options(get_user_value("activity_code")),
+                              journeys = get_journeys(get_user_value("_id")) )
+	return render_template("login.html")
 
 # ---- Get user in session  ----
 def find_users():
-  return mongo.db.users.find({"email" : session['userName']})
+	return mongo.db.users.find({"email" : session['userName']})
+
+def get_user_value(key):
+	return mongo.db.users.find_one({"email" : session['userName']})[key]
 
 # ---- Get activity by activity code ----
 def get_activity(activity):
-  if activity is not None:
-    return mongo.db.activity_statuses.find_one({"status_code" : activity})['status_name']
-  return "No activity set"
+	if activity is not None:
+		return mongo.db.activity_statuses.find_one({"status_code" : activity})['status_name']
+	return "No activity set"
 
 # ---- Get activity options  ----
 def get_activity_options(activity):
-  return mongo.db.activity_options.find({ "show_on_status" : activity })
+	return mongo.db.activity_options.find({ "show_on_status" : activity })
+
+# ---- Get Journeys  ----
+def get_journeys(userId):
+	return mongo.db.journeys.find({"user_id" : str(userId)})
 
 # ==== CHANGE ACTIVITY  ===============================================================================================================================
 @app.route('/change_activity/<int:new_activity>')
 def change_activity(new_activity):
-  mongo.db.users.update({"email" : session['userName']},{"$set":{"activity_code":new_activity}})
-  return redirect(url_for("index"))
+	mongo.db.users.update({"email" : session['userName']},{"$set":{"activity_code":new_activity}})
+	return redirect(url_for("index"))
 
 # ==== SIGNUP FORM AND DB INSERT (if not in session and user already exists) =======================================================================
-# TODO: Fix issue with logged in users accessing this route    
+# TODO: Fix issue with logged in users accessing this route with browser address field    
 @app.route("/signup", methods=["POST", "GET"])
 def signup():
     if request.method == "POST":

@@ -1,47 +1,104 @@
-{% extends 'base.html' %}
+<!-- @format -->
 
-{% block pageTitle %}<title>A Page title</title>{% endblock %}
-
+{% extends 'base.html' %} {% block pageTitle %}<title>A Page title</title>{%endblock %} 
 
 {% block main %}
 
-  <div class="row mx-auto no-gutters">
-      <div class="col-md-12 col-lg-6 status-box">
-        {% for user in users %}
-        <h4>Welcome {{user.first_name}}</h4>
-        <p>CURRENT ACTIVITY: <strong>{{render_activity}}</strong></p>
-        <p><strong>Last Logentry</strong> - 9 July, 2020 - 11:56</p>
-        <hr>
-        {% endfor %}
-            <!-- STATUS ACTION DROPDOWN MENU -->
-  <div>
-    <span class="dropdown">
-      <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Change Activity
-      </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        {% for option in options %}
-        <a class="dropdown-item" href="{{ url_for('change_activity', new_activity=option.set_to_status)}}">{{option.opt_name}}</a>
-        {% endfor %}
+<div class="row mx-auto no-gutters">
+  <div class="col-md-12 col-lg-6 status-box">
+    {% for user in users %}
+    <h4>Welcome {{user.first_name}}</h4>
+    <p>CURRENT ACTIVITY: <strong>{{render_activity}}</strong></p>
+    <p><strong>Last Logentry</strong> - 9 July, 2020 - 11:56</p>
+    <hr />
+    {% endfor %}
+    <!-- STATUS ACTION DROPDOWN MENU -->
+    <div>
+      <span class="dropdown">
+        <button
+          class="btn btn-light btn-sm dropdown-toggle"
+          type="button"
+          id="dropdownMenuButton"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          Change Activity
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          {% for option in options %}
+          <a
+            class="dropdown-item"
+            href="{{ url_for('change_activity', new_activity=option.set_to_status)}}"
+            >{{option.opt_name}}</a
+          >
+          {% endfor %}
+        </div>
+      </span>
+      <span class="dropdown">
+        <button
+          class="btn btn-light btn-sm dropdown-toggle"
+          type="button"
+          id="dropdownMenuButton"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          Add new log entry
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </span>
+    </div>
+    <div class="be-accordion" id="accordion1">
+      {% for journey in journeys %}
+      <div class="card bg-transparent border-0">
+        <div class="card-header bg-transparent border-0 p-0" id="heading11">
+          <h3>
+            <a
+              class="display-7"
+              data-toggle="collapse"
+              data-target="#collapse11"
+              aria-expanded="true"
+              aria-controls="collapse11"
+            >
+              {{ journey.journey_name }}
+            </a>
+          </h3>
+        </div>
+        <div
+          id="collapse11"
+          class="collapse show"
+          aria-labelledby="heading11"
+          data-parent="#accordion1"
+        >
+          <div class="card-body px-1 pt-0 pb-5">
+            <p>
+              DATES: {{ journey.startDateTime }} - {{ journey.endDateTime }}
+            </p>
+            <p>
+              FROM: {{ journey.from }} - TO: {{ journey.to }} - Distance: {{
+              journey.expected_distance }}
+            </p>
+            <p>DESCRIPTION: {{ journey.journey_descr}}</p>
+            <hr />
+          </div>
+        </div>
       </div>
-    </span>
-    <span class="dropdown">
-      <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Add new log entry
-      </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-      </div>
-    </span>
+      {% endfor %}
+    </div>
   </div>
 
-    
-      </div>
-      <div class="col-md-12 col-lg-6 map-box">
-          <img class="img-fluid dummy_map_img" src="../static/img/dummy_map_800x800.png" alt="A dummy map from Google">
-      </div>
+  <div class="col-md-12 col-lg-6 map-box">
+    <img
+      class="img-fluid dummy_map_img"
+      src="../static/img/dummy_map_800x800.png"
+      alt="A dummy map from Google"
+    />
   </div>
+</div>
 
-  {% endblock %}
+{% endblock %}
