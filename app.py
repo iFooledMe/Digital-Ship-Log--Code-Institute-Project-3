@@ -22,7 +22,7 @@ def index():
                               users=find_users(), 
                               render_activity=get_activity(get_user_value("activity_code")), 
                               options=get_activity_options(get_user_value("activity_code")),
-                              journeys = get_journeys(get_user_value("_id")) )
+                              journeys = get_journeys(get_user_value("_id"))  )
 	return render_template("login.html")
 
 # ---- Get user in session  ----

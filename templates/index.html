@@ -6,13 +6,14 @@
 
 <div class="row mx-auto no-gutters">
   <div class="col-md-12 col-lg-6 status-box">
+    <!-- ==== STATUS WINDOW ==================================== -->
     {% for user in users %}
     <h4>Welcome {{user.first_name}}</h4>
     <p>CURRENT ACTIVITY: <strong>{{render_activity}}</strong></p>
     <p><strong>Last Logentry</strong> - 9 July, 2020 - 11:56</p>
     <hr />
     {% endfor %}
-    <!-- STATUS ACTION DROPDOWN MENU -->
+    <!-- ==== ACTIVITY SET Dropdown =========================== -->
     <div>
       <span class="dropdown">
         <button
@@ -35,6 +36,7 @@
           {% endfor %}
         </div>
       </span>
+      <!-- ==== ADD NEW LOG ENTRY Dropdown =========================== -->
       <span class="dropdown">
         <button
           class="btn btn-light btn-sm dropdown-toggle"
@@ -53,26 +55,27 @@
         </div>
       </span>
     </div>
+    <!-- ==== JOURNEYS - Accordion 1 =========================== -->
     <div class="be-accordion" id="accordion1">
       {% for journey in journeys %}
       <div class="card bg-transparent border-0">
-        <div class="card-header bg-transparent border-0 p-0" id="heading11">
+        <div class="card-header bg-transparent border-0 p-0" id="heading{{ loop.index }}">
           <h3>
             <a
               class="display-7"
               data-toggle="collapse"
-              data-target="#collapse11"
-              aria-expanded="true"
-              aria-controls="collapse11"
+              data-target="#collapse{{ loop.index }}"
+              aria-expanded="false"
+              aria-controls="collapse{{ loop.index }}"
             >
               {{ journey.journey_name }}
             </a>
           </h3>
         </div>
         <div
-          id="collapse11"
-          class="collapse show"
-          aria-labelledby="heading11"
+          id="collapse{{ loop.index }}"
+          class="collapse"
+          aria-labelledby="heading{{ loop.index }}"
           data-parent="#accordion1"
         >
           <div class="card-body px-1 pt-0 pb-5">
@@ -92,6 +95,7 @@
     </div>
   </div>
 
+  <!-- ==== MAP ========================================================== -->
   <div class="col-md-12 col-lg-6 map-box">
     <img
       class="img-fluid dummy_map_img"
