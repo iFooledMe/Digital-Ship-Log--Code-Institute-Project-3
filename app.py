@@ -28,16 +28,12 @@ def get_user_value(key):
 @app.route('/')
 def index():
 	if "session_id" in session:
-		#act_name = get_activity_name(1)
-		#print ("Activity name: " + act_name)
-
+		activity_code = get_user_value('activity_code')
 		return render_template(
 			"index.html",
 			users=find_users(),
-			activity = "a test name",
-			#activity = get_activity_name(session['activity_code']),
-			#options=get_activity_options(session['activity_code']),
-			options=get_activity_options(2),
+			activity = get_activity_name(activity_code),
+			options = get_activity_options(activity_code),
 			journeys = get_journeys(get_user_value("_id")) )
 	return render_template("login.html")
 
@@ -57,11 +53,11 @@ def get_activity_options(activity):
 # ---- Change activity  ----
 @app.route('/change_activity/<int:new_activity>')
 def change_activity(new_activity):
+	if new_activity == 2:
+		return render_template("newjourney.html")
 	mongo.db.users.update(
 		{"email" : session['session_id']},
 		{"$set":{"activity_code":new_activity}})
-	if new_activity == 2:
-		return render_template("newjourney.html")
 	return redirect(url_for("index"))
 
 # ==== JOURNEYS  =============================================================
@@ -119,8 +115,6 @@ def login():
 			request.form['password'].encode('utf-8'),
 			validUser['password']) == validUser['password']:
 			session['session_id'] = request.form['email']
-			session['activity_code'] = get_user_value('activity_code')
-			session['activity_name'] = get_activity_name(session['activity_code'])
 			return redirect(url_for('index'))
 		return renderBadLogin
 	return renderBadLogin
