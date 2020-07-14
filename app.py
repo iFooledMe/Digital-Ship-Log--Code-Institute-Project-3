@@ -56,6 +56,8 @@ def change_activity(new_activity):
 	mongo.db.users.update(
 		{"email" : session['session_id']},
 		{"$set":{"activity_code":new_activity}})
+	if new_activity == 2:
+		return render_template("newjourney.html")
 	return redirect(url_for("index"))
 
 # ==== JOURNEYS  =============================================================
@@ -64,10 +66,24 @@ def get_journeys(userId):
 	return mongo.db.journeys.find({
 		"user_id" : str(userId)})
 
+# ---- New Journey  ----
+@app.route("/newjourney", methods=["POST", "GET"])
+def newjourney():
+	if request.method == "POST":
+		journeys = mongo.db.journeys
+		journeys.insert({
+			'user_id' : str(get_user_value("_id")),
+			'title' : request.form["title"],
+			'description' : request.form["description"],
+			'start_location' : request.form["start_location"],
+			'end_location' : request.form["end_location"],
+			'distance' : request.form["distance"],
+			'start_datetime' : datetime.datetime.now(),
+			'is_active' : True })
+		return redirect(url_for("index"))
+	return redirect(url_for("index"))
+
 # ==== SIGNUP =================================================================
-# TODO: Fix issue with logged in users accessing this route  
-
-
 @app.route("/signup", methods=["POST", "GET"])
 def signup():
 	if request.method == "POST":
