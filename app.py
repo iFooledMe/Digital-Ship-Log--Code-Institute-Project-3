@@ -36,7 +36,8 @@ def index():
 			users=find_users(),
 			activity = "a test name",
 			#activity = get_activity_name(session['activity_code']),
-			options=get_activity_options(session['activity_code']),
+			#options=get_activity_options(session['activity_code']),
+			options=get_activity_options(2),
 			journeys = get_journeys(get_user_value("_id")) )
 	return render_template("login.html")
 
