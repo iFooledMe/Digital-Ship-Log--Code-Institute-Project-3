@@ -28,21 +28,23 @@ def get_user_value(key):
 @app.route('/')
 def index():
 	if "session_id" in session:
-		print(get_user_value("_id"))
+		#act_name = get_activity_name(1)
+		#print ("Activity name: " + act_name)
+
 		return render_template(
 			"index.html",
 			users=find_users(),
-			render_activity=get_activity(get_user_value("activity_code")),
-			options=get_activity_options(get_user_value("activity_code")),
-			journeys = get_journeys(get_user_value("_id"))  )
+			activity = get_activity_name(session['activity_code']),
+			options=get_activity_options(session['activity_code']),
+			journeys = get_journeys(get_user_value("_id")) )
 	return render_template("login.html")
 
 # ==== ACTIVITY ==============================================================
 # ---- Get activity by activity code ----
-def get_activity(activity):
+def get_activity_name(activity):
 	if activity is not None:
 		return mongo.db.activity_statuses.find_one({
-			"status_code" : activity})['status_name']
+			"activity_code" : activity})['activity_name']
 	return "No activity set"
 
 # ---- Get activity options  ----
@@ -105,17 +107,19 @@ def signup():
 	return render_template("signup.html")
 
 # ==== LOG IN ================================================================
-@app.route("/login", methods=["POST"])
+@app.route('/login', methods=['POST'])
 def login():
 	users = mongo.db.users
-	validUser = users.find_one({"email" : request.form["email"]})
-	renderBadLogin = render_template("login.html", badLogin = True)
+	validUser = users.find_one({'email' : request.form['email']})
+	renderBadLogin = render_template('login.html', badLogin = True)
 	if validUser:
 		if bcrypt.hashpw(
-			request.form["password"].encode("utf-8"),
+			request.form['password'].encode('utf-8'),
 			validUser['password']) == validUser['password']:
-				session['session_id'] = request.form["email"]
-				return redirect(url_for("index"))
+			session['session_id'] = request.form['email']
+			session['activity_code'] = get_user_value('activity_code')
+			session['activity_name'] = get_activity_name(session['activity_code'])
+			return redirect(url_for('index'))
 		return renderBadLogin
 	return renderBadLogin
 
