@@ -34,7 +34,8 @@ def index():
 		return render_template(
 			"index.html",
 			users=find_users(),
-			activity = get_activity_name(session['activity_code']),
+			activity = "a test name",
+			#activity = get_activity_name(session['activity_code']),
 			options=get_activity_options(session['activity_code']),
 			journeys = get_journeys(get_user_value("_id")) )
 	return render_template("login.html")
