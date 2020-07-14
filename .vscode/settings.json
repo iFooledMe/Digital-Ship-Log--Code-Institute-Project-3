@@ -6,5 +6,6 @@
     "Procfile": true,
     "env.py": true,
     "requirements.txt": true
-  }
+  },
+  "python.formatting.provider": "autopep8"
 }

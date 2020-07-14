@@ -55,12 +55,12 @@
         </div>
       </span>
     </div>
-    <!-- ==== JOURNEYS - Accordion 1 =========================== -->
+    <!-- ==== JOURNEYS - Accordion Level 1 =========================== -->
     <div class="be-accordion" id="accordion1">
       {% for journey in journeys %}
       <div class="card bg-transparent border-0">
         <div class="card-header bg-transparent border-0 p-0" id="heading{{ loop.index }}">
-          <h3>
+          <h5>
             <a
               class="display-7"
               data-toggle="collapse"
@@ -68,9 +68,9 @@
               aria-expanded="false"
               aria-controls="collapse{{ loop.index }}"
             >
-              {{ journey.journey_name }}
+              {{ journey.title }}
             </a>
-          </h3>
+          </h5>
         </div>
         <div
           id="collapse{{ loop.index }}"
@@ -80,13 +80,18 @@
         >
           <div class="card-body px-1 pt-0 pb-5">
             <p>
-              DATES: {{ journey.startDateTime }} - {{ journey.endDateTime }}
+              STARTED: {{ journey.start_datetime.strftime("%Y-%m-%d, %H:%M") }} - 
+              {% if journey.is_active %}
+                Ongoing
+              {% else %}
+              ENDED: {{ journey.end_datetime.strftime("%Y-%m-%d, %H:%M") }}
+              {% endif %}
+              <br>
+              FROM: {{ journey.start_location }} - TO: {{ journey.end_location }} - Distance: {{
+              journey.distance }}
+              <br>
+              DESCRIPTION: {{ journey.description}}
             </p>
-            <p>
-              FROM: {{ journey.from }} - TO: {{ journey.to }} - Distance: {{
-              journey.expected_distance }}
-            </p>
-            <p>DESCRIPTION: {{ journey.journey_descr}}</p>
             <hr />
           </div>
         </div>
