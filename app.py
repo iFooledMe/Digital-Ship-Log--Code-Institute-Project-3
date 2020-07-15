@@ -71,27 +71,31 @@ def get_activity_options(activity):
 def change_activity(new_activity):
 	if new_activity == 2:
 		return render_template("newjourney.html")
+	#prev_activity = get_user_value('activity_code')
+	if get_user_value('activity_code') == 2:
+		close_journey()
 	update_user_activity(new_activity)
 	return redirect(url_for("index"))
 
 # ==== LOG HEADERS  =============================================================
 # ---- Get Log Headers  ----
 def get_log_header(userId):
-	return mongo.db.log_headers.find({
-		"user_id" : userId})
+	return mongo.db.log_headers.find({"user_id" : userId}).sort("number",-1)
 
 # ==== LOGTYPE: JOURNEY  =============================================================
 
-# ---- New Journey  ----
+# ---- New Journey Header  ----
 @app.route("/newjourney", methods=["POST", "GET"])
 def newjourney():
 	if request.method == "POST":
 		close_journey()
 		update_user_activity(2)
+		header_index = mongo.db.log_headers.count() + 1
 		log_headers = mongo.db.log_headers
 		log_headers.insert({
 			'user_id' : str(get_user_value("_id")),
-			'type' : "Journey",
+			'type' : 'Journey',
+			'number' : header_index,
 			'title' : request.form["title"],
 			'description' : request.form["description"],
 			'start_location' : request.form["start_location"],
