@@ -55,9 +55,9 @@
         </div>
       </span>
     </div>
-    <!-- ==== JOURNEYS - Accordion Level 1 =========================== -->
+    <!-- ==== LOG HEADERS - Accordion Level 1 =========================== -->
     <div class="be-accordion" id="accordion1">
-      {% for journey in journeys %}
+      {% for log_header in log_headers %}
       <div class="card bg-transparent border-0">
         <div class="card-header bg-transparent border-0 p-0" id="heading{{ loop.index }}">
           <h5>
@@ -68,7 +68,7 @@
               aria-expanded="false"
               aria-controls="collapse{{ loop.index }}"
             >
-              {{ journey.title }}
+            {{ log_header.type }}: {{ log_header.title }}
             </a>
           </h5>
         </div>
@@ -79,19 +79,25 @@
           data-parent="#accordion1"
         >
           <div class="card-body px-1 pt-0 pb-5">
+            {% if log_header.type == "Journey" %}
             <p>
-              STARTED: {{ journey.start_datetime.strftime("%Y-%m-%d, %H:%M") }} - 
-              {% if journey.is_active %}
+              STARTED: {{ log_header.start_datetime.strftime("%Y-%m-%d, %H:%M") }} - 
+              {% if log_header.is_active %}
                 Ongoing
               {% else %}
-              ENDED: {{ journey.end_datetime.strftime("%Y-%m-%d, %H:%M") }}
+              ENDED: {{ log_header.end_datetime.strftime("%Y-%m-%d, %H:%M") }}
               {% endif %}
               <br>
-              FROM: {{ journey.start_location }} - TO: {{ journey.end_location }} - Distance: {{
-              journey.distance }}
+              FROM: {{ log_header.start_location }} - TO: {{ log_header.end_location }} - Distance: {{
+                log_header.distance }}
               <br>
-              DESCRIPTION: {{ journey.description}}
+              DESCRIPTION: {{ log_header.description}}
             </p>
+            {% elif log_header.type == "Service" %}
+            <p>Service record header</p>
+            {% else %}
+            <p>No Log Header Set!</p>
+            {% endif %}
             <hr />
           </div>
         </div>

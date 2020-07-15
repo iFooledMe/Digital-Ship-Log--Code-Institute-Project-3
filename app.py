@@ -34,6 +34,12 @@ def set_session_vars(email):
 	session['email'] = email
 	session['user_id'] = str(get_user_id(email))
 
+# ---- Update User activity code ----
+def update_user_activity(new_activity):
+	mongo.db.users.update(
+		{"email" : session['email']},
+		{"$set":{"activity_code":new_activity}})
+
 # ==== INDEX ================================================================= 
 @app.route('/')
 def index():
@@ -44,7 +50,7 @@ def index():
 			users=find_users(),
 			activity = get_activity_name(activity_code),
 			options = get_activity_options(activity_code),
-			journeys = get_journeys(session['user_id']))
+			log_headers = get_log_header(session['user_id']))
 	return render_template("login.html")
 
 # ==== ACTIVITY ==============================================================
@@ -65,24 +71,27 @@ def get_activity_options(activity):
 def change_activity(new_activity):
 	if new_activity == 2:
 		return render_template("newjourney.html")
-	mongo.db.users.update(
-		{"email" : session['email']},
-		{"$set":{"activity_code":new_activity}})
+	update_user_activity(new_activity)
 	return redirect(url_for("index"))
 
-# ==== JOURNEYS  =============================================================
-# ---- Get Journeys  ----
-def get_journeys(userId):
-	return mongo.db.journeys.find({
+# ==== LOG HEADERS  =============================================================
+# ---- Get Log Headers  ----
+def get_log_header(userId):
+	return mongo.db.log_headers.find({
 		"user_id" : userId})
+
+# ==== LOGTYPE: JOURNEY  =============================================================
 
 # ---- New Journey  ----
 @app.route("/newjourney", methods=["POST", "GET"])
 def newjourney():
 	if request.method == "POST":
-		journeys = mongo.db.journeys
-		journeys.insert({
+		close_journey()
+		update_user_activity(2)
+		log_headers = mongo.db.log_headers
+		log_headers.insert({
 			'user_id' : str(get_user_value("_id")),
+			'type' : "Journey",
 			'title' : request.form["title"],
 			'description' : request.form["description"],
 			'start_location' : request.form["start_location"],
@@ -91,8 +100,14 @@ def newjourney():
 			'start_datetime' : datetime.datetime.now(),
 			'end_datetime' : "",
 			'is_active' : True })
-		return redirect(url_for("index"))
-	return redirect(url_for("index"))
+		return redirect(url_for('index'))
+	return redirect(url_for('index'))
+
+# ---- Close active Journey before creating a new ----
+def close_journey():
+	find_journey = {'user_id' : session['user_id'], 'type' : 'Journey', 'is_active' : True}
+	update_values = {'$set': {'end_datetime' : datetime.datetime.now(), 'is_active' : False} }
+	mongo.db.log_headers.update_one(find_journey, update_values)
 
 # ==== SIGNUP =================================================================
 @app.route("/signup", methods=["POST", "GET"])
@@ -126,8 +141,6 @@ def login():
 			request.form['password'].encode('utf-8'),
 			validUser['password']) == validUser['password']:
 			set_session_vars(request.form['email'])
-			#session['email'] = request.form['email']
-			#session['user_id'] = str(get_user_id(request.form['email']))
 			return redirect(url_for('index'))
 		return renderBadLogin
 	return renderBadLogin
