@@ -29,6 +29,11 @@ def get_user_id(email):
 	return mongo.db.users.find_one({
 		"email" : email})["_id"]
 
+# ---- Set session variables ----
+def set_session_vars(email):
+	session['email'] = email
+	session['user_id'] = str(get_user_id(email))
+
 # ==== INDEX ================================================================= 
 @app.route('/')
 def index():
@@ -103,7 +108,7 @@ def signup():
 			'email' : request.form["email"],
 			'password' : password_hashed,
 			'activity_code' : 0 })
-			session['email'] = request.form["email"]
+			set_session_vars(request.form['email'])
 			return redirect(url_for("index"))
 		return render_template("signup.html", emailExist = True)		
 	elif "email" in session:
@@ -120,8 +125,9 @@ def login():
 		if bcrypt.hashpw(
 			request.form['password'].encode('utf-8'),
 			validUser['password']) == validUser['password']:
-			session['email'] = request.form['email']
-			session['user_id'] = str(get_user_id(request.form['email']))
+			set_session_vars(request.form['email'])
+			#session['email'] = request.form['email']
+			#session['user_id'] = str(get_user_id(request.form['email']))
 			return redirect(url_for('index'))
 		return renderBadLogin
 	return renderBadLogin
