@@ -13,28 +13,33 @@ app.config["MONGO_DBNAME"] = os.environ["MONGO_DBNAME"]
 app.config["MONGO_URI"] = os.environ["MONGO_URI"]
 mongo = PyMongo(app)
 
-# ==== HELPER FUNCTION =======================================================
+# ==== HELPER FUNCTIONS ======================================================
 # ---- Get user in session  ----
 def find_users():
 	return mongo.db.users.find({
-		"email" : session['session_id']})
+		"email" : session['email']})
 
 # ---- Get a specified value from one user  ----
 def get_user_value(key):
 	return mongo.db.users.find_one({
-		"email" : session['session_id']})[key]
+		"email" : session['email']})[key]
+
+# ---- Get _id when user logs in or register  ----
+def get_user_id(email):
+	return mongo.db.users.find_one({
+		"email" : email})["_id"]
 
 # ==== INDEX ================================================================= 
 @app.route('/')
 def index():
-	if "session_id" in session:
+	if "email" in session:
 		activity_code = get_user_value('activity_code')
 		return render_template(
 			"index.html",
 			users=find_users(),
 			activity = get_activity_name(activity_code),
 			options = get_activity_options(activity_code),
-			journeys = get_journeys(get_user_value("_id")) )
+			journeys = get_journeys(session['user_id']))
 	return render_template("login.html")
 
 # ==== ACTIVITY ==============================================================
@@ -56,7 +61,7 @@ def change_activity(new_activity):
 	if new_activity == 2:
 		return render_template("newjourney.html")
 	mongo.db.users.update(
-		{"email" : session['session_id']},
+		{"email" : session['email']},
 		{"$set":{"activity_code":new_activity}})
 	return redirect(url_for("index"))
 
@@ -64,7 +69,7 @@ def change_activity(new_activity):
 # ---- Get Journeys  ----
 def get_journeys(userId):
 	return mongo.db.journeys.find({
-		"user_id" : str(userId)})
+		"user_id" : userId})
 
 # ---- New Journey  ----
 @app.route("/newjourney", methods=["POST", "GET"])
@@ -79,6 +84,7 @@ def newjourney():
 			'end_location' : request.form["end_location"],
 			'distance' : request.form["distance"],
 			'start_datetime' : datetime.datetime.now(),
+			'end_datetime' : "",
 			'is_active' : True })
 		return redirect(url_for("index"))
 	return redirect(url_for("index"))
@@ -97,10 +103,10 @@ def signup():
 			'email' : request.form["email"],
 			'password' : password_hashed,
 			'activity_code' : 0 })
-			session['session_id'] = request.form["email"]
+			session['email'] = request.form["email"]
 			return redirect(url_for("index"))
-		return render_template("signup.html", session_idExist = True)		
-	elif "session_id" in session:
+		return render_template("signup.html", emailExist = True)		
+	elif "email" in session:
 		return redirect(url_for("index")) 
 	return render_template("signup.html")
 
@@ -114,7 +120,8 @@ def login():
 		if bcrypt.hashpw(
 			request.form['password'].encode('utf-8'),
 			validUser['password']) == validUser['password']:
-			session['session_id'] = request.form['email']
+			session['email'] = request.form['email']
+			session['user_id'] = str(get_user_id(request.form['email']))
 			return redirect(url_for('index'))
 		return renderBadLogin
 	return renderBadLogin
