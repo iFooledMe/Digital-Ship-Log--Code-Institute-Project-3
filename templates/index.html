@@ -49,9 +49,9 @@
           Add new log entry
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
+          <a class="dropdown-item" href="#">New Log in open Journey</a>
+          <a class="dropdown-item" href="#">New Log (independent)</a>
+          <a class="dropdown-item" href="#">New Service note</a>
         </div>
       </span>
     </div>
@@ -98,7 +98,25 @@
             {% else %}
             <p>No Log Header Set!</p>
             {% endif %}
+            {% if log_header.is_active %}
+              <a 
+              href="{{ url_for('newlog', journey_id=log_header._id)}}" 
+              class="btn btn-secondary btn-sm" 
+              role="button" 
+              aria-pressed="true">
+              Add new log
+              </a>
+            {% endif %}
             <hr />
+            <p>Header Id: {{ log_header._id }}</p>
+            {% for log in logs %}
+              {% if log.head_id ==  log_header._id %}
+              <h6>{{ log.title }} - {{ log.datetime.strftime("%Y-%m-%d, %H:%M") }}</h6>
+              <p>{{ log.note }}</p>
+              <p>Log head_id: {{ log.head_id }}</p>
+              <p>Header Id: {{ log_header._id }}</p>
+              {% endif %}
+            {% endfor %}
           </div>
         </div>
       </div>

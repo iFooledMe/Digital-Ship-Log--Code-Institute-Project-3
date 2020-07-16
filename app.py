@@ -13,7 +13,8 @@ app.config["MONGO_DBNAME"] = os.environ["MONGO_DBNAME"]
 app.config["MONGO_URI"] = os.environ["MONGO_URI"]
 mongo = PyMongo(app)
 
-# ==== HELPER FUNCTIONS ======================================================
+# ====================================================================================
+# ==== H E L P E R  F U N C T I O N S ================================================
 # ---- Get user in session  ----
 def find_users():
 	return mongo.db.users.find({
@@ -40,7 +41,8 @@ def update_user_activity(new_activity):
 		{"email" : session['email']},
 		{"$set":{"activity_code":new_activity}})
 
-# ==== INDEX ================================================================= 
+# ====================================================================================
+# ==== I N D E X =====================================================================
 @app.route('/')
 def index():
 	if "email" in session:
@@ -50,10 +52,13 @@ def index():
 			users=find_users(),
 			activity = get_activity_name(activity_code),
 			options = get_activity_options(activity_code),
-			log_headers = get_log_header(session['user_id']))
+			log_headers = get_log_header(ObjectId(session['user_id'])),
+			logs = get_log_entries(ObjectId(session['user_id'])))
 	return render_template("login.html")
 
-# ==== ACTIVITY ==============================================================
+# ====================================================================================
+# ==== C H A N G E  A C T I V I T Y ==================================================
+
 # ---- Get activity by activity code ----
 def get_activity_name(activity):
 	if activity is not None:
@@ -71,18 +76,26 @@ def get_activity_options(activity):
 def change_activity(new_activity):
 	if new_activity == 2:
 		return render_template("newjourney.html")
-	#prev_activity = get_user_value('activity_code')
 	if get_user_value('activity_code') == 2:
 		close_journey()
 	update_user_activity(new_activity)
 	return redirect(url_for("index"))
 
-# ==== LOG HEADERS  =============================================================
-# ---- Get Log Headers  ----
+# ====================================================================================
+# ==== G E T  C O N T E N T ==========================================================
+
+# ---- GET LOG HEADERS  ----
 def get_log_header(userId):
 	return mongo.db.log_headers.find({"user_id" : userId}).sort("number",-1)
 
-# ==== LOGTYPE: JOURNEY  =============================================================
+# ---- GET LOG ENTRIES   ----
+def get_log_entries(userId):
+	return mongo.db.logs.find({"user_id" : userId}).sort("datetime",-1)
+
+# ====================================================================================
+# ==== L O G  T Y P E S  =============================================================
+
+# **** LOGTYPE: JOURNEY  *************************************************************
 
 # ---- New Journey Header  ----
 @app.route("/newjourney", methods=["POST", "GET"])
@@ -90,10 +103,11 @@ def newjourney():
 	if request.method == "POST":
 		close_journey()
 		update_user_activity(2)
+		#TODO: Get the real index value for header_index below
 		header_index = mongo.db.log_headers.count() + 1
 		log_headers = mongo.db.log_headers
 		log_headers.insert({
-			'user_id' : str(get_user_value("_id")),
+			'user_id' : ObjectId(session['user_id']),
 			'type' : 'Journey',
 			'number' : header_index,
 			'title' : request.form["title"],
@@ -105,15 +119,33 @@ def newjourney():
 			'end_datetime' : "",
 			'is_active' : True })
 		return redirect(url_for('index'))
-	return redirect(url_for('index'))
+	return render_template("new_journey_log.html")
 
 # ---- Close active Journey before creating a new ----
 def close_journey():
-	find_journey = {'user_id' : session['user_id'], 'type' : 'Journey', 'is_active' : True}
+	find_journey = {'user_id' : ObjectId(session['user_id']), 'type' : 'Journey', 'is_active' : True}
 	update_values = {'$set': {'end_datetime' : datetime.datetime.now(), 'is_active' : False} }
 	mongo.db.log_headers.update_one(find_journey, update_values)
 
-# ==== SIGNUP =================================================================
+# ---- New Journey Log Entry ----
+@app.route("/newlog/<journey_id>", methods=["POST", "GET"])
+def newlog(journey_id):
+	if request.method == "POST":
+		logs = mongo.db.logs
+		logs.insert({
+			'user_id' : ObjectId(session['user_id']),
+			'head_id' : ObjectId(journey_id),
+			'type' : 'journey_log',
+			'title' : request.form["title"],
+			'note' : request.form["note"],
+			'datetime' : datetime.datetime.now()})
+		return redirect(url_for('index'))
+	return render_template('new_journey_log.html', journey_id = journey_id)
+
+# ====================================================================================
+# ==== U S E R  A U T H E N T I C A T I O N  / R E G I S T R A T I O N ===============
+
+# **** SIGNUP ************************************************************************
 @app.route("/signup", methods=["POST", "GET"])
 def signup():
 	if request.method == "POST":
@@ -134,7 +166,7 @@ def signup():
 		return redirect(url_for("index")) 
 	return render_template("signup.html")
 
-# ==== LOG IN ================================================================
+# **** LOG IN ****************************************************************************
 @app.route('/login', methods=['POST'])
 def login():
 	users = mongo.db.users
@@ -149,13 +181,14 @@ def login():
 		return renderBadLogin
 	return renderBadLogin
 
-# ==== LOG OUT ===============================================================
+# **** LOG OUT ***************************************************************************
 @app.route("/logout")
 def logout():
 	session.clear()
 	return redirect(url_for('index'))
 
-# ==== APP.RUN ===============================================================
+# ====================================================================================
+# ==== A P P . R U N =================================================================
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
         port=os.environ.get('PORT'),
