@@ -63,6 +63,15 @@
       <div class="card bg-transparent border-0">
         <div class="card-header bg-transparent border-0 p-0" id="heading{{ loop.index }}">
           <h5>
+            {% if log_header.is_active %}
+            <a
+              class="display-7"
+              data-toggle="collapse"
+              data-target="#collapse{{ loop.index }}"
+              aria-expanded="true"
+              aria-controls="collapse{{ loop.index }}"
+            >
+            {% else %}
             <a
               class="display-7"
               data-toggle="collapse"
@@ -70,16 +79,30 @@
               aria-expanded="false"
               aria-controls="collapse{{ loop.index }}"
             >
+            {% endif %}
+
             {{ log_header.type }}: {{ log_header.title }}
             </a>
           </h5>
         </div>
+        
+        {% if log_header.is_active %}
         <div
-          id="collapse{{ loop.index }}"
-          class="collapse"
-          aria-labelledby="heading{{ loop.index }}"
-          data-parent="#accordion1"
+        id="collapse{{ loop.index }}"
+        class="collapse show"
+        aria-labelledby="heading{{ loop.index }}"
+        data-parent="#accordion1"
         >
+        {% else %}
+        <div
+        id="collapse{{ loop.index }}"
+        class="collapse"
+        aria-labelledby="heading{{ loop.index }}"
+        data-parent="#accordion1"
+        >
+        {% endif %}
+        
+
           <div class="card-body px-1 pt-0 pb-5">
             <!-- **** LOG HEADER BODY JOURNEYS **** -->
             {% if log_header.type == "Journey" %}
@@ -119,7 +142,7 @@
               <p>{{ log.note }}</p>
                 {% if log.imagefile != "none" %}
                 <figure>
-                  <img class="img-fluid" src="{{ log.img_url }}" alt="{{ log.img_cap }}">
+                  <img class="img-fluid rounded" src="{{ log.img_url }}" alt="{{ log.img_cap }}">
                   <figcaption>{{ log.img_cap }}</figcaption>
                 {% endif %}
                 </figure>
