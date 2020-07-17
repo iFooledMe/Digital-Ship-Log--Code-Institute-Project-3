@@ -147,11 +147,11 @@ def close_journey():
 def newlog(journey_id):
 	if request.method == "POST":
 		log_number = mongo.db.logs.find({"head_id" : ObjectId(journey_id)}).count() + 1
-		if 'image' in request.files:
+		try:
 			save_folder = str(session['user_id'] + '/' + str(journey_id)) + '/' + str(log_number)
 			image = images.save(request.files['image'], save_folder)
 			img_url = "../static/img/users/" + str(image)
-		else:
+		except:
 			img_url = "none"
 
 		mongo.db.logs.insert({
