@@ -61,7 +61,7 @@ def index():
 		return render_template(
 			"index.html",
 			users=find_users(),
-			activity = get_activity_name(activity_code),
+			activity = get_activity(activity_code),
 			options = get_activity_options(activity_code),
 			log_headers = get_log_header(ObjectId(session['user_id'])),
 			logs = get_log_entries(ObjectId(session['user_id'])))
@@ -71,10 +71,10 @@ def index():
 # ==== C H A N G E  A C T I V I T Y ==================================================
 
 # ---- Get activity by activity code ----
-def get_activity_name(activity):
+def get_activity(activity):
 	if activity is not None:
 		return mongo.db.activity_statuses.find_one({
-			"activity_code" : activity})['activity_name']
+			"activity_code" : activity})
 	return "No activity set"
 
 # ---- Get activity options  ----
