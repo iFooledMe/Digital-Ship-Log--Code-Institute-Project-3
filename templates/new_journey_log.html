@@ -8,9 +8,16 @@
         <div class="sign-up">
           <h3>Add a new logentry</h3>
           <p><a href="{{ url_for('index') }}">Back to Main Page</a></p>
-            <form method="POST" action="{{ url_for('newlog', journey_id=journey_id)}}">
-                <input type="text" class="form-control form-override" id="title" name="title" placeholder="Log title (max 25 characters)" maxlength="25" required>
-                <textarea class="form-control" id="description" name="note" rows="6" maxlength="300" placeholder="Log note here (max 300 characters)" required></textarea>
+            <form method="POST" enctype="multipart/form-data" action="{{ url_for('newlog', journey_id=journey_id)}}">
+              <div class="form-group">
+                <input type="text" class="form-control form-override" id="title" name="title" placeholder="Log title (max 35 characters)" maxlength="35" required>
+                <textarea class="form-control form-override" id="description" name="note" rows="6" maxlength="300" placeholder="Log note here (max 300 characters)" required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="image" class="pt-3">Add an image (optional)</label>
+                <input type="file" class="form-control form-override py-1" id="image" name="image">
+                <input type="text" class="form-control form-override" id="img_cap" name="img_cap" placeholder="Add image description (max 25 characters)(optional)" maxlength="25">
+              </div>
                 <button type="submit" class="btn btn-light form-override btn-override">Submit log entry</button>
             </form>
         </div>

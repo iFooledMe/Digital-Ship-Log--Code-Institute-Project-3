@@ -9,11 +9,13 @@
           <h3>Start a new jorney</h3>
           <p><a href="{{ url_for('index') }}">Back to Main Page</a></p>
             <form method="POST" action="{{ url_for('newjourney') }}">
+              <div class="form-group">
                 <input type="text" class="form-control form-override" id="title" name="title" placeholder="Journey title (max 25 characters)" maxlength="25" required>
                 <input type="text" class="form-control form-override" id="start_location" name="start_location" placeholder="Start location (optional)" maxlength="15">
                 <input type="text" class="form-control form-override" id="end_location" name="end_location" placeholder="Destination (optional)" maxlength="15">
                 <input type="number" class="form-control form-override" id="distance" name="distance" placeholder="Distance (NM) (optional)" min="0" max="21600">
-                <textarea class="form-control" id="description" name="description" rows="3" maxlength="200" placeholder="Journey description (max 200 characters) (optional)"></textarea>
+                <textarea class="form-control form-override" id="description" name="description" rows="3" maxlength="200" placeholder="Journey description (max 200 characters) (optional)"></textarea>
+              </div>
                 <button type="submit" class="btn btn-light form-override btn-override">Start journey</button>
             </form>
         </div>

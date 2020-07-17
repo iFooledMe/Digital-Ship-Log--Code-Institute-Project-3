@@ -52,11 +52,13 @@
           <a class="dropdown-item" href="#">New Log in open Journey</a>
           <a class="dropdown-item" href="#">New Log (independent)</a>
           <a class="dropdown-item" href="#">New Service note</a>
+          <a class="dropdown-item" href="#¤">Upload image</a>
         </div>
       </span>
     </div>
     <!-- ==== LOG HEADERS - Accordion Level 1 =========================== -->
     <div class="be-accordion" id="accordion1">
+      <img src="..\static\img\users\5f09a0388ba09ebc6fbcfef4\5f106d97da63ac4729596afa\sailing1.jpg" alt="">
       {% for log_header in log_headers %}
       <div class="card bg-transparent border-0">
         <div class="card-header bg-transparent border-0 p-0" id="heading{{ loop.index }}">
@@ -79,6 +81,7 @@
           data-parent="#accordion1"
         >
           <div class="card-body px-1 pt-0 pb-5">
+            <!-- **** LOG HEADER BODY JOURNEYS **** -->
             {% if log_header.type == "Journey" %}
             <p>
               STARTED: {{ log_header.start_datetime.strftime("%Y-%m-%d, %H:%M") }} - 
@@ -93,6 +96,7 @@
               <br>
               DESCRIPTION: {{ log_header.description}}
             </p>
+            <!-- **** LOG HEADER BODY SERVICE **** -->
             {% elif log_header.type == "Service" %}
             <p>Service record header</p>
             {% else %}
@@ -108,13 +112,17 @@
               </a>
             {% endif %}
             <hr />
-            <p>Header Id: {{ log_header._id }}</p>
+            <!-- ==== LOG ENTRIES - Accordion Level 2 =========================== -->
             {% for log in logs %}
-              {% if log.head_id ==  log_header._id %}
+              {% if log.head_id == log_header._id %}
               <h6>{{ log.title }} - {{ log.datetime.strftime("%Y-%m-%d, %H:%M") }}</h6>
               <p>{{ log.note }}</p>
-              <p>Log head_id: {{ log.head_id }}</p>
-              <p>Header Id: {{ log_header._id }}</p>
+                {% if log.imagefile != "" %}
+                <figure>
+                  <img class="img-fluid" src="{{ log.img_url }}" alt="{{ log.img_cap }}">
+                  <figcaption>{{ log.img_cap }}</figcaption>
+                {% endif %}
+                </figure>
               {% endif %}
             {% endfor %}
           </div>

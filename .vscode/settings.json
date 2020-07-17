@@ -1,11 +1,11 @@
 {
   "files.exclude": {
-    "__pycache__": true,
-    ".vscode": true,
     ".gitignore": true,
-    "Procfile": true,
     "env.py": true,
-    "requirements.txt": true
+    "Procfile": true,
+    "requirements.txt": true,
+    ".vscode": true,
+    "__pycache__": true
   },
   "python.formatting.provider": "autopep8"
 }

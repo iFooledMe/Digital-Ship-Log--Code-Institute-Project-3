@@ -1,7 +1,12 @@
 import os, datetime
 from flask import Flask, render_template, redirect, request, url_for, session
+from flask_wtf import FlaskForm
+from wtforms import FileField
+from flask_uploads import UploadSet, configure_uploads, IMAGES
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
+
+
 import bcrypt
 
 if os.path.exists("env.py"):
@@ -12,6 +17,10 @@ app.secret_key = os.environ["SECRET_KEY"]
 app.config["MONGO_DBNAME"] = os.environ["MONGO_DBNAME"]
 app.config["MONGO_URI"] = os.environ["MONGO_URI"]
 mongo = PyMongo(app)
+
+app.config['UPLOADED_IMAGES_DEST'] = 'static/img/users/'
+images = UploadSet('images', IMAGES)
+configure_uploads(app, images)
 
 # ====================================================================================
 # ==== H E L P E R  F U N C T I O N S ================================================
@@ -43,10 +52,12 @@ def update_user_activity(new_activity):
 
 # ====================================================================================
 # ==== I N D E X =====================================================================
+# TODO: Fix crash when user is removed from db but still in cache
 @app.route('/')
 def index():
 	if "email" in session:
 		activity_code = get_user_value('activity_code')
+		#img_base_url = "..\static\img\users\"
 		return render_template(
 			"index.html",
 			users=find_users(),
@@ -123,21 +134,35 @@ def newjourney():
 
 # ---- Close active Journey before creating a new ----
 def close_journey():
-	find_journey = {'user_id' : ObjectId(session['user_id']), 'type' : 'Journey', 'is_active' : True}
-	update_values = {'$set': {'end_datetime' : datetime.datetime.now(), 'is_active' : False} }
+	find_journey = {
+		'user_id' : ObjectId(session['user_id']),
+		'type' : 'Journey', 'is_active' : True}
+	update_values = {'$set': {
+		'end_datetime' : datetime.datetime.now(),
+		'is_active' : False} }
 	mongo.db.log_headers.update_one(find_journey, update_values)
 
 # ---- New Journey Log Entry ----
-@app.route("/newlog/<journey_id>", methods=["POST", "GET"])
+@app.route("/newlog/<journey_id>", methods=["POST", "GET", 'request.files or none'])
 def newlog(journey_id):
 	if request.method == "POST":
-		logs = mongo.db.logs
-		logs.insert({
+		log_number = mongo.db.logs.find({"head_id" : ObjectId(journey_id)}).count() + 1
+		if 'image' in request.files:
+			save_folder = str(session['user_id'] + '/' + str(journey_id)) + '/' + str(log_number)
+			image = images.save(request.files['image'], save_folder)
+			img_url = "../static/img/users/" + str(image)
+		else:
+			img_url = "none"
+
+		mongo.db.logs.insert({
 			'user_id' : ObjectId(session['user_id']),
 			'head_id' : ObjectId(journey_id),
+			'log_number' : log_number,
 			'type' : 'journey_log',
 			'title' : request.form["title"],
 			'note' : request.form["note"],
+			'img_url' : img_url,
+			'img_cap' : request.form["img_cap"],
 			'datetime' : datetime.datetime.now()})
 		return redirect(url_for('index'))
 	return render_template('new_journey_log.html', journey_id = journey_id)
@@ -153,7 +178,7 @@ def signup():
 		emailExist = users.find_one({"email": request.form["email"]})
 		if emailExist is None:
 			password_hashed = bcrypt.hashpw(request.form["password"].encode("utf-8"),bcrypt.gensalt())
-			users.insert({
+			users.insert_one({
 			'first_name' : request.form["first-name"],
 			'last_name' : request.form["last-name"],
 			'email' : request.form["email"],
