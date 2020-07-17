@@ -3,7 +3,6 @@
     ".gitignore": true,
     "env.py": true,
     "Procfile": true,
-    "requirements.txt": true,
     ".vscode": true,
     "__pycache__": true
   },
