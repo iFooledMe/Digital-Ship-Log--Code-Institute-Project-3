@@ -164,19 +164,19 @@ def newlog(journey_id):
 			'note' : request.form["note"],
 			'img_url' : img_url,
 			'img_cap' : request.form["img_cap"],
-			'weather' : request.form["weather"],
-			'temp' : request.form["temp"],
-			'air_pressure' : request.form["air_pressure"],
-			'wind_dir' : request.form["wind_dir"],
-			'wind_speed' : request.form["wind_speed"],
-			'activity' : request.form["activity"],
-			'heading' : request.form["heading"],
-			'speed' : request.form["speed"],
-			'location' : request.form["location"],
+			'weather' : set_log_data(request.form["weather"]),
+			'temp' : set_log_data(request.form["temp"]),
+			'air_pressure' : set_log_data(request.form["air_pressure"]),
+			'wind_dir' : set_log_data(request.form["wind_dir"]),
+			'wind_speed' : set_log_data(request.form["wind_speed"]),
+			'activity' : set_log_data(request.form["activity"]),
+			'heading' : set_log_data(request.form["heading"]),
+			'speed' : set_log_data(request.form["speed"]),
+			'location' : set_log_data(request.form["location"]),
 			'position' : 
 				[{
-				'latitude' : request.form["latitude"],
-				'longitude' : request.form["longitude"]
+				'latitude' : set_log_data(request.form["latitude"]),
+				'longitude' : set_log_data(request.form["longitude"])
 				}],
 			})
 		return redirect(url_for('index'))
@@ -189,6 +189,12 @@ def newlog(journey_id):
 		weather_options = weather_options,
 		wind_directions = wind_directions,
 		activity_options = activity_options)
+
+
+def set_log_data(request_data):
+	if request_data == "":
+		return " -- "
+	return request_data
 
 # ====================================================================================
 # ==== U S E R  A U T H E N T I C A T I O N  / R E G I S T R A T I O N ===============
