@@ -6,7 +6,7 @@
 
 <div class="row mx-auto no-gutters">
   <div class="col-md-12 col-lg-6">
-    <!-- ==== STATUS WINDOW ==================================== -->
+    <!-- #region STATUS WINDOW ======================================================= -->
     {% for user in users %}
     <div class="status-window">
       <h2>Welcome {{user.first_name}}</h2>
@@ -15,7 +15,8 @@
       <hr />
     </div>
     {% endfor %}
-    <!-- ==== ACTIVITY SET Dropdown =========================== -->
+    <!--#endregion-->
+    <!-- #region DROPDOWN BUTTONS ==================================================== -->
     <div>
       <span class="dropdown">
         <button
@@ -58,59 +59,50 @@
         </div>
       </span>
     </div>
-    <!-- ==== LOG HEADERS - Accordion Level 1 =========================== -->
+    <!-- #endregion -->
+    <!-- #region LOG HEADERS HEAD - Accordion Level 1 - HEAD ========================= -->
     <div class="be-accordion" id="accordion1">
       {% for log_header in log_headers %}
       <div class="card bg-transparent border-0">
+        <!-- **** Log headers head (Accordion 1 head) **** -->
         <div class="card-header bg-transparent" id="heading{{ loop.index }}">
+          
+          {% if log_header.is_active or loop.index == 1%}
+            {% set is_expanded = "true" %}
+            {% set open_or_collapsed = "collapse show" %}
+          {% else %}
+            {% set is_expanded = "true" %}
+            {% set open_or_collapsed = "collapse show" %}
+          {% endif %}
+          
           <h3>
-            {% if log_header.is_active %}
             <a
               data-toggle="collapse"
               data-target="#collapse{{ loop.index }}"
-              aria-expanded="true"
+              aria-expanded="{{ is_expanded }}"
               aria-controls="collapse{{ loop.index }}"
             >
-            {% else %}
-            <a
-              class="display-7"
-              data-toggle="collapse"
-              data-target="#collapse{{ loop.index }}"
-              aria-expanded="false"
-              aria-controls="collapse{{ loop.index }}"
-            >
-            {% endif %}
-
             {{ log_header.type }}: {{ log_header.title }}
             </a>
           </h3>
         </div>
-        
-        {% if log_header.is_active %}
+        <!-- #endregion -->
+    <!-- #region LOG HEADERS BODY - Accordion Level 1 - BODY ========================= -->
+        <!-- **** Log headers body (Accordion 1 body also containing log entries) **** -->
         <div
         id="collapse{{ loop.index }}"
-        class="collapse show"
+        class="{{ open_or_collapsed }}"
         aria-labelledby="heading{{ loop.index }}"
         data-parent="#accordion1"
-        >
-        {% else %}
-        <div
-        id="collapse{{ loop.index }}"
-        class="collapse"
-        aria-labelledby="heading{{ loop.index }}"
-        data-parent="#accordion1"
-        >
-        {% endif %}
-        
+        >       
           <div class="card-body px-1 pt-0 pb-5">
-            <!-- **** LOG HEADER BODY JOURNEYS **** -->
             {% if log_header.type == "Journey" %}
             <p>
               STARTED: {{ log_header.start_datetime.strftime("%Y-%m-%d, %H:%M") }} - 
               {% if log_header.is_active %}
-                Ongoing
+                Ongoing <i class="fas fa-hourglass-half"></i>
               {% else %}
-              ENDED: {{ log_header.end_datetime.strftime("%Y-%m-%d, %H:%M") }}
+              ENDED: {{ log_header.end_datetime.strftime("%Y-%m-%d, %H:%M") }} <i class="fas fa-flag-checkered"></i>
               {% endif %}
               <br>
               FROM: 
@@ -140,6 +132,8 @@
             {% else %}
             <p>No Log Header Set!</p>
             {% endif %}
+
+
             {% if log_header.is_active %}
               <a 
               href="{{ url_for('newlog', journey_id=log_header._id)}}" 
@@ -150,7 +144,10 @@
               </a>
             {% endif %}
             <hr />
-            <!-- ==== LOG ENTRIES - Accordion Level 2 =========================== -->
+            
+            <!-- #endregion -->
+            
+    <!-- #region LOG ENTRIES - Accordion Level 2 =========================== -->
             <div class="be-accordion" id="accordion2">
               {% set rowloop = loop %}
               {% for log in logs %}
@@ -210,20 +207,18 @@
                             <figcaption>{{ log.img_cap }}</figcaption>
                           {% endif %}
                           </figure>
-                      </div>
-                  </div>
-              </div>
-              {% endif %}
-              {% endfor %}
-
-            </div>
-          
-          </div><!-- END BODY LEVEL 1 -->
-        </div>
-        </div>
-      {% endfor %}
-    </div> <!-- END Card Aaccordion 1 -->
-  </div><!-- END Aaccordion 1 -->
+                      </div> <!-- END Card body Accordion 2-->
+                  </div> <!-- END Collapsible Accordion 2 -->
+              </div> <!-- END Card Accordion 2 -->
+              {% endif %} 
+              {% endfor %} 
+            </div> <!-- END ACCORDION 2 -->
+          </div><!-- END Card body Accordion 2 -->
+        </div><!-- END collapsible Accordion 1 -->
+      </div> <!-- END Card Aaccordion 1 -->
+      {% endfor %} 
+    </div> <!-- END Aaccordion 1 -->
+  </div> <!-- END Bootstrap col -->
 
   <!-- ==== MAP ========================================================== -->
   <div class="col-md-12 col-lg-6 map-box">
