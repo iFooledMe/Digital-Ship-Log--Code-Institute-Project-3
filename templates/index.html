@@ -62,11 +62,10 @@
     <div class="be-accordion" id="accordion1">
       {% for log_header in log_headers %}
       <div class="card bg-transparent border-0">
-        <div class="card-header bg-transparent border-0 p-0" id="heading{{ loop.index }}">
+        <div class="card-header bg-transparent" id="heading{{ loop.index }}">
           <h3>
             {% if log_header.is_active %}
             <a
-              class="display-7"
               data-toggle="collapse"
               data-target="#collapse{{ loop.index }}"
               aria-expanded="true"
@@ -103,7 +102,6 @@
         >
         {% endif %}
         
-
           <div class="card-body px-1 pt-0 pb-5">
             <!-- **** LOG HEADER BODY JOURNEYS **** -->
             {% if log_header.type == "Journey" %}
@@ -153,53 +151,79 @@
             {% endif %}
             <hr />
             <!-- ==== LOG ENTRIES - Accordion Level 2 =========================== -->
-            {% for log in logs %}
+            <div class="be-accordion" id="accordion2">
+              {% set rowloop = loop %}
+              {% for log in logs %}
               {% if log.head_id == log_header._id %}
-              <h6>{{ log.title }} - {{ log.datetime.strftime("%Y-%m-%d, %H:%M") }}</h6>
-              <p>
-                <i class="fas fa-cloud-sun"></i> {{ log.weather }} | 
-                <i class="fas fa-temperature-low"></i> {{ log.temp }}&#8451; |
-                <i class="fas fa-cloud-upload-alt"></i> {{ log.air_pressure }}hPa |
-                <i class="fas fa-paper-plane"></i> {{ log.wind_dir }} |
-                <i class="fas fa-wind"></i> {{ log.wind_speed }}m/s 
-              </p>
-              <p>
-                {% if log.activity == "Engine" %}
-                <i class="fas fa-ship"></i> {{ log.activity }} 
-                {% elif log.activity == "Sail" %}
-                <i class="fab fa-atlassian"></i>
-                {% elif log.activity == "Moored" %}
-                <i class="fas fa-rupee-sign"></i>
-                {% elif log.activity == "Anchored" %}
-                <i class="fas fa-anchor"></i>
-                {% else %}
-                <i class="fas fa-question-circle"></i>
-                {% endif %} {{ log.activity }} |
-                <i class="fas fa-compass"></i> {{ log.heading }}&#176; |
-                <i class="fas fa-tachometer-alt"></i> {{ log.speed }}Kn |
-              </p>
-              <p>
-                <i class="fas fa-map-marked-alt"></i> {{ log.location }} |
-                {% for pos in log.position %}
-                <i class="fas fa-arrows-alt-v"></i> {{ pos.latitude }}&#176; |
-                <i class="fas fa-arrows-alt-h"></i> {{ pos.longitude }}&#176;
-                {% endfor %}
-              </p>
-              <p>{{ log.note }}</p>
-                {% if log.imagefile != "none" %}
-                <figure>
-                  <img class="img-fluid rounded" src="{{ log.img_url }}" alt="{{ log.img_cap }}">
-                  <figcaption>{{ log.img_cap }}</figcaption>
-                {% endif %}
-                </figure>
+              <div class="card bg-transparent border-0">
+                <!-- Accordion 2 header -->  
+                <div class="card-header bg-transparent log-entry-head" id="heading{{ rowloop.index }}_{{ loop.index }}">
+                      <h4>
+                          <a 
+                          data-toggle="collapse" 
+                          data-target="#collapse{{ rowloop.index }}_{{ loop.index }}"
+                          aria-expanded="false" 
+                          aria-controls="collapse{{ rowloop.index }}_{{ loop.index }}">
+                          {{ log.title }} - {{ log.datetime.strftime("%Y-%m-%d, %H:%M") }}
+                          </a>
+                      </h4>
+                  </div>
+                  <!-- Accordion 2 body --> 
+                  <div  id="collapse{{ rowloop.index }}_{{ loop.index }}" 
+                        class="collapse" 
+                        aria-labelledby="heading{{ rowloop.index }}_{{ loop.index }}" 
+                        data-parent="#accordion2">
+                      <div class="card-body">
+                        <p>
+                          <i class="fas fa-cloud-sun"></i> {{ log.weather }} | 
+                          <i class="fas fa-temperature-low"></i> {{ log.temp }}&#8451; |
+                          <i class="fas fa-cloud-upload-alt"></i> {{ log.air_pressure }}hPa |
+                          <i class="fas fa-paper-plane"></i> {{ log.wind_dir }} |
+                          <i class="fas fa-wind"></i> {{ log.wind_speed }}m/s 
+                        </p>
+                        <p>
+                          {% if log.activity == "Engine" %}
+                          <i class="fas fa-ship"></i> {{ log.activity }} 
+                          {% elif log.activity == "Sail" %}
+                          <i class="fab fa-atlassian"></i>
+                          {% elif log.activity == "Moored" %}
+                          <i class="fas fa-rupee-sign"></i>
+                          {% elif log.activity == "Anchored" %}
+                          <i class="fas fa-anchor"></i>
+                          {% else %}
+                          <i class="fas fa-question-circle"></i>
+                          {% endif %} {{ log.activity }} |
+                          <i class="fas fa-compass"></i> {{ log.heading }}&#176; |
+                          <i class="fas fa-tachometer-alt"></i> {{ log.speed }}Kn |
+                        </p>
+                        <p>
+                          <i class="fas fa-map-marked-alt"></i> {{ log.location }} |
+                          {% for pos in log.position %}
+                          <i class="fas fa-arrows-alt-v"></i> {{ pos.latitude }}&#176; |
+                          <i class="fas fa-arrows-alt-h"></i> {{ pos.longitude }}&#176;
+                          {% endfor %}
+                        </p>
+                        <p>{{ log.note }}</p>
+                          {% if log.imagefile != "none" %}
+                          <figure>
+                            <img class="img-fluid rounded" src="{{ log.img_url }}" alt="{{ log.img_cap }}">
+                            <figcaption>{{ log.img_cap }}</figcaption>
+                          {% endif %}
+                          </figure>
+                      </div>
+                  </div>
+              </div>
               {% endif %}
-            {% endfor %}
-          </div>
+              {% endfor %}
+
+            </div>
+          
+          </div><!-- END BODY LEVEL 1 -->
         </div>
-      </div>
+        </div>
       {% endfor %}
-    </div>
-  </div>
+    </div> <!-- END Card Aaccordion 1 -->
+  </div><!-- END Aaccordion 1 -->
 
   <!-- ==== MAP ========================================================== -->
   <div class="col-md-12 col-lg-6 map-box">
