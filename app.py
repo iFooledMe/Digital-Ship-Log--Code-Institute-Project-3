@@ -64,7 +64,7 @@ def index():
 			activity = get_activity(activity_code),
 			options = get_activity_options(activity_code),
 			log_headers = get_log_header(ObjectId(session['user_id'])),
-			logs = get_log_entries(ObjectId(session['user_id'])))
+			logs = list(get_log_entries(ObjectId(session['user_id']))))
 	return render_template("login.html")
 
 # ====================================================================================
@@ -159,13 +159,36 @@ def newlog(journey_id):
 			'head_id' : ObjectId(journey_id),
 			'log_number' : log_number,
 			'type' : 'journey_log',
+			'datetime' : datetime.datetime.now(),
 			'title' : request.form["title"],
 			'note' : request.form["note"],
 			'img_url' : img_url,
 			'img_cap' : request.form["img_cap"],
-			'datetime' : datetime.datetime.now()})
+			'weather' : request.form["weather"],
+			'temp' : request.form["temp"],
+			'air_pressure' : request.form["air_pressure"],
+			'wind_dir' : request.form["wind_dir"],
+			'wind_speed' : request.form["wind_speed"],
+			'activity' : request.form["activity"],
+			'heading' : request.form["heading"],
+			'speed' : request.form["speed"],
+			'location' : request.form["location"],
+			'position' : 
+				[{
+				'latitude' : request.form["latitude"],
+				'longitude' : request.form["longitude"]
+				}],
+			})
 		return redirect(url_for('index'))
-	return render_template('new_journey_log.html', journey_id = journey_id)
+	weather_options = mongo.db.weather_options.find()
+	wind_directions = mongo.db.wind_dir_options.find()
+	activity_options = mongo.db.sub_activity_options.find()
+	return render_template(
+		'new_journey_log.html', 
+		journey_id = journey_id, 
+		weather_options = weather_options,
+		wind_directions = wind_directions,
+		activity_options = activity_options)
 
 # ====================================================================================
 # ==== U S E R  A U T H E N T I C A T I O N  / R E G I S T R A T I O N ===============
