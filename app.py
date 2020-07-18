@@ -50,6 +50,11 @@ def update_user_activity(new_activity):
 		{"email" : session['email']},
 		{"$set":{"activity_code":new_activity}})
 
+def get_request_data(request_data, empty_string_text):
+	if request_data == "":
+		return empty_string_text
+	return request_data
+
 # ====================================================================================
 # ==== I N D E X =====================================================================
 # TODO: Fix crash when user is removed from db but still in cache
@@ -122,12 +127,12 @@ def newjourney():
 			'type' : 'Journey',
 			'number' : header_index,
 			'title' : request.form["title"],
-			'description' : request.form["description"],
-			'start_location' : request.form["start_location"],
-			'end_location' : request.form["end_location"],
-			'distance' : request.form["distance"],
+			'description' : get_request_data(request.form["description"], " -- "),
+			'start_location' : get_request_data(request.form["start_location"], " -- "),
+			'end_location' : get_request_data(request.form["end_location"], " -- "),
+			'distance' : get_request_data(request.form["distance"], " -- "),
 			'start_datetime' : datetime.datetime.now(),
-			'end_datetime' : "",
+			'end_datetime' :  "Ongoing",
 			'is_active' : True })
 		return redirect(url_for('index'))
 	return render_template("new_journey_log.html")
@@ -164,19 +169,19 @@ def newlog(journey_id):
 			'note' : request.form["note"],
 			'img_url' : img_url,
 			'img_cap' : request.form["img_cap"],
-			'weather' : set_log_data(request.form["weather"]),
-			'temp' : set_log_data(request.form["temp"]),
-			'air_pressure' : set_log_data(request.form["air_pressure"]),
-			'wind_dir' : set_log_data(request.form["wind_dir"]),
-			'wind_speed' : set_log_data(request.form["wind_speed"]),
-			'activity' : set_log_data(request.form["activity"]),
-			'heading' : set_log_data(request.form["heading"]),
-			'speed' : set_log_data(request.form["speed"]),
-			'location' : set_log_data(request.form["location"]),
+			'weather' : get_request_data(request.form["weather"], " -- "),
+			'temp' : get_request_data(request.form["temp"], " -- "),
+			'air_pressure' : get_request_data(request.form["air_pressure"], " -- "),
+			'wind_dir' : get_request_data(request.form["wind_dir"], " -- "),
+			'wind_speed' : get_request_data(request.form["wind_speed"], " -- "),
+			'activity' : get_request_data(request.form["activity"], " -- "),
+			'heading' : get_request_data(request.form["heading"], " -- "),
+			'speed' : get_request_data(request.form["speed"], " -- "),
+			'location' : get_request_data(request.form["location"], " -- "),
 			'position' : 
 				[{
-				'latitude' : set_log_data(request.form["latitude"]),
-				'longitude' : set_log_data(request.form["longitude"])
+				'latitude' : get_request_data(request.form["latitude"], " -- "),
+				'longitude' : get_request_data(request.form["longitude"], " -- ")
 				}],
 			})
 		return redirect(url_for('index'))
@@ -189,12 +194,6 @@ def newlog(journey_id):
 		weather_options = weather_options,
 		wind_directions = wind_directions,
 		activity_options = activity_options)
-
-
-def set_log_data(request_data):
-	if request_data == "":
-		return " -- "
-	return request_data
 
 # ====================================================================================
 # ==== U S E R  A U T H E N T I C A T I O N  / R E G I S T R A T I O N ===============
