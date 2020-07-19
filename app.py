@@ -133,9 +133,26 @@ def newjourney():
 			'distance' : get_request_data(request.form["distance"], " -- "),
 			'start_datetime' : datetime.datetime.now(),
 			'end_datetime' :  "Ongoing",
-			'is_active' : True })
+			'is_active' : True,
+			'is_editable' : False })
 		return redirect(url_for('index'))
 	return render_template("new_journey_log.html")
+
+@app.route('/edit_journey/<journey_id>', methods=['POST', 'GET'])
+def edit_journey(journey_id):
+	if request.method == 'POST':
+		mongo.db.log_headers.update(
+		{'_id' : ObjectId(journey_id)},
+		{'$set':{
+			'title': request.form['title'],
+			'description' : get_request_data(request.form["description"], " -- "),
+			'start_location' : get_request_data(request.form["start_location"], " -- "),
+			'end_location' : get_request_data(request.form["end_location"], " -- "),
+			'distance' : get_request_data(request.form["distance"], " -- "),
+			'is_editable' : False }})
+		return redirect(url_for('index'))
+	this_journey = mongo.db.log_headers.find({'_id' : ObjectId(journey_id)})
+	return render_template("edit_journey.html", journey_id=journey_id, this_journey=this_journey)
 
 # ---- Close active Journey before creating a new ----
 def close_journey():
@@ -146,6 +163,18 @@ def close_journey():
 		'end_datetime' : datetime.datetime.now(),
 		'is_active' : False} }
 	mongo.db.log_headers.update_one(find_journey, update_values)
+
+# ---- Set a logheader and it's sub lug entries to a editable state ----
+@app.route("/set_editable/<journey_id>")
+def set_editable(journey_id):
+	find_journey = {'_id' : ObjectId(journey_id)}
+	is_editable = mongo.db.log_headers.find_one(find_journey)['is_editable']
+	if is_editable:
+		update_values = {'$set': {'is_editable' : False } }
+	else:
+		update_values = {'$set': {'is_editable' : True } }
+	mongo.db.log_headers.update_one(find_journey, update_values)
+	return redirect(url_for('index'))
 
 # ---- New Journey Log Entry ----
 @app.route("/newlog/<journey_id>", methods=["POST", "GET", 'request.files or none'])

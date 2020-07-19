@@ -3,231 +3,278 @@
 {% extends 'base.html' %} {% block pageTitle %}<title>A Page title</title>{%endblock %} 
 
 {% block main %}
-
 <div class="row mx-auto no-gutters">
-  <div class="col-md-12 col-lg-6">
-    <!-- #region STATUS WINDOW ======================================================= -->
-    {% for user in users %}
-    <div class="status-window">
-      <h2>Welcome {{user.first_name}}</h2>
-      <p>CURRENT ACTIVITY: <i class="{{ activity.activity_icon }}"></i> </i><strong>{{activity.activity_name}}</strong></p>
-      <p><strong>Last Logentry</strong> - 9 July, 2020 - 11:56</p>
-      <hr />
-    </div>
-    {% endfor %}
-    <!--#endregion-->
-    <!-- #region DROPDOWN BUTTONS ==================================================== -->
-    <div>
-      <span class="dropdown">
-        <button
-          class="btn btn-light btn-sm dropdown-toggle"
-          type="button"
-          id="dropdownMenuButton"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          Change Activity
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          {% for option in options %}
-          <a
-            class="dropdown-item"
-            href="{{ url_for('change_activity', new_activity=option.set_to_status)}}"
-            >{{option.opt_name}}</a
-          >
-          {% endfor %}
-        </div>
-      </span>
-      <!-- ==== ADD NEW LOG ENTRY Dropdown =========================== -->
-      <span class="dropdown">
-        <button
-          class="btn btn-light btn-sm dropdown-toggle"
-          type="button"
-          id="dropdownMenuButton"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          Add new log entry
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item" href="#">New Log in open Journey</a>
-          <a class="dropdown-item" href="#">New Log (independent)</a>
-          <a class="dropdown-item" href="#">New Service note</a>
-          <a class="dropdown-item" href="#¤">Upload image</a>
-        </div>
-      </span>
-    </div>
-    <!-- #endregion -->
-    <!-- #region LOG HEADERS HEAD - Accordion Level 1 - HEAD ========================= -->
-    <div class="be-accordion" id="accordion1">
-      {% for log_header in log_headers %}
-      <div class="card bg-transparent border-0">
-        <!-- **** Log headers head (Accordion 1 head) **** -->
-        <div class="card-header bg-transparent" id="heading{{ loop.index }}">
-          
-          {% if log_header.is_active or loop.index == 1%}
-            {% set is_expanded = "true" %}
-            {% set open_or_collapsed = "collapse show" %}
-          {% else %}
-            {% set is_expanded = "true" %}
-            {% set open_or_collapsed = "collapse show" %}
-          {% endif %}
-          
-          <h3>
-            <a
-              data-toggle="collapse"
-              data-target="#collapse{{ loop.index }}"
-              aria-expanded="{{ is_expanded }}"
-              aria-controls="collapse{{ loop.index }}"
-            >
-            {{ log_header.type }}: {{ log_header.title }}
-            </a>
-          </h3>
-        </div>
-        <!-- #endregion -->
-    <!-- #region LOG HEADERS BODY - Accordion Level 1 - BODY ========================= -->
-        <!-- **** Log headers body (Accordion 1 body also containing log entries) **** -->
-        <div
-        id="collapse{{ loop.index }}"
-        class="{{ open_or_collapsed }}"
-        aria-labelledby="heading{{ loop.index }}"
-        data-parent="#accordion1"
-        >       
-          <div class="card-body px-1 pt-0 pb-5">
-            {% if log_header.type == "Journey" %}
-            <p>
-              STARTED: {{ log_header.start_datetime.strftime("%Y-%m-%d, %H:%M") }} - 
-              {% if log_header.is_active %}
-                Ongoing <i class="fas fa-hourglass-half"></i>
-              {% else %}
-              ENDED: {{ log_header.end_datetime.strftime("%Y-%m-%d, %H:%M") }} <i class="fas fa-flag-checkered"></i>
-              {% endif %}
-              <br>
-              FROM: 
-              {% if log_header.start_location %}
-                {{ log_header.start_location }} 
-              {% else %}
-                n/a
-              {% endif %}
-               - TO: 
-               {% if log_header.end_location %}
-               {{ log_header.end_location }} 
-                {% else %}
-               n/a
-              {% endif %}
-              - Distance: 
-              {% if log_header.distance %}
-              {{ log_header.distance }} 
-              {% else %}
-               n/a
-              {% endif %}
-              <br>
-              DESCRIPTION: {{ log_header.description}}
-            </p>
-            <!-- **** LOG HEADER BODY SERVICE **** -->
-            {% elif log_header.type == "Service" %}
-            <p>Service record header</p>
-            {% else %}
-            <p>No Log Header Set!</p>
-            {% endif %}
+	
+	<!-- Logs column -->
+	<div class="col-md-12 col-lg-6">
 
+		<!-- #region STATUS WINDOW ======================================================= -->
+		{% for user in users %}
+		<div class="status-window">
+			<h2>Welcome {{user.first_name}}</h2>
+			<p>CURRENT ACTIVITY: <i class="{{ activity.activity_icon }}"></i> </i><strong>{{activity.activity_name}}</strong></p>
+			<p><strong>Last Logentry</strong> - 9 July, 2020 - 11:56</p>
+		</div>
+		{% endfor %}
+		<!--#endregion-->
+		
+		<!-- #region DROPDOWN BUTTONS ==================================================== -->
+		<div class="status-window-buttons-div">
+			<!-- Set activity dropdown -->
+			<span class="dropdown">
+				<button
+				class="btn btn-light btn-sm status-box-btn dropdown-toggle"
+				type="button"
+				id="dropdownMenuButton"
+				data-toggle="dropdown"
+				aria-haspopup="true"
+				aria-expanded="false"
+				>
+				Change Activity
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				{% for option in options %}
+				<a
+					class="dropdown-item"
+					href="{{ url_for('change_activity', new_activity=option.set_to_status)}}"
+					>{{option.opt_name}}</a
+				>
+				{% endfor %}
+				</div>
+			</span>
+			<!-- Log entry dropdown -->
+			<span class="dropdown">
+				<button
+				class="btn btn-light btn-sm dropdown-toggle"
+				type="button"
+				id="dropdownMenuButton"
+				data-toggle="dropdown"
+				aria-haspopup="true"
+				aria-expanded="false"
+				>
+				Add new log entry
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				<a class="dropdown-item" href="#">New Log in open Journey</a>
+				<a class="dropdown-item" href="#">New Log (independent)</a>
+				<a class="dropdown-item" href="#">New Service note</a>
+				<a class="dropdown-item" href="#">test</a>
+				</div>
+			</span>
+		</div>
+		<!-- #endregion -->	 
 
-            {% if log_header.is_active %}
-              <a 
-              href="{{ url_for('newlog', journey_id=log_header._id)}}" 
-              class="btn btn-secondary btn-sm" 
-              role="button" 
-              aria-pressed="true">
-              Add new log
-              </a>
-            {% endif %}
-            <hr />
+		<!-- #region ACCORDION ==================================================== -->
+
+		<!--Accordion wrapper-->
+		<div class="accordion md-accordion logs-accordion" id="accordion" role="tablist" aria-multiselectable="true">
+		{% for log_header in log_headers %}
+			<!-- Accordion card -->
+  			<div class="card log-header-card">
+
+				 <!-- Card header -->
+				<div class="card-header log-header-head" role="tab" id="accordion-header-{{ loop.index }}">
+					
+					{% if log_header.is_active or loop.index == 1 or log_header.is_editable%}
+						{% set is_expanded = "true" %}
+						{% set open_or_collapsed = "collapse show" %}
+				  	{% else %}
+						{% set is_expanded = "false" %}
+						{% set open_or_collapsed = "collapse" %}
+				  	{% endif %}
+					
+					<a 	class="a-override"
+						data-toggle="collapse" 
+						data-parent="#accordion" 
+						href="#accordion-collapse-{{ loop.index }}" 
+						aria-expanded="{{is_expanded }}"
+        				aria-controls="accordion-header-{{ loop.index }}">
+						<h3 class="mb-0">
+						{{ log_header.type }}: {{ log_header.title }} <i class="fas fa-angle-down rotate-icon collapse-icon"></i>
+						</h3>
+      				</a>
+				</div>
+
+				 <!-- Card body -->
+				<div 	id="accordion-collapse-{{ loop.index }}" 
+						class="{{ open_or_collapsed }}" 
+						role="tabpanel" 
+						aria-labelledby="accordion-collapse-{{ loop.index }}"
+						data-parent="#accordion">
+					
+					<div class="log-header-info">
+						<!-- INFO BY LOG HEADER TYPE -->
+						{% if log_header.type == "Journey" %}
+            				<p>
+								STARTED: {{ log_header.start_datetime.strftime("%Y-%m-%d, %H:%M") }} - 
+								{% if log_header.is_active %}
+								Ongoing <i class="fas fa-hourglass-half"></i>
+								{% else %}
+								ENDED: {{ log_header.end_datetime.strftime("%Y-%m-%d, %H:%M") }} <i class="fas fa-flag-checkered"></i>
+								{% endif %}
+								<br>
+								FROM: {{ log_header.start_location }} | 
+								TO: {{ log_header.end_location }} | 
+								DISTANCE: {{ log_header.distance }}
+								<br>
+								DESCRIPTION: {{ log_header.description}}
+            				</p>
             
-            <!-- #endregion -->
-            
-    <!-- #region LOG ENTRIES - Accordion Level 2 =========================== -->
-            <div class="be-accordion" id="accordion2">
-              {% set rowloop = loop %}
-              {% for log in logs %}
-              {% if log.head_id == log_header._id %}
-              <div class="card bg-transparent border-0">
-                <!-- Accordion 2 header -->  
-                <div class="card-header bg-transparent log-entry-head" id="heading{{ rowloop.index }}_{{ loop.index }}">
-                      <h4>
-                          <a 
-                          data-toggle="collapse" 
-                          data-target="#collapse{{ rowloop.index }}_{{ loop.index }}"
-                          aria-expanded="false" 
-                          aria-controls="collapse{{ rowloop.index }}_{{ loop.index }}">
-                          {{ log.title }} - {{ log.datetime.strftime("%Y-%m-%d, %H:%M") }}
-                          </a>
-                      </h4>
-                  </div>
-                  <!-- Accordion 2 body --> 
-                  <div  id="collapse{{ rowloop.index }}_{{ loop.index }}" 
-                        class="collapse" 
-                        aria-labelledby="heading{{ rowloop.index }}_{{ loop.index }}" 
-                        data-parent="#accordion2">
-                      <div class="card-body">
-                        <p>
-                          <i class="fas fa-cloud-sun"></i> {{ log.weather }} | 
-                          <i class="fas fa-temperature-low"></i> {{ log.temp }}&#8451; |
-                          <i class="fas fa-cloud-upload-alt"></i> {{ log.air_pressure }}hPa |
-                          <i class="fas fa-paper-plane"></i> {{ log.wind_dir }} |
-                          <i class="fas fa-wind"></i> {{ log.wind_speed }}m/s 
-                        </p>
-                        <p>
-                          {% if log.activity == "Engine" %}
-                          <i class="fas fa-ship"></i> {{ log.activity }} 
-                          {% elif log.activity == "Sail" %}
-                          <i class="fab fa-atlassian"></i>
-                          {% elif log.activity == "Moored" %}
-                          <i class="fas fa-rupee-sign"></i>
-                          {% elif log.activity == "Anchored" %}
-                          <i class="fas fa-anchor"></i>
-                          {% else %}
-                          <i class="fas fa-question-circle"></i>
-                          {% endif %} {{ log.activity }} |
-                          <i class="fas fa-compass"></i> {{ log.heading }}&#176; |
-                          <i class="fas fa-tachometer-alt"></i> {{ log.speed }}Kn |
-                        </p>
-                        <p>
-                          <i class="fas fa-map-marked-alt"></i> {{ log.location }} |
-                          {% for pos in log.position %}
-                          <i class="fas fa-arrows-alt-v"></i> {{ pos.latitude }}&#176; |
-                          <i class="fas fa-arrows-alt-h"></i> {{ pos.longitude }}&#176;
-                          {% endfor %}
-                        </p>
-                        <p>{{ log.note }}</p>
-                          {% if log.imagefile != "none" %}
-                          <figure>
-                            <img class="img-fluid rounded" src="{{ log.img_url }}" alt="{{ log.img_cap }}">
-                            <figcaption>{{ log.img_cap }}</figcaption>
-                          {% endif %}
-                          </figure>
-                      </div> <!-- END Card body Accordion 2-->
-                  </div> <!-- END Collapsible Accordion 2 -->
-              </div> <!-- END Card Accordion 2 -->
-              {% endif %} 
-              {% endfor %} 
-            </div> <!-- END ACCORDION 2 -->
-          </div><!-- END Card body Accordion 2 -->
-        </div><!-- END collapsible Accordion 1 -->
-      </div> <!-- END Card Aaccordion 1 -->
-      {% endfor %} 
-    </div> <!-- END Aaccordion 1 -->
-  </div> <!-- END Bootstrap col -->
+						{% elif log_header.type == "Service" %}
+							<p>
+								Service record header
+							</p>
+								{% else %}
+							<p>
+								No Log Header Set!
+							</p>
+						{% endif %}
+					</div>
 
-  <!-- ==== MAP ========================================================== -->
-  <div class="col-md-12 col-lg-6 map-box">
-    <img
-      class="img-fluid dummy_map_img"
-      src="../static/img/dummy_map_800x800.png"
-      alt="A dummy map from Google"
-    />
-  </div>
-</div>
+					<!-- Log header buttons -->
+					<div class="log-headers-button-row">
+						<!-- Add new log button -->
+						{% if log_header.is_active or log_header.is_editable%}
+						<div class="log-header-button">
+							<a 
+							href="{{ url_for('newlog', journey_id=log_header._id)}}" 
+							class="btn btn-light btn-sm" 
+							role="button" 
+							aria-pressed="true">
+								Add new log
+							</a>
+						</div>
+						  {% endif %}
+						<!-- Edit menu buttons -->
+						<!-- TODO: open this menu with javascript instead -->
+						{% if log_header.is_editable%}
+						<div class="log-header-button">
+							<a 
+							href="{{ url_for('edit_journey', journey_id=log_header._id)}}" 
+							class="btn btn-light btn-sm log-header-edit-button" 
+							role="button" 
+							aria-pressed="true">
+							Edit
+							</a>
+						</div>
+						<div class="log-header-button log-header-button">
+							<a 
+							href="{{ url_for('newlog', journey_id=log_header._id)}}" 
+							class="btn btn-light btn-sm log-header-edit-button" 
+							role="button" 
+							aria-pressed="true">
+							Delete
+							</a>
+						</div>
+						{% set edit_button_icon = "far fa-window-close" %}
+						{% set tooltip_txt = "Close edit menu" %}
+						{% else %}
+						{% set edit_button_icon = "fas fa-edit" %}
+						{% set tooltip_txt = "Open edit menu" %}
+						{% endif %}
+						<div class="main-edit-button-container">
+							<a 
+							class="a-override" 
+							href="{{ url_for('set_editable', journey_id=log_header._id)}}" 
+							data-toggle="tooltip" 
+							data-placement="top" 
+							title="{{ tooltip_txt }}">
+							<i class="{{ edit_button_icon }} icon-edit"></i>
+							</a>
+						</div>
+					</div>
+					
+					<!-- LOG ENTRIES (IN LOG HEADER BODY) -->
+						{% set rowloop = loop %}
+              			{% for log in logs %}
+							{% if log.head_id == log_header._id %}
+							<!-- Open log header/button -->
+							<div class="log-entry-head">
+								<h4>
+									{% if log_header.is_editable %}
+									<a href="#"><i class="fas fa-edit icon-edit-small"></i></a>
+									<a href="#"><i class="far fa-trash-alt icon-edit-small"></i></a>
+									{% endif %}
+									<a 	class="a-override" 
+										data-toggle="collapse" 
+										href="#collapse_{{ rowloop.index }}_{{ loop.index }}" 
+										aria-expanded="false" 
+										aria-controls="collapse_{{ rowloop.index }}_{{ loop.index }}">
+										<span class="txt-sm">{{ log.datetime.strftime("%Y-%m-%d, %H:%M") }}</span>
+										<br>
+										{{ log.title }}
+										<i class="fas fa-angle-down rotate-icon collapse-icon collapse-icon-sm"></i>
+									</a>
+								</h4>
+  							</div>
+  
+							<!-- Collapsible log entry element -->
+							<div class="collapse" id="collapse_{{ rowloop.index }}_{{ loop.index }}">
+								<div class="log-entry-body">
+									<p>
+										<i class="fas fa-cloud-sun"></i> {{ log.weather }} | 
+										<i class="fas fa-temperature-low"></i> {{ log.temp }}&#8451; |
+										<i class="fas fa-cloud-upload-alt"></i> {{ log.air_pressure }}hPa |
+										<i class="fas fa-paper-plane"></i> {{ log.wind_dir }} |
+										<i class="fas fa-wind"></i> {{ log.wind_speed }}m/s 
+									</p>
+									<p>
+										{% if log.activity == "Engine" %}
+										<i class="fas fa-ship"></i>
+										{% elif log.activity == "Sail" %}
+										<i class="fab fa-atlassian"></i>
+										{% elif log.activity == "Moored" %}
+										<i class="fas fa-rupee-sign"></i>
+										{% elif log.activity == "Anchored" %}
+										<i class="fas fa-anchor"></i>
+										{% else %}
+										<i class="fas fa-question-circle"></i>
+										{% endif %} {{ log.activity }} |
+										<i class="fas fa-compass"></i> {{ log.heading }}&#176; |
+										<i class="fas fa-tachometer-alt"></i> {{ log.speed }}Kn |
+									</p>
+									<p>
+										<i class="fas fa-map-marked-alt"></i> {{ log.location }} |
+										{% for pos in log.position %}
+										<i class="fas fa-arrows-alt-v"></i> {{ pos.latitude }}&#176; |
+										<i class="fas fa-arrows-alt-h"></i> {{ pos.longitude }}&#176;
+										{% endfor %}
+									</p>
+									<p>
+										<h5>Log note</h5>
+										{{ log.note }}
+									</p>
+									{% if log.imagefile != "none" %}
+									<figure>
+									  <img class="img-fluid rounded" src="{{ log.img_url }}" alt="{{ log.img_cap }}">
+									  <figcaption>{{ log.img_cap }}</figcaption>
+									{% endif %}
+									</figure>	
+								</div>
+							</div>
+							{% endif %}
+						{% endfor %}
 
+				</div> <!-- END Card Collabsible container -->
+			  </div> <!-- END Card -->
+		{% endfor %}
+		</div> <!-- END Accordion -->
+		<!-- #endregion -->
+
+	</div> <!-- END column -->
+
+	
+	<!-- #region MAP COLUMN ================================================================ -->
+	<div class="col-md-12 col-lg-6 map-box">
+		<div class="map">
+			<img
+			class="img-fluid dummy_map_img"
+			src="../static/img/dummy_map_800x800.png"
+			alt="A dummy map from Google"
+			/>
+		</div>
+	</div> <!-- END Map column -->
+	<!-- #endregion -->
+
+</div> <!-- END bootstrap row -->
 {% endblock %}
