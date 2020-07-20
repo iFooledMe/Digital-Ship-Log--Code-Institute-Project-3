@@ -1,4 +1,4 @@
-import os, datetime
+import os, datetime, shutil, glob
 from flask import Flask, render_template, redirect, request, url_for, session
 from flask_wtf import FlaskForm
 from wtforms import FileField
@@ -125,7 +125,6 @@ def newjourney():
 	if request.method == "POST":
 		close_journey()
 		update_user_activity(2)
-		#TODO: Get the real index value for header_index below
 		header_index = mongo.db.log_headers.count() + 1
 		log_headers = mongo.db.log_headers
 		log_headers.insert({
@@ -144,6 +143,7 @@ def newjourney():
 		return redirect(url_for('index'))
 	return render_template("new_journey_log.html")
 
+# ---- Edit Journey Header  ----
 @app.route('/edit_journey/<journey_id>', methods=['POST', 'GET'])
 def edit_journey(journey_id):
 	if request.method == 'POST':
@@ -170,9 +170,16 @@ def edit_journey(journey_id):
 	this_journey = mongo.db.log_headers.find({'_id' : ObjectId(journey_id)})
 	return render_template("edit_journey.html", journey_id=journey_id, this_journey=this_journey)
 
+# ---- Delete Journey Header (and all it' contents) ----
 @app.route('/delete_journey/<journey_id>', methods=['POST', 'GET'])
 def delete_journey(journey_id):
-	return ""
+	#TODO: Add function to remove any image files in the log_headers logs
+	is_active = mongo.db.log_headers.find_one({'_id' :ObjectId(journey_id) })['is_active']
+	if is_active:
+		update_user_activity(0)
+	mongo.db.logs.delete_many({'head_id' : ObjectId(journey_id)})
+	mongo.db.log_headers.delete_one({'_id' :ObjectId(journey_id) })
+	return redirect(url_for('index'))
 
 # ---- Close active Journey before creating a new ----
 def close_journey():

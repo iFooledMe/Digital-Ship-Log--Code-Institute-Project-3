@@ -38,6 +38,10 @@ h3 {
     font-size: 0.7rem;
 }
 
+.center {
+    text-align: center;
+}
+
 /* =================================================================== */
 /* ==== BUTTONS =====================================================  */
 .status-box-btn {
@@ -50,6 +54,10 @@ h3 {
     border-radius: 0.25rem;
 }
 
+.btn-override-margin {
+    margin: 0 15px;
+}
+
 .transparent-btn {
     display: block;
     width: 100%;
@@ -58,6 +66,22 @@ h3 {
     outline: 0;
     text-align: left;
     box-shadow: 0;
+}
+
+.log-header-button {
+    position: relative;
+    display: inline-block;
+    margin-left: 15px;
+    z-index: 2;
+}
+
+.log-header-button a {
+    width: 100px;
+}
+
+.log-header-edit-button {
+    display: inline-block;
+    width: 100px;
 }
 
 /* =================================================================== */
@@ -93,6 +117,38 @@ h3 {
     text-align: left;
 }
 
+/* =================================================================== */
+/* ==== MODALS =======================================================  */
+
+/* **** Warning Modal *********************************************** */
+.modal-wrapper {
+    text-align: center;
+}
+
+.modal-wrapper div h3 {
+    color: #ff7043;
+    text-align: center;
+    font-weight: 500;
+    margin: auto;
+}
+
+.modal-body p strong {
+    color: #ff7043
+}
+
+.modal-header {
+    padding-top: 20px;
+    border: none;
+}
+
+.modal-footer {
+    margin: auto;
+    border: none;
+}
+
+.modal-footer button {
+    width: 200px;
+}
 
 /* =================================================================== */
 /* ==== ICONS =======================================================  */
@@ -210,21 +266,6 @@ h3 {
 
 .log-headers-button-row {
     margin-bottom: 25px;
-}
-
-.log-header-button {
-    display: inline-block;
-    margin-left: 15px;
-    
-}
-
-.log-header-button a {
-    width: 100px;
-}
-
-.log-header-edit-button {
-    display: inline-block;
-    width: 100px;
 }
 
 .main-edit-button-container {
