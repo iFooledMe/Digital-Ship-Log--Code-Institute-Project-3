@@ -45,7 +45,7 @@
 			<!-- Log entry dropdown -->
 			<span class="dropdown">
 				<button
-				class="btn btn-blue-grey btn-sm dropdown-toggle"
+				class="btn btn-blue-grey btn-sm status-box-btn dropdown-toggle"
 				type="button"
 				id="dropdownMenuButton"
 				data-toggle="dropdown"
@@ -139,7 +139,7 @@
 						<div class="log-header-button">
 							<a 
 							href="{{ url_for('newlog', journey_id=log_header._id)}}" 
-							class="btn btn-blue-grey btn-sm" 
+							class="btn btn-blue-grey btn-sm btn-override" 
 							role="button" 
 							aria-pressed="true">
 								New log
@@ -170,9 +170,11 @@
 							</a>
 						</div>
 						{% set edit_button_icon = "far fa-window-close" %}
+						{% set cls_icon_class = "icon-edit-close" %}
 						{% set tooltip_txt = "Close edit menu" %}
 						{% else %}
 						{% set edit_button_icon = "fas fa-edit" %}
+						{% set cls_icon_class = "" %}
 						{% set tooltip_txt = "Open edit menu" %}
 						{% endif %}
 						<div class="main-edit-button-container">
@@ -182,7 +184,7 @@
 							data-toggle="tooltip" 
 							data-placement="top" 
 							title="{{ tooltip_txt }}">
-							<i class="{{ edit_button_icon }} icon-edit"></i>
+							<i class="{{ edit_button_icon }} icon-edit {{ cls_icon_class }}"></i>
 							</a>
 						</div>
 					</div>
@@ -191,7 +193,7 @@
 						{% set rowloop = loop %}
               			{% for log in logs %}
 							{% if log.head_id == log_header._id %}
-							<!-- LOG ENTRY TITEL ROW -->
+							<!-- LOG ENTRY TITLE -->
 							<div class="log-entry-head">
 								<h4>
 									{% if log_header.is_editable %}

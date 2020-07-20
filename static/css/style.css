@@ -41,7 +41,13 @@ h3 {
 /* =================================================================== */
 /* ==== BUTTONS =====================================================  */
 .status-box-btn {
-    width: 150px;
+    width: 170px;
+    border-radius: 0.25rem;
+}
+
+.btn-override {
+    margin: 0;
+    border-radius: 0.25rem;
 }
 
 .transparent-btn {
@@ -111,6 +117,11 @@ h3 {
     position: relative;
     top: 6px;
     font-size: 1.5em;
+}
+
+.icon-edit-close {
+    top: 7px;
+    font-size: 1.55em;
 }
 
 .icon-edit-small {
