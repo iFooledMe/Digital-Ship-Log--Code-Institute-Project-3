@@ -23,7 +23,7 @@
 			<!-- Set activity dropdown -->
 			<span class="dropdown">
 				<button
-				class="btn btn-light btn-sm status-box-btn dropdown-toggle"
+				class="btn btn-blue-grey btn-sm status-box-btn dropdown-toggle"
 				type="button"
 				id="dropdownMenuButton"
 				data-toggle="dropdown"
@@ -45,7 +45,7 @@
 			<!-- Log entry dropdown -->
 			<span class="dropdown">
 				<button
-				class="btn btn-light btn-sm dropdown-toggle"
+				class="btn btn-blue-grey btn-sm dropdown-toggle"
 				type="button"
 				id="dropdownMenuButton"
 				data-toggle="dropdown"
@@ -138,10 +138,10 @@
 						<div class="log-header-button">
 							<a 
 							href="{{ url_for('newlog', journey_id=log_header._id)}}" 
-							class="btn btn-light btn-sm" 
+							class="btn btn-blue-grey btn-sm" 
 							role="button" 
 							aria-pressed="true">
-								Add new log
+								New log
 							</a>
 						</div>
 						  {% endif %}
@@ -150,20 +150,22 @@
 						{% if log_header.is_editable%}
 						<div class="log-header-button">
 							<a 
+							class="a-override" 
 							href="{{ url_for('edit_journey', journey_id=log_header._id)}}" 
-							class="btn btn-light btn-sm log-header-edit-button" 
-							role="button" 
-							aria-pressed="true">
-							Edit
+							data-toggle="tooltip" 
+							data-placement="top" 
+							title="Edit journey header">
+							<i class="fas fa-edit icon-edit"></i>
 							</a>
 						</div>
-						<div class="log-header-button log-header-button">
+						<div class="log-header-button">
 							<a 
-							href="{{ url_for('newlog', journey_id=log_header._id)}}" 
-							class="btn btn-light btn-sm log-header-edit-button" 
-							role="button" 
-							aria-pressed="true">
-							Delete
+							class="a-override" 
+							href="{{ url_for('delete_journey', journey_id=log_header._id)}}" 
+							data-toggle="tooltip" 
+							data-placement="top" 
+							title="Delete Journey">
+							<i class="far fa-trash-alt icon-edit"></i>
 							</a>
 						</div>
 						{% set edit_button_icon = "far fa-window-close" %}
@@ -192,7 +194,7 @@
 							<div class="log-entry-head">
 								<h4>
 									{% if log_header.is_editable %}
-									<a href="#"><i class="fas fa-edit icon-edit-small"></i></a>
+									<a href="{{ url_for('edit_log', journey_id=log_header._id, log_id=log._id)}}"><i class="fas fa-edit icon-edit-small"></i></a>
 									<a href="#"><i class="far fa-trash-alt icon-edit-small"></i></a>
 									{% endif %}
 									<a 	class="a-override" 

@@ -61,6 +61,12 @@ h3 {
     margin-bottom: 10px;
 }
 
+.form-label {
+    position: relative;
+    top: 10px;
+    text-align: left;
+}
+
 .transparent-btn {
     display: block;
     width: 100%;
@@ -187,7 +193,11 @@ h3 {
 .log-header-button {
     display: inline-block;
     margin-left: 15px;
-    width: 150px;
+    
+}
+
+.log-header-button a {
+    width: 100px;
 }
 
 .log-header-edit-button {

@@ -141,6 +141,16 @@ def newjourney():
 @app.route('/edit_journey/<journey_id>', methods=['POST', 'GET'])
 def edit_journey(journey_id):
 	if request.method == 'POST':
+		#TODO: Fix issue with editing date and time
+		#start_date = request.form["start_date"]
+		#start_time = request.form["start_time"]
+		#start_datetime = datetime.datetime(start_date,start_time)
+		'''if request.form["end_date"] == "Ongoing" or request.form["end_time"] == "Ongoing":
+			end_datetime = "Ongoing"
+		else:
+			end_date = request.form["end_date"]
+			end_time = request.form["end_time"]
+			end_datetime = datetime.datetime.combine(start_date, start_time)'''
 		mongo.db.log_headers.update(
 		{'_id' : ObjectId(journey_id)},
 		{'$set':{
@@ -153,6 +163,10 @@ def edit_journey(journey_id):
 		return redirect(url_for('index'))
 	this_journey = mongo.db.log_headers.find({'_id' : ObjectId(journey_id)})
 	return render_template("edit_journey.html", journey_id=journey_id, this_journey=this_journey)
+
+@app.route('/delete_journey/<journey_id>', methods=['POST', 'GET'])
+def delete_journey(journey_id):
+	return ""
 
 # ---- Close active Journey before creating a new ----
 def close_journey():
@@ -194,6 +208,7 @@ def newlog(journey_id):
 			'log_number' : log_number,
 			'type' : 'journey_log',
 			'datetime' : datetime.datetime.now(),
+			'edit_date' : "",
 			'title' : request.form["title"],
 			'note' : request.form["note"],
 			'img_url' : img_url,
@@ -220,6 +235,51 @@ def newlog(journey_id):
 	return render_template(
 		'new_journey_log.html', 
 		journey_id = journey_id, 
+		weather_options = weather_options,
+		wind_directions = wind_directions,
+		activity_options = activity_options)
+
+@app.route('/edit_log/<journey_id>/<log_id>', methods=['POST', 'GET'])
+def edit_log(journey_id, log_id):
+	if request.method == 'POST':
+		try:
+			save_folder = str(session['user_id'] + '/' + str(journey_id)) + '/' + str(log_number)
+			image = images.save(request.files['image'], save_folder)
+			img_url = "../static/img/users/" + str(image)
+		except:
+			img_url = "none"
+		mongo.db.logs.update(
+		{'_id' : ObjectId(log_id)},
+		{'$set':{
+			'title': request.form['title'],
+			'note' : get_request_data(request.form["note"], " -- "),
+			'img_url' : img_url,
+			'img_cap' : request.form["img_cap"],
+			'weather' : get_request_data(request.form["weather"], " -- "),
+			'temp' : get_request_data(request.form["temp"], " -- "),
+			'air_pressure' : get_request_data(request.form["air_pressure"], " -- "),
+			'wind_dir' : get_request_data(request.form["wind_dir"], " -- "),
+			'wind_speed' : get_request_data(request.form["wind_speed"], " -- "),
+			'activity' : get_request_data(request.form["activity"], " -- "),
+			'heading' : get_request_data(request.form["heading"], " -- "),
+			'speed' : get_request_data(request.form["speed"], " -- "),
+			'location' : get_request_data(request.form["location"], " -- "),
+			'position' : 
+				[{
+				'latitude' : get_request_data(request.form["latitude"], " -- "),
+				'longitude' : get_request_data(request.form["longitude"], " -- ")
+				}],
+			}})
+		return redirect(url_for('index'))
+	weather_options = mongo.db.weather_options.find()
+	wind_directions = mongo.db.wind_dir_options.find()
+	activity_options = mongo.db.sub_activity_options.find()
+	this_log = mongo.db.logs.find({'_id' : ObjectId(log_id)})
+	return render_template(
+		"edit_journey_log.html", 
+		log_id=log_id,
+		journey_id = journey_id, 
+		this_log=this_log,
 		weather_options = weather_options,
 		wind_directions = wind_directions,
 		activity_options = activity_options)
