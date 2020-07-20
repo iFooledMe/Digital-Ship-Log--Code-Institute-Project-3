@@ -74,7 +74,7 @@ def index():
 			users=find_users(),
 			activity = get_activity(activity_code),
 			options = get_activity_options(activity_code),
-			log_headers = get_log_header(ObjectId(session['user_id'])),
+			log_headers = get_log_headers(ObjectId(session['user_id'])),
 			logs = list(get_log_entries(ObjectId(session['user_id']))))
 	return render_template("login.html")
 
@@ -107,7 +107,7 @@ def change_activity(new_activity):
 # ==== G E T  C O N T E N T ==========================================================
 
 # ---- GET LOG HEADERS  ----
-def get_log_header(userId):
+def get_log_headers(userId):
 	return mongo.db.log_headers.find({"user_id" : userId}).sort("number",-1)
 
 # ---- GET LOG ENTRIES   ----
@@ -200,8 +200,14 @@ def set_editable(journey_id):
 		update_values = {'$set': {'is_editable' : False } }
 	else:
 		update_values = {'$set': {'is_editable' : True } }
+	set_all_not_editable(session['user_id'])
 	mongo.db.log_headers.update_one(find_journey, update_values)
 	return redirect(url_for('index'))
+
+def set_all_not_editable(user_id):
+	mongo.db.log_headers.update_many(
+		{'user_id' : ObjectId(user_id)},
+		{'$set': {'is_editable' : False } })
 
 # ---- New Journey Log Entry ----
 @app.route("/newlog/<journey_id>", methods=["POST", "GET", 'request.files or none'])
@@ -332,6 +338,7 @@ def login():
 			request.form['password'].encode('utf-8'),
 			validUser['password']) == validUser['password']:
 			set_session_vars(request.form['email'])
+			set_all_not_editable(session['user_id'])
 			return redirect(url_for('index'))
 		return renderBadLogin
 	return renderBadLogin

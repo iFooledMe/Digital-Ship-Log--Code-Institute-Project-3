@@ -64,7 +64,7 @@
 		</div>
 		<!-- #endregion -->	 
 
-		<!-- #region ACCORDION ==================================================== -->
+		<!-- #region LOG HEADER - Accordion level 1 ====================================== -->
 
 		<!--Accordion wrapper-->
 		<div class="accordion md-accordion logs-accordion" id="accordion" role="tablist" aria-multiselectable="true">
@@ -146,9 +146,10 @@
 							</a>
 						</div>
 						  {% endif %}
-						<!-- Edit menu buttons -->
+						
 						<!-- TODO: open this menu with javascript instead -->
 						{% if log_header.is_editable%}
+						<!-- Edit menu buttons -->
 						<div class="log-header-button">
 							<a 
 							class="a-override" 
@@ -159,6 +160,7 @@
 							<i class="fas fa-edit icon-edit"></i>
 							</a>
 						</div>
+						<!-- Delete log_header buttons -->
 						<div 	class="log-header-button"
 								data-toggle="tooltip" 
 								data-placement="top" 
@@ -201,7 +203,7 @@
 								</div>
 							</div>
 						</div>
-<!-- #endregion -->
+
 						
 						{% set edit_button_icon = "far fa-window-close" %}
 						{% set cls_icon_class = "icon-edit-close" %}
@@ -222,8 +224,10 @@
 							</a>
 						</div>
 					</div>
+<!-- #endregion -->					
 					
-					<!-- LOG ENTRIES (In log header body) -->
+		<!-- #region LOGS - Accordion level 2 ============================================ -->			
+						<!-- LOG ENTRIES (In log header body) -->
 						{% set rowloop = loop %}
               			{% for log in logs %}
 							{% if log.head_id == log_header._id %}
@@ -305,7 +309,7 @@
 							</div>
 							{% endif %}
 						{% endfor %}
-
+<!-- #endregion -->
 				</div> <!-- END Card Collabsible container -->
 			  </div> <!-- END Card -->
 		{% endfor %}
