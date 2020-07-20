@@ -8,7 +8,7 @@
 	<!-- Logs column -->
 	<div class="col-md-12 col-lg-6">
 
-		<!-- #region STATUS WINDOW ======================================================= -->
+		<!-- #region ==== STATUS WINDOW ======================================================= -->
 		{% for user in users %}
 		<div class="status-window">
 			<h2>Welcome {{user.first_name}}</h2>
@@ -18,7 +18,7 @@
 		{% endfor %}
 		<!--#endregion-->
 		
-		<!-- #region DROPDOWN BUTTONS ==================================================== -->
+		<!-- #region ==== DROPDOWN BUTTONS ==================================================== -->
 		<div class="status-window-buttons-div">
 			<!-- Set activity dropdown -->
 			<span class="dropdown">
@@ -64,7 +64,7 @@
 		</div>
 		<!-- #endregion -->	 
 
-		<!-- #region LOG HEADER - Accordion level 1 ====================================== -->
+		<!-- #region ==== LOG HEADER - Accordion level 1 ====================================== -->
 
 		<!--Accordion wrapper-->
 		<div class="accordion md-accordion logs-accordion" id="accordion" role="tablist" aria-multiselectable="true">
@@ -226,15 +226,17 @@
 					</div>
 <!-- #endregion -->					
 					
-		<!-- #region LOGS - Accordion level 2 ============================================ -->			
+		<!-- #region ==== LOGS - Accordion level 2 ============================================ -->			
 						<!-- LOG ENTRIES (In log header body) -->
 						{% set rowloop = loop %}
               			{% for log in logs %}
 							{% if log.head_id == log_header._id %}
 							<!-- LOG ENTRY TITLE -->
+							<!-- TODO: Make entire log header row a clickable link -->
 							<div class="log-entry-head">
-								<h4>
-									{% if log_header.is_editable %}
+								
+								{% if log_header.is_editable %}
+								<div class="log-entry-edit">
 									<a 
 										href="{{ url_for('edit_log', journey_id=log_header._id, log_id=log._id)}}"
 										data-toggle="tooltip" 
@@ -249,7 +251,9 @@
 										title="Delete this log entry">
 										<i class="far fa-trash-alt icon-edit-small"></i>
 									</a>
-									{% endif %}
+								</div>
+								{% endif %}
+								<h4>
 									<a 	class="a-override" 
 										data-toggle="collapse" 
 										href="#collapse_{{ rowloop.index }}_{{ loop.index }}" 
@@ -264,7 +268,13 @@
   							</div>
   
 							<!-- Collapsible log entry element -->
-							<div class="collapse" id="collapse_{{ rowloop.index }}_{{ loop.index }}">
+							{% if loop.index == 1 %}
+							  	{% set collapse_or_show = "collapse show" %}
+							{% else %}
+								{% set collapse_or_show = "collapse" %}
+							{% endif %}
+
+							<div class="{{ collapse_or_show }}" id="collapse_{{ rowloop.index }}_{{ loop.index }}">
 								<div class="log-entry-body">
 									<p>
 										<i class="fas fa-cloud-sun"></i> {{ log.weather }} | 

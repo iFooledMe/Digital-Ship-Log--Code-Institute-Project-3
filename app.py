@@ -27,40 +27,6 @@ configure_uploads(app, images)
 def test():
 	return render_template('test.html')
 
-
-# ====================================================================================
-# ==== H E L P E R  F U N C T I O N S ================================================
-# ---- Get user in session  ----
-def find_users():
-	return mongo.db.users.find({
-		"email" : session['email']})
-
-# ---- Get a specified value from one user  ----
-def get_user_value(key):
-	return mongo.db.users.find_one({
-		"email" : session['email']})[key]
-
-# ---- Get _id when user logs in or register  ----
-def get_user_id(email):
-	return mongo.db.users.find_one({
-		"email" : email})["_id"]
-
-# ---- Set session variables ----
-def set_session_vars(email):
-	session['email'] = email
-	session['user_id'] = str(get_user_id(email))
-
-# ---- Update User activity code ----
-def update_user_activity(new_activity):
-	mongo.db.users.update(
-		{"email" : session['email']},
-		{"$set":{"activity_code":new_activity}})
-
-def get_request_data(request_data, empty_string_text):
-	if request_data == "":
-		return empty_string_text
-	return request_data
-
 # ====================================================================================
 # ==== I N D E X =====================================================================
 # TODO: Fix crash when user is removed from db but still in cache
@@ -191,7 +157,7 @@ def close_journey():
 		'is_active' : False} }
 	mongo.db.log_headers.update_one(find_journey, update_values)
 
-# ---- Set a logheader and it's sub lug entries to a editable state ----
+# ---- Set a logheader and it's sub sug entries to a editable state ----
 @app.route("/set_editable/<journey_id>")
 def set_editable(journey_id):
 	find_journey = {'_id' : ObjectId(journey_id)}
@@ -203,11 +169,6 @@ def set_editable(journey_id):
 	set_all_not_editable(session['user_id'])
 	mongo.db.log_headers.update_one(find_journey, update_values)
 	return redirect(url_for('index'))
-
-def set_all_not_editable(user_id):
-	mongo.db.log_headers.update_many(
-		{'user_id' : ObjectId(user_id)},
-		{'$set': {'is_editable' : False } })
 
 # ---- New Journey Log Entry ----
 @app.route("/newlog/<journey_id>", methods=["POST", "GET", 'request.files or none'])
@@ -258,6 +219,7 @@ def newlog(journey_id):
 		wind_directions = wind_directions,
 		activity_options = activity_options)
 
+# ---- Edit Journey Log Entry ---- 
 @app.route('/edit_log/<journey_id>/<log_id>', methods=['POST', 'GET'])
 def edit_log(journey_id, log_id):
 	if request.method == 'POST':
@@ -348,6 +310,44 @@ def login():
 def logout():
 	session.clear()
 	return redirect(url_for('index'))
+
+# ====================================================================================
+# ==== H E L P E R  F U N C T I O N S ================================================
+# ---- Get user in session  ----
+def find_users():
+	return mongo.db.users.find({
+		"email" : session['email']})
+
+# ---- Get a specified value from one user  ----
+def get_user_value(key):
+	return mongo.db.users.find_one({
+		"email" : session['email']})[key]
+
+# ---- Get _id when user logs in or register  ----
+def get_user_id(email):
+	return mongo.db.users.find_one({
+		"email" : email})["_id"]
+
+# ---- Set session variables ----
+def set_session_vars(email):
+	session['email'] = email
+	session['user_id'] = str(get_user_id(email))
+
+# ---- Update User activity code ----
+def update_user_activity(new_activity):
+	mongo.db.users.update(
+		{"email" : session['email']},
+		{"$set":{"activity_code":new_activity}})
+
+def get_request_data(request_data, empty_string_text):
+	if request_data == "":
+		return empty_string_text
+	return request_data
+	
+def set_all_not_editable(user_id):
+	mongo.db.log_headers.update_many(
+		{'user_id' : ObjectId(user_id)},
+		{'$set': {'is_editable' : False } })
 
 # ====================================================================================
 # ==== A P P . R U N =================================================================

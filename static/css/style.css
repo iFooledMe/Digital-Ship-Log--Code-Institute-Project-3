@@ -117,6 +117,10 @@ h3 {
     text-align: left;
 }
 
+.form-label-row {
+    text-align: left;
+}
+
 /* =================================================================== */
 /* ==== MODALS =======================================================  */
 
@@ -248,20 +252,23 @@ h3 {
     background-color: #f0f4ff;
 }
 
-.log-entry-head h4 a {
-    display: inline;
-}
-
 .log-entry-head h4 {
+    display: block;
+    width: 100%;
     margin-bottom: 15px;
     padding: 0 20px;
 }
 
-.log-entry-head a {
+.log-entry-head h4 a {
     display: block;
-    width: 100%;
-    text-align: left;
-    border: 0;
+    padding-bottom: 5px;
+}
+
+.log-entry-edit {
+    position: relative;
+    left: 20px;
+    font-size: 1.5rem;
+    height: 20px;
 }
 
 .log-headers-button-row {
