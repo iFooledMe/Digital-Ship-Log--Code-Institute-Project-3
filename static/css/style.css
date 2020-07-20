@@ -39,32 +39,9 @@ h3 {
 }
 
 /* =================================================================== */
-/* ==== BUTTONS & FORMS ==============================================  */
+/* ==== BUTTONS =====================================================  */
 .status-box-btn {
     width: 150px;
-}
-
-.form-override {
-    text-align: center;
-    width: 100%;
-    margin-bottom: 5px;
-    border: 1px solid #dfe3e8;
-}
-
-.form-base {
-    width: 100%;
-    text-align: center;
-    margin-top: 25px;
-}
-
-.image-upload-form {
-    margin-bottom: 10px;
-}
-
-.form-label {
-    position: relative;
-    top: 10px;
-    text-align: left;
 }
 
 .transparent-btn {
@@ -76,6 +53,40 @@ h3 {
     text-align: left;
     box-shadow: 0;
 }
+
+/* =================================================================== */
+/* ==== FORMS =======================================================  */
+/* Override bootstrap style of for form elements */
+.form-override {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 5px;
+    border: 1px solid #a3aebc;
+}
+
+/* Wraps the entire form page including headers and other content */
+.form-base {
+    width: 100%;
+    text-align: center;
+    margin-top: 25px;
+}
+
+/* Wraps the <form> element in a form page */
+.form-wrapper {
+    padding-top: 20px;
+}
+
+.image-upload-form {
+    margin-bottom: 10px;
+}
+
+/* Labels to the right of the form fiels in update forms */
+.form-label {
+    position: relative;
+    top: 10px;
+    text-align: left;
+}
+
 
 /* =================================================================== */
 /* ==== ICONS =======================================================  */

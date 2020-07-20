@@ -22,6 +22,12 @@ app.config['UPLOADED_IMAGES_DEST'] = 'static/img/users/'
 images = UploadSet('images', IMAGES)
 configure_uploads(app, images)
 
+#TODO: Remove test function and template before submitting
+@app.route('/test')
+def test():
+	return render_template('test.html')
+
+
 # ====================================================================================
 # ==== H E L P E R  F U N C T I O N S ================================================
 # ---- Get user in session  ----
@@ -335,3 +341,4 @@ if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
         port=os.environ.get('PORT'),
         debug=True)
+# TODO: Set deubug=False before submition

@@ -58,7 +58,7 @@
 				<a class="dropdown-item" href="#">New Log in open Journey</a>
 				<a class="dropdown-item" href="#">New Log (independent)</a>
 				<a class="dropdown-item" href="#">New Service note</a>
-				<a class="dropdown-item" href="#">test</a>
+				<a class="dropdown-item" href="{{ url_for('test') }}">test</a>
 				</div>
 			</span>
 		</div>
@@ -69,10 +69,10 @@
 		<!--Accordion wrapper-->
 		<div class="accordion md-accordion logs-accordion" id="accordion" role="tablist" aria-multiselectable="true">
 		{% for log_header in log_headers %}
-			<!-- Accordion card -->
+			<!-- Accordion card start-->
   			<div class="card log-header-card">
 
-				 <!-- Card header -->
+				 <!-- LOG HEADER TITLE - Card header start-->
 				<div class="card-header log-header-head" role="tab" id="accordion-header-{{ loop.index }}">
 					
 					{% if log_header.is_active or loop.index == 1 or log_header.is_editable%}
@@ -95,15 +95,16 @@
       				</a>
 				</div>
 
-				 <!-- Card body -->
+				 <!-- Card body start-->
 				<div 	id="accordion-collapse-{{ loop.index }}" 
 						class="{{ open_or_collapsed }}" 
 						role="tabpanel" 
 						aria-labelledby="accordion-collapse-{{ loop.index }}"
 						data-parent="#accordion">
 					
+					<!-- LOG HEADER INFO (Start, End, distance, description) -->
 					<div class="log-header-info">
-						<!-- INFO BY LOG HEADER TYPE -->
+						
 						{% if log_header.type == "Journey" %}
             				<p>
 								STARTED: {{ log_header.start_datetime.strftime("%Y-%m-%d, %H:%M") }} - 
@@ -131,7 +132,7 @@
 						{% endif %}
 					</div>
 
-					<!-- Log header buttons -->
+					<!-- LOG HEADER BUTTONS/DROPDOWNS -->
 					<div class="log-headers-button-row">
 						<!-- Add new log button -->
 						{% if log_header.is_active or log_header.is_editable%}
@@ -186,16 +187,28 @@
 						</div>
 					</div>
 					
-					<!-- LOG ENTRIES (IN LOG HEADER BODY) -->
+					<!-- LOG ENTRIES (In log header body) -->
 						{% set rowloop = loop %}
               			{% for log in logs %}
 							{% if log.head_id == log_header._id %}
-							<!-- Open log header/button -->
+							<!-- LOG ENTRY TITEL ROW -->
 							<div class="log-entry-head">
 								<h4>
 									{% if log_header.is_editable %}
-									<a href="{{ url_for('edit_log', journey_id=log_header._id, log_id=log._id)}}"><i class="fas fa-edit icon-edit-small"></i></a>
-									<a href="#"><i class="far fa-trash-alt icon-edit-small"></i></a>
+									<a 
+										href="{{ url_for('edit_log', journey_id=log_header._id, log_id=log._id)}}"
+										data-toggle="tooltip" 
+										data-placement="top" 
+										title="Edit this log entry">
+										<i class="fas fa-edit icon-edit-small"></i>
+									</a>
+									<a 
+										href="{{ url_for('edit_log', journey_id=log_header._id, log_id=log._id)}}"
+										data-toggle="tooltip" 
+										data-placement="top" 
+										title="Delete this log entry">
+										<i class="far fa-trash-alt icon-edit-small"></i>
+									</a>
 									{% endif %}
 									<a 	class="a-override" 
 										data-toggle="collapse" 

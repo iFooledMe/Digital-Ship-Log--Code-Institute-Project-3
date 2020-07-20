@@ -8,9 +8,11 @@
         <div class="form-base">
           <h3>Sign Up!</h3>
           <p><a href="{{ url_for('index') }}">Back to Main Page</a></p>
-          {% if userNameExist %}
-          <p>THE SELECTED EMAIL ALREADY EXIST! <span class="txt-sm"><a href="{{ url_for('index') }}">Sign in here!</a></span></p>
+          {% if emailExist %}
+          <div class="alert alert-danger" role="alert">THE SELECTED EMAIL ALREADY EXIST!</div>
+          <div><h5><a class="a-override" href="{{ url_for('index') }}"><strong>SIGN IN HERE!</strong></a></h5></div>
           {% endif %}
+          <div class="form-wrapper">
             <form method="POST" action="{{ url_for('signup') }}">
                 <input type="text" class="form-control form-override" id="first-name" name="first-name" placeholder="Your first name" required>
                 <input type="text" class="form-control form-override" id="last-name" name="last-name" placeholder="Your last name" required>
@@ -18,8 +20,8 @@
                 <input type="password" class="form-control form-override" id="password" name="password" placeholder="Choose a password" required>
                 <button type="submit" class="btn btn-blue-grey form-override btn-override">Sign Up!</button>
             </form>
+          </div>
         </div>
-        <hr>
       </div>
   </div>
 {% endblock %}

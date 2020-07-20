@@ -8,7 +8,7 @@
         <div class="login-window">
           <h3>Welcome!</h3>
           {% if badLogin %}
-          <p>WRONG USERNAME/PASSWORD! <span class="txt-sm"><a href="{{ url_for('signup') }}"><strong>Sign up here!</strong></a></span></p>
+          <div class="alert alert-danger" role="alert">WRONG USERNAME/PASSWORD! <span class="txt-sm"><a href="{{ url_for('signup') }}"><strong>Sign up here!</strong></a></span></div>
           {% else %}
           <p>Please sign in or <a href="{{ url_for('signup') }}"><strong>Sign up here!</strong></a></p>
           {% endif %}
