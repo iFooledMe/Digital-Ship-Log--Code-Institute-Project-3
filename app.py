@@ -145,6 +145,7 @@ def delete_journey(journey_id):
 		update_user_activity(0)
 	mongo.db.logs.delete_many({'head_id' : ObjectId(journey_id)})
 	mongo.db.log_headers.delete_one({'_id' :ObjectId(journey_id) })
+	set_all_not_editable(session['user_id'])
 	return redirect(url_for('index'))
 
 # ---- Close active Journey before creating a new ----
@@ -264,6 +265,14 @@ def edit_log(journey_id, log_id):
 		weather_options = weather_options,
 		wind_directions = wind_directions,
 		activity_options = activity_options)
+
+# ---- Delete Journey Log Entry ---- 
+@app.route('/delete_log/<log_id>', methods=['POST', 'GET'])
+def delete_log(log_id):
+	#TODO: Add function to remove any image files in the log removed
+	mongo.db.logs.delete_one({'_id' : ObjectId(log_id)})
+	set_all_not_editable(session['user_id'])
+	return redirect(url_for('index'))
 
 # ====================================================================================
 # ==== U S E R  A U T H E N T I C A T I O N  / R E G I S T R A T I O N ===============

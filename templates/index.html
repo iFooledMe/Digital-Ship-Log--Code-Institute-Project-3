@@ -173,7 +173,7 @@
 							<i class="far fa-trash-alt icon-edit"></i>
 							</a>
 						</div>
-						    <!-- #Region ==== Delete journey Modal ===================================================== -->
+						<!-- #Region ==== Delete journey Modal ============================ -->
 						<div    class="modal fade modal-wrapper" 
 								id="delete-journey-warning_{{ loop.index }}" 
 								data-backdrop="static" 
@@ -244,14 +244,52 @@
 										title="Edit this log entry">
 										<i class="fas fa-edit icon-edit-small"></i>
 									</a>
-									<a 
-										href="{{ url_for('edit_log', journey_id=log_header._id, log_id=log._id)}}"
-										data-toggle="tooltip" 
-										data-placement="top" 
-										title="Delete this log entry">
-										<i class="far fa-trash-alt icon-edit-small"></i>
-									</a>
+									<div 	class="log-header-button"
+											data-toggle="tooltip" 
+											data-placement="top" 
+											title="Delete this log entry">
+										
+										
+										<a 
+											class="a-override" 					
+											href="#delete-log-warning_{{ rowloop.index }}_{{ loop.index }}" 
+											data-toggle="modal">
+											<i class="far fa-trash-alt icon-edit-small"></i>
+										</a>
+									</div>
 								</div>
+								<!-- #Region ==== Delete log Modal ============================ -->
+								<div    class="modal fade modal-wrapper" 
+										id="delete-log-warning_{{ rowloop.index }}_{{ loop.index }}" 
+										data-backdrop="static" 
+										data-keyboard="false" 
+										tabindex="-1" 
+										role="dialog" 
+										aria-labelledby="delete-log-warning_{{ rowloop.index }}_{{ loop.index }}" 
+										aria-hidden="true">
+									<div class="modal-dialog modal-dialog-centered">
+										<div class="modal-content ">
+											<div class="modal-head modal-header">
+												<h3 class="modal-title" id="staticBackdropLabel">DELETE LOG?</h3>
+											</div>
+											<div class="modal-body">
+												<p>
+													<strong>YOU ARE ABOUT TO DELETE THIS LOG ENTRY</strong> and it's entire content permanently!
+													(That is notes, trip data and images in it will be deleted)
+												</p>
+												<p>
+													<strong>ARE YOU SURE?</strong>
+												</p>
+											</div>
+											<div class="modal-footer modal-footer">
+												<a href="#" class="btn btn-blue-grey btn-override btn-override-margin" role="button" data-dismiss="modal">Let's reconsider</a>
+												<a href="{{ url_for('delete_log', log_id=log._id)}}" class="btn btn-deep-orange btn-override btn-override-margin" role="button">Yes, delete it!</a>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- #endregion -->
+
 								{% endif %}
 								<h4>
 									<a 	class="a-override" 
