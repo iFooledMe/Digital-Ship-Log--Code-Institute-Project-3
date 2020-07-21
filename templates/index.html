@@ -3,10 +3,8 @@
 {% extends 'base.html' %} {% block pageTitle %}<title>A Page title</title>{%endblock %} 
 
 {% block main %}
-<div class="row mx-auto no-gutters">
-	
 	<!-- Logs column -->
-	<div class="col-md-12 col-lg-6">
+	<!--<div class="col-md-12 col-lg-6">-->
 
 		<!-- #region ==== STATUS WINDOW ======================================================= -->
 		{% for user in users %}
@@ -156,7 +154,7 @@
 							href="{{ url_for('edit_journey', journey_id=log_header._id)}}" 
 							data-toggle="tooltip" 
 							data-placement="top" 
-							title="Edit journey header">
+							title="Edit this journey header">
 							<i class="fas fa-edit icon-edit"></i>
 							</a>
 						</div>
@@ -164,7 +162,7 @@
 						<div 	class="log-header-button"
 								data-toggle="tooltip" 
 								data-placement="top" 
-								title="Delete Journey">
+								title="Delete this journey">
 							<a 
 							class="a-override" 
 							id="delete-warning"
@@ -244,19 +242,17 @@
 										title="Edit this log entry">
 										<i class="fas fa-edit icon-edit-small"></i>
 									</a>
-									<div 	class="log-header-button"
+									<span 	class="log-header-button"
 											data-toggle="tooltip" 
 											data-placement="top" 
 											title="Delete this log entry">
-										
-										
 										<a 
 											class="a-override" 					
 											href="#delete-log-warning_{{ rowloop.index }}_{{ loop.index }}" 
 											data-toggle="modal">
 											<i class="far fa-trash-alt icon-edit-small"></i>
 										</a>
-									</div>
+									</span>
 								</div>
 								<!-- #Region ==== Delete log Modal ============================ -->
 								<div    class="modal fade modal-wrapper" 
@@ -363,21 +359,5 @@
 		{% endfor %}
 		</div> <!-- END Accordion -->
 		<!-- #endregion -->
-
-	</div> <!-- END column -->
-
-	
-	<!-- #region MAP COLUMN ================================================================ -->
-	<div class="col-md-12 col-lg-6 map-box">
-		<div class="map">
-			<img
-			class="img-fluid dummy_map_img"
-			src="../static/img/dummy_map_800x800.png"
-			alt="A dummy map from Google"
-			/>
-		</div>
-	</div> <!-- END Map column -->
-	<!-- #endregion -->
-
-</div> <!-- END bootstrap row -->
+	<!--</div>--> <!-- END column -->
 {% endblock %}

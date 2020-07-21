@@ -22,10 +22,16 @@ app.config['UPLOADED_IMAGES_DEST'] = 'static/img/users/'
 images = UploadSet('images', IMAGES)
 configure_uploads(app, images)
 
+
+
+
 #TODO: Remove test function and template before submitting
 @app.route('/test')
 def test():
 	return render_template('test.html')
+
+
+
 
 # ====================================================================================
 # ==== I N D E X =====================================================================
@@ -37,6 +43,7 @@ def index():
 		#img_base_url = "..\static\img\users\"
 		return render_template(
 			"index.html",
+			test = "Hello from Flask!",
 			users=find_users(),
 			activity = get_activity(activity_code),
 			options = get_activity_options(activity_code),

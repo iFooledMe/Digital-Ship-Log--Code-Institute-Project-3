@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <!-- #Region ==== HEAD ===================================================================== -->
+<!-- #Region ==== HEAD ===================================================================== -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,45 +15,118 @@
 </head>
     <!-- #endregion -->
 
+
 <body>
-    <div class="container-fluid"> <!-- Bootstrap container start-->
-
-    <!-- #Region ==== HEADER =================================================================== -->
-    <header>
-        <nav>
-            <div class="row no-gutters">
-                <div class="col-4">
-                    <p>logotype</p>
-                </div>
-                <div class="col-8">
-                    <p>navbar <a href="{{ url_for('logout') }}">Log out</a> </p>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <!-- #endregion -->
-
-    <!-- #Region ==== MAIN ===================================================================== -->
-    <main>
-        {% block main %}{% endblock %}
-    </main>
-    <!-- #endregion -->
-
-    <!-- #Region ==== FOOTER =================================================================== -->
-    <footer>
-    </footer>
-    <!-- #endregion -->
-  
-    <!-- #Region ==== JAVASCRIPTS ============================================================== -->
     
+    <div class="container-fluid">
+
+<!-- #Region ==== HEADER =================================================================== -->
+        <header>
+            <nav>
+                <div class="row no-gutters mx-auto w-100">
+                    <div class="col-3">
+                        <p>
+                            <a href="{{ url_for('index') }}">Logotype</a>
+                        </p>
+                    </div>
+                    <div class="col-9">
+                        <p>navbar <a href="{{ url_for('logout') }}">Log out</a> </p>
+                    </div>
+                </div>
+            </nav>
+        </header>
+<!-- #endregion -->
+
+        <main>
+            <div class="row no-gutters mx-auto w-100">
+
+                <div class="col-12 col-md-6 logs-side-base">
+                    
+                    {% block main %}
+                    {% endblock %}
+
+
+                </div>
+
+<!-- #region MAP ============================================================= -->
+                <div class="d-none d-md-block col-md-6 map-side-base">
+                    <div id="map"></div>
+                </div>
+
+                <script>
+                    function initMap() {
+
+                        var mapSettings = {
+                            zoom: 8,
+                            center: { lat: 59.3293, lng: 18.0686 }
+                        }
+
+                        // Map object
+                        var map = new google.maps.Map(
+                            document.getElementById('map'), mapSettings);
+
+                        addMarker({ 
+                            coordinates: { lat: 59.3293, lng: 18.0686 },
+                            icon: 'http://maps.google.com/mapfiles/kml/pal5/icon13.png'
+                        
+                         });
+                        
+                        
+                        addMarker({ coordinates: { lat: 59.1954, lng: 17.6257 } });
+                        addMarker({ coordinates: { lat: 59.7596, lng: 18.7014 } });
+
+                        // Add Marker
+                        function addMarker(data) {
+
+                            //Create new Marker object
+                            var marker = new google.maps.Marker({
+                            position: data.coordinates,
+                            map : map,
+                            icon: data.icon
+                            });
+                        }
+
+                        
+                        // Map Marker
+                        var marker = new google.maps.Marker({
+                            position: {lat: 59.3293, lng: 18.0686},
+                            map:map,
+                            icon: 'http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png'
+                        });
+
+                        // Marker infoWindow object
+                        var infoWindow = new google.maps.InfoWindow({
+                            content: '<a href="#">link</a> {{ test }}'
+                        })
+
+                        // EventListener for marker ()
+                        marker.addListener('click', function() {
+                            infoWindow.open(map, marker);
+                        })
+
+                    }
+                </script>
+
+
+                
+
+
+<!-- #endregion -->
+
+            </div>
+        </main>
+
+    </div>
+
+    <!-- #Region ==== JAVASCRIPTS ============================================================== -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="//bootstrap-extension.com/js/4.6.1/bootstrap-extension.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDX-Rn6ZYdPXI6onRX3A1kyVklbGMyExNo&callback=initMap"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     <!-- #endregion -->
 
-    </div> <!-- Bootstrap container end-->
 </body>
 </html>
