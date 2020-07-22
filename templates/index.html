@@ -279,12 +279,12 @@
 											</div>
 											<div class="modal-footer modal-footer">
 												<a href="#" class="btn btn-blue-grey btn-override btn-override-margin" role="button" data-dismiss="modal">Let's reconsider</a>
-												<a href="{{ url_for('delete_log', log_id=log._id)}}" class="btn btn-deep-orange btn-override btn-override-margin" role="button">Yes, delete it!</a>
+												<a href="{{ url_for('delete_log', journey_id=log_header._id, log_id=log._id, log_number=log.log_number)}}" class="btn btn-deep-orange btn-override btn-override-margin" role="button">Yes, delete it!</a>
 											</div>
 										</div>
 									</div>
 								</div>
-								<!-- #endregion -->
+								
 
 								{% endif %}
 								<h4>
@@ -335,15 +335,15 @@
 									<p>
 										<i class="fas fa-map-marked-alt"></i> {{ log.location }} |
 										{% for pos in log.position %}
-										<i class="fas fa-arrows-alt-v"></i> {{ pos.latitude }}&#176; |
-										<i class="fas fa-arrows-alt-h"></i> {{ pos.longitude }}&#176;
+										<i class="fas fa-arrows-alt-v"></i> {{ pos.lat }}&#176; |
+										<i class="fas fa-arrows-alt-h"></i> {{ pos.lng }}&#176;
 										{% endfor %}
 									</p>
 									<p>
 										<h5>Log note</h5>
 										{{ log.note }}
 									</p>
-									{% if log.imagefile != "none" %}
+									{% if log.imagefile != "None" %}
 									<figure>
 									  <img class="img-fluid rounded" src="{{ log.img_url }}" alt="{{ log.img_cap }}">
 									  <figcaption>{{ log.img_cap }}</figcaption>

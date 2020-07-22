@@ -53,7 +53,33 @@
                     <div id="map"></div>
                 </div>
 
+
+
                 <script>
+
+                window.addEventListener('load', (event) => {
+                    //console.log('page is fully loaded');
+                    loadCoords()
+                    
+                });
+                    
+                    var coords_obj;                    
+
+                    function loadCoords(){
+                        var coords = "{{ coords }}";
+                        var cleaned = coords.split('&#34;').join('"');
+                        var coords_obj = JSON.parse(cleaned);
+                    
+                        // Parse values to floats
+                        coords_obj.map((el) => {
+                            Object.keys(el).forEach((key) => {
+                            el[key] = parseFloat(el[key])
+                            })
+                        })
+
+                        console.log(coords_obj)
+                    };
+
                     function initMap() {
 
                         var mapSettings = {
@@ -63,36 +89,55 @@
 
                         // Map object
                         var map = new google.maps.Map(
-                            document.getElementById('map'), mapSettings);
+                            document.getElementById('map'), mapSettings);                          
 
-                        addMarker({ 
+                            coords_obj.forEach(element => {
+                                console.log(typeof coords_obj)
+                                console.log(coords_obj);
+                                addMarker(element);
+                            });
+                        
+                            // Add Marker
+                            function addMarker(coordinates) {
+
+                                //Create new Marker object
+                                var marker = new google.maps.Marker({
+                                position: coordinates,
+                                map : map,
+                                });
+                            }
+                            
+                            /*window.addEventListener('load', (event) => {
+                                coords_array.forEach(coordinates => {
+                                console.log("Loop: " + coordinates.toString());
+                                addMarker(coordinates);
+                            });
+                                
+                            });
+                            coords_array.forEach(coordinates => {
+                                
+                                console.log("Loop: " + coordinates.toString());
+                                addMarker(coordinates);
+                            });*/
+
+
+                        
+                        /*addMarker({ 
                             coordinates: { lat: 59.3293, lng: 18.0686 },
                             icon: 'http://maps.google.com/mapfiles/kml/pal5/icon13.png'
                         
-                         });
+                         });*/
                         
                         
-                        addMarker({ coordinates: { lat: 59.1954, lng: 17.6257 } });
-                        addMarker({ coordinates: { lat: 59.7596, lng: 18.7014 } });
 
-                        // Add Marker
-                        function addMarker(data) {
-
-                            //Create new Marker object
-                            var marker = new google.maps.Marker({
-                            position: data.coordinates,
-                            map : map,
-                            icon: data.icon
-                            });
-                        }
 
                         
-                        // Map Marker
+                        /*// Map Marker
                         var marker = new google.maps.Marker({
                             position: {lat: 59.3293, lng: 18.0686},
                             map:map,
                             icon: 'http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png'
-                        });
+                        });*/
 
                         // Marker infoWindow object
                         var infoWindow = new google.maps.InfoWindow({

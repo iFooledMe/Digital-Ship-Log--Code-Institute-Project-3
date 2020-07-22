@@ -1,11 +1,10 @@
-import os, datetime, shutil, glob
+import os, datetime, shutil, sys, glob, json
 from flask import Flask, render_template, redirect, request, url_for, session
 from flask_wtf import FlaskForm
-from wtforms import FileField
 from flask_uploads import UploadSet, configure_uploads, IMAGES
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
-
+from bson.json_util import loads, dumps
 
 import bcrypt
 
@@ -30,6 +29,18 @@ configure_uploads(app, images)
 def test():
 	return render_template('test.html')
 
+def get_positions():
+	pos_array = []
+	logs_list = list(mongo.db.logs.find({'user_id' : ObjectId(session['user_id'])}))
+	for doc in mongo.db.logs.find({'user_id' : ObjectId(session['user_id'])}):
+		position = doc['position']
+		for pos in position:
+			pos_array.append(pos)
+	print(pos_array)
+	pos_array_json = json.dumps(pos_array)
+	print(pos_array_json)
+	print(type(pos_array_json))
+	return pos_array_json
 
 
 
@@ -48,7 +59,8 @@ def index():
 			activity = get_activity(activity_code),
 			options = get_activity_options(activity_code),
 			log_headers = get_log_headers(ObjectId(session['user_id'])),
-			logs = list(get_log_entries(ObjectId(session['user_id']))))
+			logs = list(get_log_entries(ObjectId(session['user_id']))),
+			coords = get_positions())
 	return render_template("login.html")
 
 # ====================================================================================
@@ -92,7 +104,9 @@ def get_log_entries(userId):
 
 # **** LOGTYPE: JOURNEY  *************************************************************
 
-# ---- New Journey Header  ----
+# ++++ LOG HEADER / JOURNEY ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+# ---- New Journey  ----
 @app.route("/newjourney", methods=["POST", "GET"])
 def newjourney():
 	if request.method == "POST":
@@ -121,20 +135,27 @@ def newjourney():
 def edit_journey(journey_id):
 	if request.method == 'POST':
 		#TODO: Fix issue with editing date and time
-		#start_date = request.form["start_date"]
-		#start_time = request.form["start_time"]
-		#start_datetime = datetime.datetime(start_date,start_time)
+		start_date = request.form["start_date"]
+		start_time = request.form["start_time"]
+		print('***********************************')
+		print(start_date)
+		print(start_time)
+		print('***********************************')
+		start_date = datetime.date(2020,6,15)
+		start_time = datetime.time(9,0)
+		start_datetime = datetime.datetime.combine(start_date,start_time)
 		'''if request.form["end_date"] == "Ongoing" or request.form["end_time"] == "Ongoing":
 			end_datetime = "Ongoing"
 		else:
 			end_date = request.form["end_date"]
 			end_time = request.form["end_time"]
 			end_datetime = datetime.datetime.combine(start_date, start_time)'''
-		mongo.db.log_headers.update(
+		mongo.db.log_headers.update_one(
 		{'_id' : ObjectId(journey_id)},
 		{'$set':{
 			'title': request.form['title'],
 			'description' : get_request_data(request.form["description"], " -- "),
+			'start_datetime' : start_datetime,
 			'start_location' : get_request_data(request.form["start_location"], " -- "),
 			'end_location' : get_request_data(request.form["end_location"], " -- "),
 			'distance' : get_request_data(request.form["distance"], " -- "),
@@ -147,13 +168,24 @@ def edit_journey(journey_id):
 @app.route('/delete_journey/<journey_id>', methods=['POST', 'GET'])
 def delete_journey(journey_id):
 	#TODO: Add function to remove any image files in the log_headers logs
+	try:
+		journey_img_dir = 'static/img/users/' + str(session['user_id'] + '/' + str(journey_id))
+		shutil.rmtree(journey_img_dir)
+		delete_it(journey_id)
+		return redirect(url_for('index'))
+	except OSError as e:
+			print ("Error: %s - %s." % (e.filename, e.strerror))
+			delete_it(journey_id)
+			return redirect(url_for('index'))
+
+def delete_it(journey_id):
 	is_active = mongo.db.log_headers.find_one({'_id' :ObjectId(journey_id) })['is_active']
 	if is_active:
 		update_user_activity(0)
 	mongo.db.logs.delete_many({'head_id' : ObjectId(journey_id)})
 	mongo.db.log_headers.delete_one({'_id' :ObjectId(journey_id) })
 	set_all_not_editable(session['user_id'])
-	return redirect(url_for('index'))
+	
 
 # ---- Close active Journey before creating a new ----
 def close_journey():
@@ -178,6 +210,8 @@ def set_editable(journey_id):
 	mongo.db.log_headers.update_one(find_journey, update_values)
 	return redirect(url_for('index'))
 
+# ++++ LOG ENTRIES ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 # ---- New Journey Log Entry ----
 @app.route("/newlog/<journey_id>", methods=["POST", "GET", 'request.files or none'])
 def newlog(journey_id):
@@ -188,7 +222,7 @@ def newlog(journey_id):
 			image = images.save(request.files['image'], save_folder)
 			img_url = "../static/img/users/" + str(image)
 		except:
-			img_url = "none"
+			img_url = "None"
 
 		mongo.db.logs.insert({
 			'user_id' : ObjectId(session['user_id']),
@@ -212,8 +246,8 @@ def newlog(journey_id):
 			'location' : get_request_data(request.form["location"], " -- "),
 			'position' : 
 				[{
-				'latitude' : get_request_data(request.form["latitude"], " -- "),
-				'longitude' : get_request_data(request.form["longitude"], " -- ")
+				'lat' : get_request_data(request.form["latitude"], " -- "),
+				'lng' : get_request_data(request.form["longitude"], " -- ")
 				}],
 			})
 		return redirect(url_for('index'))
@@ -274,12 +308,25 @@ def edit_log(journey_id, log_id):
 		activity_options = activity_options)
 
 # ---- Delete Journey Log Entry ---- 
-@app.route('/delete_log/<log_id>', methods=['POST', 'GET'])
+@app.route('/delete_log/<journey_id>/<log_id>/<log_number>', methods=['POST', 'GET'])
+def delete_log(journey_id, log_id, log_number):
+	try:
+		journey_img_dir = 'static/img/users/' + str(session['user_id'] + '/' + str(journey_id) + '/' + str(log_number))
+		shutil.rmtree(journey_img_dir)
+		delete_log(log_id)
+		return redirect(url_for('index'))
+	except OSError as e:
+			print ("Error: %s - %s." % (e.filename, e.strerror))
+			delete_log(log_id)
+			return redirect(url_for('index'))
+
 def delete_log(log_id):
-	#TODO: Add function to remove any image files in the log removed
 	mongo.db.logs.delete_one({'_id' : ObjectId(log_id)})
 	set_all_not_editable(session['user_id'])
 	return redirect(url_for('index'))
+
+
+
 
 # ====================================================================================
 # ==== U S E R  A U T H E N T I C A T I O N  / R E G I S T R A T I O N ===============
