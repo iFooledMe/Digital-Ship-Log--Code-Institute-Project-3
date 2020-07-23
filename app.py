@@ -29,21 +29,6 @@ configure_uploads(app, images)
 def test():
 	return render_template('test.html')
 
-def get_positions():
-	pos_array = []
-	logs_list = list(mongo.db.logs.find({'user_id' : ObjectId(session['user_id'])}))
-	for doc in mongo.db.logs.find({'user_id' : ObjectId(session['user_id'])}):
-		position = doc['position']
-		for pos in position:
-			pos_array.append(pos)
-	print(pos_array)
-	pos_array_json = json.dumps(pos_array)
-	print(pos_array_json)
-	print(type(pos_array_json))
-	return pos_array_json
-
-
-
 # ====================================================================================
 # ==== I N D E X =====================================================================
 # TODO: Fix crash when user is removed from db but still in cache
@@ -62,6 +47,20 @@ def index():
 			logs = list(get_log_entries(ObjectId(session['user_id']))),
 			coords = get_positions())
 	return render_template("login.html")
+
+# ====================================================================================
+# ==== G E T  P O S I T I O N S  (for map markers) ===================================
+def get_positions():
+	pos_array = []
+	for doc in mongo.db.logs.find({'user_id' : ObjectId(session['user_id'])}).sort("datetime",-1):
+		position = doc['position']
+		for pos in position:
+			pos_array.append(pos)
+	print(pos_array)
+	pos_array_json = json.dumps(pos_array)
+	print(pos_array_json)
+	print(type(pos_array_json))
+	return pos_array_json
 
 # ====================================================================================
 # ==== C H A N G E  A C T I V I T Y ==================================================
