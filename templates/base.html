@@ -55,85 +55,83 @@
 
 
 
-                <script>
+<script>
 
-                /*window.addEventListener('load', (event) => {
-                    loadCoords()
-                });*/
                     
-                function loadCoords(){
-                    var coords = "{{ coords }}";
-                    var cleaned = coords.split('&#34;').join('"');
-                    var coords_obj = JSON.parse(cleaned);
-                    
-                    // Parse values to floats
-                    coords_obj.map((el) => {
-                        Object.keys(el).forEach((key) => {
-                        el[key] = parseFloat(el[key])
-                        })
-                    })
-                    //console.log('**************** from outside')
-                    //console.log(coords_obj)
-                    return coords_obj;
-                };
-                
+function loadCoords(){
+    var coords = "{{ coords }}";
+    var cleaned = coords.split('&#34;').join('"');
+    var coords_obj = JSON.parse(cleaned);
+    
+    // Parse values to floats
+    coords_obj.map((el) => {
+        Object.keys(el).forEach((key) => {
+        el[key] = parseFloat(el[key])
+        })
+    })
+    //console.log('**************** from outside')
+    //console.log(coords_obj)
+    return coords_obj;
+};
 
-                function initMap() {
-                    
-                    //Map settings ----------------------------------------------------------------------------------
-                    var mapSettings = {
-                        zoom: 8,
-                        center: { lat: 59.3293, lng: 18.0686 }
-                    }
+function initMap() {
+    //Map settings ----------------------------------------------------------------------------------
+    var mapSettings = {
+    zoom: 8,
+    center: { lat: 59.3293, lng: 18.0686 }
+    }
 
-                    // Create new map --------------------------------------------------------------------------------
-                    var map = new google.maps.Map(
-                        document.getElementById('map'), mapSettings);      
+    // Create new map --------------------------------------------------------------------------------
+    var map = new google.maps.Map(document.getElementById('map'), mapSettings);
 
-                    //Get coordinates for log entries to be visible in the map and call addMarker() ------------------
-                    coords = loadCoords();
-                   
-                    
-                    coords.forEach(coord => {
-                        console.log('**************** from inside')
-                        console.log(coord);
-                        icon = getIcon(coords.indexOf(coord))
-                        addMarker(coord, icon);
-                    });
+    coords = loadCoords();             
+    coords.forEach(coord => {
+        console.log('**************** from inside')
+        console.log(coord);
+        icon = getIcon(coords.indexOf(coord))
+        content = coord.toString();
+        addMarker(coord, icon, content);
+    });
 
-                    function getIcon(coordIndex) {
-                        if (coordIndex == 0) {
-                            return 'http://maps.google.com/mapfiles/kml/paddle/orange-stars.png';
-                        }
-                        else {
-                            return 'http://maps.google.com/mapfiles/kml/paddle/blu-blank.png'
-                        }
-                    }
-                    
-                    //Add Marker
-                    function addMarker(coord, icon) {
-                        marker = new google.maps.Marker({
-                        position: coord,
-                        map: map,
-                        icon: icon
-                        });
-                    }
+    function getIcon(coordIndex) {
+        if (coordIndex == 0) {
+            return 'http://maps.google.com/mapfiles/kml/paddle/orange-stars.png';
+        }
+        else {
+            return 'http://maps.google.com/mapfiles/kml/paddle/blu-blank.png'
+        }
+    }
+
+    //addMarker({ lat: 59.3293, lng: 18.0686 }, "one")
+    //addMarker({ lat: 59.7596, lng: 18.7014 }, "two")
+    
+    function addMarker(coords, icon, content) {
+        var marker = new google.maps.Marker(
+        {
+            position: coords,
+            map: map,
+            icon: icon
+        });
+
+        //Info Window ----------------------------------------------------------------
+        var infoWindow = new google.maps.InfoWindow({
+        content: content
+        });
+
+        marker.addListener('mouseover', function(){
+            infoWindow.open(map, marker);
+        });
+
+        marker.addListener('mouseout', function(){
+            infoWindow.close(map, marker);
+        });
+    }               
+}
+</script>
 
 
-                    //Info Window ----------------------------------------------------------------
-                    var infoWindow = new google.maps.InfoWindow({
-                        content: '<h3>Info window text</h3>' 
-                    });
 
-                    marker.addListener('mouseover', function(){
-                        infoWindow.open(map, marker);
-                    });
 
-                    marker.addListener('mouseout', function(){
-                        infoWindow.close(map, marker);
-                    });
-                }
-                </script>
 
 
                 

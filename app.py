@@ -52,7 +52,8 @@ def index():
 # ==== G E T  P O S I T I O N S  (for map markers) ===================================
 def get_positions():
 	pos_array = []
-	for doc in mongo.db.logs.find({'user_id' : ObjectId(session['user_id'])}).sort("datetime",-1):
+	for doc in mongo.db.logs.find({
+		'user_id' : ObjectId(session['user_id']), 'position.lat' : {'$ne' : ' -- '} }).sort("datetime",-1):
 		position = doc['position']
 		for pos in position:
 			pos_array.append(pos)
