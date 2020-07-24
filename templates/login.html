@@ -3,28 +3,21 @@
 {% block pageTitle %}<title>Login</title>{% endblock %}
 
 {% block main %}
-  <div class="row mx-auto no-gutters">
-      <div class="col-md-12 col-lg-6">
-        <div class="login-window">
-          <h3>Welcome!</h3>
-          {% if badLogin %}
-          <div class="alert alert-danger" role="alert">WRONG USERNAME/PASSWORD! <span class="txt-sm"><a href="{{ url_for('signup') }}"><strong>Sign up here!</strong></a></span></div>
-          {% else %}
-          <p>Please sign in or <a href="{{ url_for('signup') }}"><strong>Sign up here!</strong></a></p>
-          {% endif %}
-          
-            <form method="POST" action="{{ url_for('login') }}">
-                <input type="email" class="form-control form-override" id="email" name="email" placeholder="Login with your email adress">
-                <input type="password" class="form-control form-override" id="password" name="password" placeholder="Enter your password" required>
-                <button type="submit" class="btn btn-blue-grey form-override btn-override">Login</button>
-            </form>
-        </div>
-        <hr>
-      </div>
-      <div class="col-md-12 col-lg-6 map-box">
-        <img class="dummy_map_img" src="../static/img/dummy_map_800x800.png" alt="A dummy map from Google">
-      </div>
+  <div class="login-window">
+    <h3>Welcome!</h3>
+    {% if badLogin %}
+    <div class="alert alert-danger" role="alert">WRONG USERNAME/PASSWORD! <span class="txt-sm"><a href="{{ url_for('signup') }}"><strong>Sign up here!</strong></a></span></div>
+    {% else %}
+    <p>Please sign in or <a href="{{ url_for('signup') }}"><strong>Sign up here!</strong></a></p>
+    {% endif %}
+    
+      <form method="POST" action="{{ url_for('login') }}">
+          <input type="email" class="form-control form-override" id="email" name="email" placeholder="Login with your email adress">
+          <input type="password" class="form-control form-override" id="password" name="password" placeholder="Enter your password" required>
+          <button type="submit" class="btn btn-blue-grey form-override btn-override">Login</button>
+      </form>
   </div>
+  <hr>
 {% endblock %}
 
     

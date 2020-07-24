@@ -60,10 +60,7 @@ def get_positions():
 		position = doc['position']
 		for pos in position:
 			pos_array.append(pos)
-	print(pos_array)
 	pos_array_json = json.dumps(pos_array)
-	print(pos_array_json)
-	print(type(pos_array_json))
 	return pos_array_json
 
 # ====================================================================================

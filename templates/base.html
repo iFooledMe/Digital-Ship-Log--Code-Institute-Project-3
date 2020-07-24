@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- #Region ==== HEAD ===================================================================== -->
+<!-- #Region ==== HEAD ======================================================================== -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +20,7 @@
     
     <div class="container-fluid">
 
-<!-- #Region ==== HEADER =================================================================== -->
+<!-- #Region ==== HEADER ====================================================================== -->
         <header>
             <nav>
                 <div class="row no-gutters mx-auto w-100">
@@ -48,31 +48,31 @@
 
                 </div>
 
-<!-- #region MAP ============================================================= -->
+<!-- #region ==== MAP ========================================================================= -->
                 <div class="d-none d-md-block col-md-6 map-side-base">
                     <div id="map"></div>
                 </div>
 
 
-
-<script>
-
-                    
+<!-- MAP SCRIPT-->
+<script>                   
 function loadCoords(){
     var coords = "{{ coords }}";
-    var cleaned = coords.split('&#34;').join('"');
-    var coords_obj = JSON.parse(cleaned);
+    if (coords){
+        var cleaned = coords.split('&#34;').join('"');
+        var coords_obj = JSON.parse(cleaned);
     
-    // Parse values to floats
-    coords_obj.map((el) => {
-        Object.keys(el).forEach((key) => {
-        el[key] = parseFloat(el[key])
+        // Parse values to floats
+        coords_obj.map((el) => {
+            Object.keys(el).forEach((key) => {
+            el[key] = parseFloat(el[key])
+            })
         })
-    })
     //console.log('**************** from outside')
     //console.log(coords_obj)
     return coords_obj;
-};
+    };
+}
 
 function initMap() {
     //Map settings ----------------------------------------------------------------------------------
@@ -128,15 +128,6 @@ function initMap() {
     }               
 }
 </script>
-
-
-
-
-
-
-                
-
-
 <!-- #endregion -->
 
             </div>
@@ -144,7 +135,7 @@ function initMap() {
 
     </div>
 
-    <!-- #Region ==== JAVASCRIPTS ============================================================== -->
+<!-- #Region ==== JAVASCRIPTS ============================================================= -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>

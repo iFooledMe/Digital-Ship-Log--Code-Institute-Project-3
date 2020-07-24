@@ -3,9 +3,6 @@
 {% extends 'base.html' %} {% block pageTitle %}<title>A Page title</title>{%endblock %} 
 
 {% block main %}
-	<!-- Logs column -->
-	<!--<div class="col-md-12 col-lg-6">-->
-
 		<!-- #region ==== STATUS WINDOW ======================================================= -->
 		{% for user in users %}
 		<div class="status-window">
@@ -359,5 +356,4 @@
 		{% endfor %}
 		</div> <!-- END Accordion -->
 		<!-- #endregion -->
-	<!--</div>--> <!-- END column -->
 {% endblock %}

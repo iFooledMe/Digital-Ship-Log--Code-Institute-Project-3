@@ -347,8 +347,9 @@ h3 {
 
 /* ---- Login -------------------------------------------------------- */
 .login-window {
+    width: 100%;
     text-align: center;
-    padding: 0 25%;
+    padding: 10% 25%;
     text-transform: uppercase;
 }
 
@@ -357,23 +358,41 @@ h3 {
 
 /* =================================================================== */
 /* ==== M E D I A  Q U E R I E S ===================================== */
-@media screen and (min-width: 720px) {
-    .form-base {
-        padding: 0 0;
-    }
-}
-
-@media screen and (min-width: 992px) {
-    .form-base {
-        padding: 0 10%;
-    }
-}
-
 @media screen and (min-width: 1200px) {
     .form-base {
         padding: 0 20%;
     }
 }
+
+@media screen and (max-width: 992px) {
+    
+    .login-window {
+        padding: 10% 10%;
+    }
+    
+    .form-base {
+        padding: 0 10%;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    
+    .login-window {
+        padding: 10% 5%;
+    }
+
+    .form-base {
+        padding: 0 0;
+    }
+}
+
+
+
+
+
+
+
+
 
 
 
