@@ -53,7 +53,10 @@ def index():
 def get_positions():
 	pos_array = []
 	for doc in mongo.db.logs.find({
-		'user_id' : ObjectId(session['user_id']), 'position.lat' : {'$ne' : ' -- '} }).sort("datetime",-1):
+		'user_id' : ObjectId(session['user_id']), 
+		'position.lat' : {'$ne' : ' -- '}, 
+		'position.lng' : {'$ne' : ' -- '}
+		}).sort("datetime",-1):
 		position = doc['position']
 		for pos in position:
 			pos_array.append(pos)
