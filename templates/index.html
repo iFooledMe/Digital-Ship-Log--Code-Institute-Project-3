@@ -87,7 +87,32 @@
 						<h3 class="mb-0">
 						{{ log_header.type }}: {{ log_header.title }} <i class="fas fa-angle-down rotate-icon collapse-icon"></i>
 						</h3>
-      				</a>
+					</a>
+					
+					<!-- Map checkbox -->
+					<div 	class="map-check-all-wrapper" 
+							data-toggle="tooltip" 
+							data-placement="top" 
+							title="Show this journeys all logs locations on the map">
+						<form id="log-map-switch-{{ loop.index }}" method="POST" action="{{ url_for('map_switch_all', journey_id=log_header._id) }}">
+							<div class="custom-control custom-switch">
+								<span class="map-check-all-label">On map</span>
+								{% if log_header.show_all %}
+									{% set is_checked = 'checked' %}
+								{% else %}
+									{% set is_checked = '' %}
+								{% endif %}
+								<input 	type="checkbox" 
+										class="custom-control-input" 
+										id="map_switch_{{ loop.index }}" 
+										name="map_switch_{{ loop.index }}"
+										onchange="document.getElementById('log-map-switch-{{ loop.index }}').submit()"
+										{{ is_checked }}>
+								<label class="custom-control-label" for="map_switch_{{ loop.index }}"></label>
+							</div>
+						</form>
+					</div>
+
 				</div>
 
 				 <!-- Card body start-->
@@ -198,8 +223,6 @@
 								</div>
 							</div>
 						</div>
-
-						
 						{% set edit_button_icon = "far fa-window-close" %}
 						{% set cls_icon_class = "icon-edit-close" %}
 						{% set tooltip_txt = "Close edit menu" %}
@@ -224,7 +247,8 @@
 		<!-- #region ==== LOGS - Accordion level 2 ============================================ -->			
 						<!-- LOG ENTRIES (In log header body) -->
 						{% set rowloop = loop %}
-              			{% for log in logs %}
+						  {% for log in logs %}
+						  	{% set log_number = loop.index %}
 							{% if log.head_id == log_header._id %}
 							<!-- LOG ENTRY TITLE -->
 							<!-- TODO: Make entire log header row a clickable link -->
@@ -292,11 +316,54 @@
 										aria-controls="collapse_{{ rowloop.index }}_{{ loop.index }}">
 										<span class="txt-sm">{{ log.datetime.strftime("%Y-%m-%d, %H:%M") }}</span>
 										<br>
-										{{ log.title }}
+										#{{ loop.index }} - {{ log.title }}
 										<i class="fas fa-angle-down rotate-icon collapse-icon collapse-icon-sm"></i>
 									</a>
 								</h4>
-  							</div>
+								<!-- Map checkbox -->
+								{% if log.position[0]['lat'] != ' -- ' and log.position[0]['lng'] != ' -- ' %}
+								<div 	class="map-check-wrapper" 
+										data-toggle="tooltip" 
+										data-placement="top" 
+										title="Show this logs location on the map">
+									<form id="log-map-switch-{{ rowloop.index }}-{{ loop.index }}" method="POST" action="{{ url_for('map_switch', log_id=log._id) }}">
+										<div class="custom-control custom-switch">
+											<span class="map-check-label"> On map</span>
+											{% if log.on_map %}
+												{% set is_checked = 'checked' %}
+											{% else %}
+												{% set is_checked = '' %}
+											{% endif %}
+											<input 	type="checkbox" 
+													class="custom-control-input" 
+													id="map_switch_{{ rowloop.index }}_{{ loop.index }}" 
+													name="map_switch_{{ rowloop.index }}_{{ loop.index }}"
+													onchange="document.getElementById('log-map-switch-{{ rowloop.index }}-{{ loop.index }}').submit()"
+													{{ is_checked }}>
+											<label class="custom-control-label" for="map_switch_{{ rowloop.index }}_{{ loop.index }}"></label>
+										</div>
+									</form>
+								</div>
+								
+								<div 	class="center-map-icon-wrapper" 
+										data-toggle="tooltip" 
+										data-placement="top" 
+										title="Center map on this location">
+									<a href="{{ url_for('center_map', log_id=log._id) }}"><i class="fas fa-map-marker-alt center-map_icon"></i></a>
+								</div>
+								{% else %}
+								<div 	class="map-check-wrapper" 
+										data-toggle="tooltip" 
+										data-placement="top" 
+										title="No coordinates is set to show on the map">
+									<div class="custom-control custom-switch">
+										<span class="map-check-label">No coordinates</span>
+										<input 	type="checkbox" class="custom-control-input" disabled>
+										<label class="custom-control-label" ></label>
+									</div>
+								</div>
+								{% endif %}
+							</div> 
   
 							<!-- Collapsible log entry element -->
 							{% if loop.index == 1 %}

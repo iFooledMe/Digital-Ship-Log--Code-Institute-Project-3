@@ -45,15 +45,19 @@ def index():
 			options = get_activity_options(activity_code),
 			log_headers = get_log_headers(ObjectId(session['user_id'])),
 			logs = list(get_log_entries(ObjectId(session['user_id']))),
+			center_coords = get_center_coords(),
 			coords = get_positions())
 	return render_template("login.html")
 
 # ====================================================================================
 # ==== G E T  P O S I T I O N S  (for map markers) ===================================
+
+# ---- Get position data sent to Google Maps script ----
 def get_positions():
 	pos_array = []
 	for doc in mongo.db.logs.find({
-		'user_id' : ObjectId(session['user_id']), 
+		'user_id' : ObjectId(session['user_id']),
+		'on_map' : True,
 		'position.lat' : {'$ne' : ' -- '}, 
 		'position.lng' : {'$ne' : ' -- '}
 		}).sort("datetime",-1):
@@ -62,6 +66,71 @@ def get_positions():
 			pos_array.append(pos)
 	pos_array_json = json.dumps(pos_array)
 	return pos_array_json
+
+# ---- Log entry map switch control ----
+@app.route('/map_switch/<log_id>', methods=["POST"])
+def map_switch(log_id):
+	log = mongo.db.logs.find_one( {'_id' : ObjectId(log_id)} )
+	if log['on_map']:
+		set_map = False
+	else:
+		set_map = True
+
+	mongo.db.logs.update(
+		{'_id' : ObjectId(log_id)},
+		{'$set':{
+			'on_map': set_map,
+	}})
+	return redirect(url_for("index"))
+
+# ---- Journey map switch control (All logs) ----
+@app.route('/map_switch_all/<journey_id>', methods=["POST"])
+def map_switch_all(journey_id):
+	log_header = mongo.db.log_headers.find_one({
+		'_id' : ObjectId(journey_id) })
+	
+	
+	if log_header['show_all']:
+		show_all = False
+	else:
+		show_all = True
+
+	mongo.db.log_headers.update(
+		{'_id' : ObjectId(journey_id)},
+		{'$set':{
+			'show_all': show_all,
+	}})
+	switch_all_logs(journey_id, show_all)
+	return redirect(url_for("index"))
+
+def switch_all_logs(journey_id, set_map):	
+	mongo.db.logs.update_many(
+		{'head_id' : ObjectId(journey_id)},
+		{'$set':{
+			'on_map': set_map,
+	}})
+
+
+# ---- CENTER MAP POSITION COORDINATES ----------------------------------------------
+def get_center_coords():
+	center_coords = mongo.db.users.find_one({'_id' : ObjectId(session['user_id'])})['center_map_pos']
+	print(center_coords)
+	center_coords = json.dumps(center_coords)
+	return center_coords
+
+@app.route('/center_map/<log_id>', methods=['GET'])
+def center_map(log_id):
+	set_new_center(log_id)
+	return redirect(url_for("index"))
+
+# TODO: Fix center position function (current location, new log, edit log, delete log)
+def set_new_center(log_id):
+	log = mongo.db.logs.find_one( {'_id' : ObjectId(log_id)} )
+	log_pos = log['position']
+	mongo.db.users.update_one(
+		{'_id' : ObjectId(session['user_id'])},
+		{'$set':{
+			'center_map_pos': log_pos}})
 
 # ====================================================================================
 # ==== C H A N G E  A C T I V I T Y ==================================================
@@ -126,7 +195,8 @@ def newjourney():
 			'start_datetime' : datetime.datetime.now(),
 			'end_datetime' :  "Ongoing",
 			'is_active' : True,
-			'is_editable' : False })
+			'is_editable' : False,
+			'show_all' : True })
 		return redirect(url_for('index'))
 	return render_template("new_journey_log.html")
 
@@ -224,7 +294,7 @@ def newlog(journey_id):
 		except:
 			img_url = "None"
 
-		mongo.db.logs.insert({
+		mongo.db.logs.insert_one({
 			'user_id' : ObjectId(session['user_id']),
 			'head_id' : ObjectId(journey_id),
 			'log_number' : log_number,
@@ -249,7 +319,15 @@ def newlog(journey_id):
 				'lat' : get_request_data(request.form["latitude"], " -- "),
 				'lng' : get_request_data(request.form["longitude"], " -- ")
 				}],
+			'on_map': True
 			})
+		if len(request.form["latitude"]) != 0 and len(request.form["longitude"]) != 0:
+			log = mongo.db.logs.find_one({
+				'head_id' : ObjectId(journey_id),
+				'log_number' : log_number })
+			log_id = log['_id']
+			set_new_center(log_id)
+
 		return redirect(url_for('index'))
 	weather_options = mongo.db.weather_options.find()
 	wind_directions = mongo.db.wind_dir_options.find()
@@ -293,6 +371,11 @@ def edit_log(journey_id, log_id):
 				'longitude' : get_request_data(request.form["longitude"], " -- ")
 				}],
 			}})
+		if len(request.form["latitude"]) != 0 and len(request.form["longitude"]) != 0:
+			log = mongo.db.logs.find_one({
+				'_id' : ObjectId(log_id) })
+			log_id = log['_id']
+			set_new_center(log_id)
 		return redirect(url_for('index'))
 	weather_options = mongo.db.weather_options.find()
 	wind_directions = mongo.db.wind_dir_options.find()

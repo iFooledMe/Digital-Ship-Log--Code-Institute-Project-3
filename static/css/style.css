@@ -9,7 +9,12 @@ body {
 
 header {
     background-color: #004080;
-    color: white;
+    color: blue;
+}
+
+main {
+    position: relative;
+    top: 80px;
 }
 
 a {
@@ -200,14 +205,22 @@ h3 {
 
 .collapse-icon {
     position: relative;
-    top: 10px;
+    top: 20px;
     display: block;
     float: right;
     font-size: 0.7em;
 }
 
 .collapse-icon-sm {
+    top: 5px;
+}
+
+.center-map_icon {
+    position: relative;
     top: 0px;
+    padding-right: 5px;
+    font-size: 1.2em;
+    color: #258cfe;
 }
 
 /* =================================================================== */
@@ -231,15 +244,10 @@ h3 {
 
 }
 
-
-
-
-
 /* ******************************************************************* */
 /* **** STATUS WINDOW ************************************************ */
 .status-window {
     margin-bottom: 15px;
-
 }
 
 .status-window-buttons-div {
@@ -262,6 +270,21 @@ h3 {
 .log-header-head {
     background-color: #c5cceb;
     border-radius: 5px 5px 0 0;
+}
+
+/*  Show all checkbox wrapper */
+.map-check-all-wrapper {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    text-transform: uppercase;
+    font-size: 1em;
+}
+
+.map-check-all-label {
+    position: relative;
+    right: 40px;
+
 }
 
 /*  Section containing top info about Journey */
@@ -295,6 +318,30 @@ h3 {
 .log-entry-head h4 a {
     display: block;
     padding-bottom: 5px;
+}
+
+.map-controls-wrapper {
+    position: relative;
+}
+
+.center-map-icon-wrapper {
+    position: absolute;
+    top: 5px;
+    right: 90px;
+}
+
+.map-check-wrapper {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    text-transform: uppercase;
+    font-size: 0.7em;
+}
+
+.map-check-label {
+    position: relative;
+    right: 40px;
+    top: 5px;
 }
 
 .log-entry-edit {

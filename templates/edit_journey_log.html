@@ -129,7 +129,7 @@
 					</select>
 				</div>
 				<div class="col-3 txt-sm">
-				<input type="number" class="form-control form-control-sm form-override" id="heading" name="heading" value="{{ log.heading }}" min="0" max="360">
+				<input type="number" class="form-control form-control-sm form-override" id="heading" name="heading" value="{{ log.heading}}" min="0" max="360">
 				</div>
 				<div class="col-3 txt-sm">
 				<input type="number" class="form-control form-control-sm form-override" id="speed" name="speed" value="{{ log.speed }}" min="0" max="70">
@@ -151,10 +151,10 @@
 				</div>
 				{% for position in log.position %}
 				<div class="col-3 txt-sm">
-				<input type="number" class="form-control form-control-sm form-override" id="latitude" name="latitude" value="{{ position.latitude }}" step="0.00001" min="-90" max="90">
+				<input type="number" class="form-control form-control-sm form-override" id="latitude" name="latitude" value="{{ log.position[0].lat }}" step="0.00001" min="-90" max="90">
 				</div>
 				<div class="col-3 txt-sm">
-				<input type="number" class="form-control form-control-sm form-override" id="longitude" name="longitude" value="{{ position.longitude }}" step="0.00001" min="-180" max="180">
+				<input type="number" class="form-control form-control-sm form-override" id="longitude" name="longitude" value="{{ log.position[0].lng }}" step="0.00001" min="-180" max="180">
 				</div>
 				{% endfor %}
 			</div>
