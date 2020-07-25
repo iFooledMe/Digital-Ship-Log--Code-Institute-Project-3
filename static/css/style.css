@@ -8,13 +8,13 @@ body {
 }
 
 header {
-    background-color: #004080;
-    color: blue;
+    background-color: rgba(255,255,255,0.4);
+    border-radius: 0 0 5px 5px;
 }
 
 main {
-    position: relative;
-    top: 80px;
+    margin-top: 20px;
+
 }
 
 a {
@@ -27,24 +27,22 @@ a.a-override i:hover {
 
 h3 {
     text-transform: uppercase;
-}
-
-/* TEST CLASSES */
-.red {
-    background-color: red;
-    
-}
-
-.green {
-    background-color: green;
+    font-size: 24px;
 }
 
 /* =================================================================== */
-/* ==== LINE ====================================================  */
-
-.line {
-    border-top: 1px solid lightgrey;
+/* #region ==== BACKGROUND IMAGES ==================================== */
+.bg-image-1 {
+    background-image: url('../img/bg_sea.jpg');
 }
+
+.bg-image-full {
+    background-repeat: repeat-y;
+    background-position: center center;
+    background-size: cover;
+    min-height: 100vh;
+}
+
 
 /* =================================================================== */
 /* ==== TEXT/FONT ====================================================  */
@@ -111,9 +109,15 @@ h3 {
 
 /* Wraps the entire form page including headers and other content */
 .form-base {
-    width: 100%;
+    width: 90%;
     text-align: center;
-    margin-top: 25px;
+    background-color: rgba(255,255,255,0.7);
+    border-radius: 5px;
+
+}
+
+.form-base form {
+    padding: 0 10px;
 }
 
 /* Wraps the <form> element in a form page */
@@ -227,21 +231,17 @@ h3 {
 /* ==== SPECIFIC ===================================================== */
 
 /* ******************************************************************* */
-/* **** MAP ********************************************************** */
-#map {
-    width: 100%;
-    min-height: 90vh;
+/* **** NAV ********************************************************** */
+.logo {
+    max-width: 150px;
 }
 
 /* ******************************************************************* */
-/* **** BASE TEMPLATE ************************************************ */
-
-.logs-side-base {
-
-}
-
-.map-side-base {
-
+/* **** MAP ********************************************************** */
+#map {
+    position: fixed;
+    width: 100%;
+    min-height: 90vh;
 }
 
 /* ******************************************************************* */
@@ -264,12 +264,14 @@ h3 {
 /* The complete wrapping of a Log Header/Journy incl. log entries */
 .log-header-card {
     margin-top: 10px;
+    background-color: transparent;
 }
 
 /*  Log Header/Journey title */
 .log-header-head {
-    background-color: #c5cceb;
+    background-color: #6072c8;
     border-radius: 5px 5px 0 0;
+    color: #d6d6d6;
 }
 
 /*  Show all checkbox wrapper */
@@ -294,7 +296,8 @@ h3 {
 
 /*  Section wrapping all log entries for a log header/Journey */
 .log-header-body {
-    padding: 10px 20px;
+    
+    background-color: rgba(255,255,255,0.7);
 }
 
 /* **** LOG ENTRIES (nested in the the log headers accordion) **** */
@@ -373,22 +376,6 @@ h3 {
     margin-bottom: 20px;
     padding-right: 30px;
 }
-
-.log-entry-data {
-
-}
-
-
-/* **** MAP ********************************************************** */
-.dummy_map_img {
-    min-width: 100%;
-    height: 90vh;
-}
-
-.map {
-    margin-top: 25px;
-}
-
 
 /* **** LOGIN / SIGN UP ********************************************** */
 

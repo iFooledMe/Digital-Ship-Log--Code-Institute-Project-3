@@ -3,9 +3,9 @@
 {% block pageTitle %}<title>Start a new journey</title>{% endblock %}
 
 {% block main %}
-  <div class="row mx-auto no-gutters w-100">
-      <div class="col-md-12">
-        <div class="form-base">
+  <div class="row mx-auto no-gutters py-3 w-95 form-base">
+      <div class="col-md-12 W-90">
+        <div>
           <h3><i class="fas fa-clipboard-list icon-header"></i> Add a new logentry</h3>
           <p><a href="{{ url_for('index') }}">Back to Main Page</a></p>
             <form method="POST" enctype="multipart/form-data" action="{{ url_for('newlog', journey_id=journey_id)}}">
@@ -123,12 +123,10 @@
                   </div>
                 </div>
               </div>
-              <hr>
-
                 <button type="submit" class="btn btn-blue-grey form-override btn-override">Submit log entry</button>
             </form>
         </div>
-        <hr>
+
       </div>
   </div>
 {% endblock %}

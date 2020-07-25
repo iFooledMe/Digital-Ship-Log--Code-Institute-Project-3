@@ -37,25 +37,6 @@
 				{% endfor %}
 				</div>
 			</span>
-			<!-- Log entry dropdown -->
-			<span class="dropdown">
-				<button
-				class="btn btn-blue-grey btn-sm status-box-btn dropdown-toggle"
-				type="button"
-				id="dropdownMenuButton"
-				data-toggle="dropdown"
-				aria-haspopup="true"
-				aria-expanded="false"
-				>
-				Add new log entry
-				</button>
-				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				<a class="dropdown-item" href="#">New Log in open Journey</a>
-				<a class="dropdown-item" href="#">New Log (independent)</a>
-				<a class="dropdown-item" href="#">New Service note</a>
-				<a class="dropdown-item" href="{{ url_for('test') }}">test</a>
-				</div>
-			</span>
 		</div>
 		<!-- #endregion -->	 
 
@@ -117,7 +98,7 @@
 
 				 <!-- Card body start-->
 				<div 	id="accordion-collapse-{{ loop.index }}" 
-						class="{{ open_or_collapsed }}" 
+						class="{{ open_or_collapsed }} log-header-body" 
 						role="tabpanel" 
 						aria-labelledby="accordion-collapse-{{ loop.index }}"
 						data-parent="#accordion">
