@@ -65,3 +65,33 @@ The edit button opens form to update either the journey header data or the data 
 And the trash can icons remove either a single log entry or a complete journey with all its contents. In both cases a modal is popped open where the user get a warning about deletion and an opportunity to revert the deletion. 
 
 <img src="static/img/readme/16.png">
+
+## USER STORIES
+
+### User authentication
+As a user i wish to...
+- create a new account
+- Login to my personal account
+- Logout from my account
+- Recieve information if I do something not authorized
+- Be sure the data I submit is correct (defensive design)
+
+### Usability
+As a user I wish to...
+- Create one or many new journeys
+  (Title, description, from where, to where, expected distance)
+- Within each journey create log entries
+  (Title, note, image, weather data, trip data)
+- See my log entries on a map
+- See my home port in the map
+- Be able to edit, or delete journeys and log entries as I see fit
+- Store my data persistently so that they are accessible when I get back to the site next time
+
+### INFORMATION
+As a visitor I wish to…
+- Get information on how to use the features
+- Get general information about what the app is about
+
+
+
+
