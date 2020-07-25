@@ -5,7 +5,7 @@
 {% block main %}
 		<!-- #region ==== STATUS WINDOW ======================================================= -->
 		{% for user in users %}
-		<div class="status-window">
+		<div class="status-window txt-darkgrey">
 			<h2>Welcome {{user.first_name}}</h2>
 			<p>CURRENT ACTIVITY: <i class="{{ activity.activity_icon }}"></i> </i><strong>{{activity.activity_name}}</strong></p>
 			<p><strong>Last Logentry</strong> - 9 July, 2020 - 11:56</p>
@@ -242,7 +242,7 @@
 										data-toggle="tooltip" 
 										data-placement="top" 
 										title="Edit this log entry">
-										<i class="fas fa-edit icon-edit-small"></i>
+										<i class="fas fa-edit icon-edit-small txt-darkgrey"></i>
 									</a>
 									<span 	class="log-header-button"
 											data-toggle="tooltip" 
@@ -252,7 +252,7 @@
 											class="a-override" 					
 											href="#delete-log-warning_{{ rowloop.index }}_{{ loop.index }}" 
 											data-toggle="modal">
-											<i class="far fa-trash-alt icon-edit-small"></i>
+											<i class="far fa-trash-alt icon-edit-small txt-darkgrey"></i>
 										</a>
 									</span>
 								</div>
@@ -289,13 +289,13 @@
 								
 
 								{% endif %}
-								<h4>
+								<h4 class="txt-darkgrey">
 									<a 	class="a-override" 
 										data-toggle="collapse" 
 										href="#collapse_{{ rowloop.index }}_{{ loop.index }}" 
 										aria-expanded="false" 
 										aria-controls="collapse_{{ rowloop.index }}_{{ loop.index }}">
-										<span class="txt-sm">{{ log.datetime.strftime("%Y-%m-%d, %H:%M") }}</span>
+										<span class="txt-sm txt-darkgrey">{{ log.datetime.strftime("%Y-%m-%d, %H:%M") }}</span>
 										<br>
 										#{{ loop.index }} - {{ log.title }}
 										<i class="fas fa-angle-down rotate-icon collapse-icon collapse-icon-sm"></i>
@@ -303,7 +303,7 @@
 								</h4>
 								<!-- Map checkbox -->
 								{% if log.position[0]['lat'] != ' -- ' and log.position[0]['lng'] != ' -- ' %}
-								<div 	class="map-check-wrapper" 
+								<div 	class="map-check-wrapper txt-darkgrey" 
 										data-toggle="tooltip" 
 										data-placement="top" 
 										title="Show this logs location on the map">

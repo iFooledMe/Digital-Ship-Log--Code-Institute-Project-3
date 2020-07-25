@@ -4,7 +4,8 @@ body {
     margin: 0;
     padding: 0;
     font-family: "Roboto", sans-serif;
-    color: #606060;
+    color: #ffffff;
+    min-height: 120vh
 }
 
 header {
@@ -20,8 +21,8 @@ a {
     color: inherit;
 }
 
-a.a-override i:hover {
-    color: #596cc4;
+a:hover {
+    color: inherit;
 }
 
 h3 {
@@ -45,9 +46,10 @@ h2 {
 
 .bg-image-full {
     background-repeat: repeat-y;
-    background-position: center center;
+    background-position: top center;
     background-size: cover;
-    min-height: 100vh;
+    background-attachment: fixed;
+    height: 100vh;
 }
 
 
@@ -68,6 +70,10 @@ h2 {
 
 .txt-grey {
     color: #9b9b9b;
+}
+
+.txt-darkgrey {
+    color: #4f4f4f;
 }
 
 /* =================================================================== */
@@ -334,8 +340,7 @@ h2 {
 
 /*  Section wrapping all log entries for a log header/Journey */
 .log-header-body {
-    
-    background-color: rgba(255,255,255,0.7);
+    background-color: rgba(0,0,0,0.3);
 }
 
 /* **** LOG ENTRIES (nested in the the log headers accordion) **** */
@@ -346,7 +351,7 @@ h2 {
 /* ****  Log enntry Head ******************** */
 .log-entry-head {
     position: relative;
-    background-color: #f0f4ff;
+    background-color: #bfd1ff;
 }
 
 .log-entry-head h4 {
