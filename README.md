@@ -14,7 +14,9 @@ This project aims to create a digital interactive log book for recreational boat
 ### Start and Login
 The index page where users can sign in or click on any of the links to the sign up page.
 <img src="static/img/readme/1.png">
+
 Each login attempt is validated by checking for a correct match of username and password.
+<img src="static/img/readme/2.png">
 
 ### Sign up
 The signup page where new users register. As seen in the image below there is an input control to check for existing email-addresses in the database, as the email addresses are used as usernames. A successful sign up creates a hashed binary password in the database. Other input controls are done directly in the html forms.
