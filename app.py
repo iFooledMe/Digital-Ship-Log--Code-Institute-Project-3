@@ -27,9 +27,9 @@ configure_uploads(app, images)
 @app.route('/')
 def index():
 	if "email" in session:
-		activity_code = get_user_value('activity_code')
-		#img_base_url = "..\static\img\users\"
-		return render_template(
+		try:
+			activity_code = get_user_value('activity_code')
+			return render_template(
 			"index.html",
 			have_user = check_for_user(),
 			users=list(find_users()),
@@ -40,6 +40,9 @@ def index():
 			home_coords = get_home_position(),
 			center_coords = get_center_coords(),
 			coords = get_positions())
+		except:
+			session.clear()
+			return render_template("login.html")	
 	return render_template("login.html")
 
 # ====================================================================================
@@ -168,7 +171,11 @@ def get_activity_options(activity):
 @app.route('/change_activity/<int:new_activity>')
 def change_activity(new_activity):
 	if new_activity == 2:
-		return render_template("newjourney.html")
+		return render_template(
+			'newjourney.html',
+			home_coords = get_home_position(),
+			center_coords = get_center_coords(),
+			coords = get_positions())
 	if get_user_value('activity_code') == 2:
 		close_journey()
 	update_user_activity(new_activity)
@@ -204,7 +211,11 @@ def newjourney():
 			'is_editable' : False,
 			'show_all' : True })
 		return redirect(url_for('index'))
-	return render_template("new_journey_log.html")
+	return render_template(
+		'new_journey.html',
+		home_coords = get_home_position(),
+		center_coords = get_center_coords(),
+		coords = get_positions())
 
 # ---- Edit Journey Header  ----
 @app.route('/edit_journey/<journey_id>', methods=['POST', 'GET'])
@@ -238,7 +249,13 @@ def edit_journey(journey_id):
 			'is_editable' : False }})
 		return redirect(url_for('index'))
 	this_journey = mongo.db.log_headers.find({'_id' : ObjectId(journey_id)})
-	return render_template("edit_journey.html", journey_id=journey_id, this_journey=this_journey)
+	return render_template(
+		"edit_journey.html", 
+		journey_id=journey_id, 
+		this_journey=this_journey,
+		home_coords = get_home_position(),
+		center_coords = get_center_coords(),
+		coords = get_positions())
 
 # ---- Delete Journey Header (and all it' contents) ----
 @app.route('/delete_journey/<journey_id>', methods=['POST', 'GET'])
@@ -343,7 +360,10 @@ def newlog(journey_id):
 		journey_id = journey_id, 
 		weather_options = weather_options,
 		wind_directions = wind_directions,
-		activity_options = activity_options)
+		activity_options = activity_options,
+		home_coords = get_home_position(),
+		center_coords = get_center_coords(),
+		coords = get_positions())
 
 # ---- Edit Journey Log Entry ---- 
 @app.route('/edit_log/<journey_id>/<log_id>', methods=['POST', 'GET'])
@@ -394,7 +414,10 @@ def edit_log(journey_id, log_id):
 		this_log=this_log,
 		weather_options = weather_options,
 		wind_directions = wind_directions,
-		activity_options = activity_options)
+		activity_options = activity_options,
+		home_coords = get_home_position(),
+		center_coords = get_center_coords(),
+		coords = get_positions())
 
 # ---- Delete Journey Log Entry ---- 
 @app.route('/delete_log/<journey_id>/<log_id>/<log_number>', methods=['POST', 'GET'])

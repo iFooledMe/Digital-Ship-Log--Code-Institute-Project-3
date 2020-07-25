@@ -1,43 +1,67 @@
-# Digital Ship Log
-## Code Institute Student Project #3 
+# YOUR DIGITAL LOG BOOK
+<img src="static/img/logo.png">
+
+## AN INTERACTIVE LOG BOOK FOR YOUR BOAT
+### A Code Institute Student Project
 
 ## SUMMARY
-This project aims to create a digital interactive log book for recreational boats and ships. An entry in the log book has different categories (described below) and can be associated with a certain journey, or be added independently (i.e service). Each entry is connected to a location shown on a Google maps map.
+This project aims to create a digital interactive log book for recreational boats and ships. As tradition on the seas offer, for recreational sailors often these logs are done in a physical logbook by pen and paper. In such a logbook normally the ship's captain enters a log daily, reporting navigational information such as heading, speed. Weather information such as wind direction, wind speed, weather conditions etc. Also there are usually  some notes about important events happening onboard the ship, like accidents, if something needs to be repaired, if the ship got new provisions, entered dock for unload, load etc. In the professional merchant fleet such log entries are mandatory and part of the international regulations. But for recreational ships and boats it is not. While many boat owners keep such a logbook in their ship/boat, often they mostly stay in a drawer collecting dust.
 
-## FUNCTIONALITY SPECIFICATIONS
-### Current Status
-At top of the personal space is “current status” for the boat displayed.
-The statuses can be one of the following (with á possible substatus):
-1. Not logged in > Actions: Sign In or create new account
-2. At home port > Actions: Add new log entry | Start a new journey
-3. On journey > Actions: add new journey entry | See all entrys for current journey | End journey
-    - Traveling (Motor or by sails)
-    - Moored (In dock or on anchor)
- 4. In dry dock (Maybe this feature is not relevant for an early version)
- 
-### Log entry categories
-1. Trip data (Date/Time, Position possibly plotted on a map, speed, course, wheater conditions etc.)
-2. Trip note (Uploaded images, personal diary notes)
-3. Maintainance Entry (Service, repairs, new parts, general checklist before departure etc.)
-4. Save favorite location (A position on the map commented and stored as a favorite location (Possibly to be made public for other users).
+<em><strong>“Your Digital Log Book” is a web-application where recreational skippers can keep their ships logs digitally. Maybe not so much for the importance of such logs, but more as a collection of memories from different Journeys made in the past from notes, uploaded images, navigation- and weather data and plotted map positions. At least such digital logs won’t collect any dust.</strong></em>
 
-## USER STORIES
-  - “As a user i wish to create and login to my personal account”
-  - “As a user I wish to be able to start and end a Journey (where all log entries during this time will be connected)
-  - “As a user I wish to add log entries by different categories”
-     - “I wish to add speed, course and weather data at any given time”
-     - “I wish to add personal notes and upload pictures at any given time”
-     - “I wish to add service and repair notes at any given time”
- - “As a user I wish to see a map of all log entries for a certain journey or possibly for any other mean of filtering the results”
- - “As a user I wish to be able to sort and/or filter logentries by journeys, dates or category”  
- - “As a user I wish to be able to edit, or delete log entries as I see fit”
- - “As a user I wish all my log entries to be stored persistently so that they are accessible when I get back to the site next time”.
+## FEATURES
 
-## WIREFRAMES
-<img src="static/img/main_personal_page_WireFrame.png">
+### Start and Login
+The index page where users can sign in or click on any of the links to the sign up page.
+<img src="static/img/readme/1.png">
+Each login attempt is validated by checking for a correct match of username and password.
 
-## DATABASE MODEL
-<img src="static/img/db_model.png">
+### Sign up
+The signup page where new users register. As seen in the image below there is an input control to check for existing email-addresses in the database, as the email addresses are used as usernames. A successful sign up creates a hashed binary password in the database. Other input controls are done directly in the html forms.
+<img src="static/img/readme/3.png">
 
- 
- 
+ ### Users personal log page
+Successful log in or new registration redirects to the users personal log page. At the top of the page the users get the information that they currently are logged in with the email address they just submitted either in the log in or in the sign up form. The “door/arrow” icon to the right of the username/email address let the users sign out from the current session.
+ <img src="static/img/readme/4.png">
+Below the navbar to the left the user receives a welcome message, information about their current activity (“No/Other activity”, “At home port” or “On journey”) and some information about their last log entry. The user changes activity or starts a new journey from the dropdown menu below the welcome/status information window.
+
+As seen in the example above, this user has currently yet no journeys or log entries created.
+
+To the right a map (Google maps) is centered on a new marker marking the user's home port just submitted from the sign in form.
+
+### Create a new Journey
+A Journey is a kind of header or container of log entries for a particular journey. The journey header must have a title but all other fields in the form are optional, where the user can submit more details about the journey to be started.
+ <img src="static/img/readme/5.png">
+
+ ### Journey ongoing
+ When the new journey is created it now shows in the users personal logs page. The current activity in the welcome/activity window has now changed to “On Journey”.
+  <img src="static/img/readme/6.png">
+  During this day-trip the user can now add new log entries to this journey by clicking the “New log” button at the bottom of the header window.
+
+### New log entry
+When creating a new log a log title and description is mandatory (if not what’s the point?). Besides those fields the user can optionally add an image and image capture to the log entry (in this release just one image per entry), and also weather and trip data.
+  <img src="static/img/readme/7.png">
+
+  ### The new log entry added to the journey
+  The log just created is now added as a collapsible element below the header. There is no limit to how many log entries can be added to a journey. As seen in the image all the data just submitted is presented to the user.
+<img src="static/img/readme/8.png">
+The new log entry is also presented in the map where a new marker for the log (if coordinates are given) is created and centered upon. Only the most recent log marker in the map has this yellow form. On the right of each header (both journey header and log entry header) there is a switch where either all map markers for the journey, or just one individual log entry marker, can be switched on and off from the map. The marker icon to the left of this switch is used to center on that particular marker in the map.
+<img src="static/img/readme/9.png">
+A journey can be ended from the “Change activity” dropdown menu.
+<img src="static/img/readme/10.png">
+
+Each journey header is created within one single accordion element, and within each log header the logentries are collapsible elements, allowing a very compact overview if many journeys and logs are created.
+<img src="static/img/readme/11.png">
+
+### Edit Journeys and log entries
+Each Journey header has this edit icon. Clicking it opens up an edit menu for both the header itself and for all of the log entries within that journey.
+<img src="static/img/readme/12.png">
+<img src="static/img/readme/13.png">
+
+The edit button opens form to update either the journey header data or the data in a single log entry.
+<img src="static/img/readme/14.png">
+<img src="static/img/readme/15.png">
+
+And the trash can icons remove either a single log entry or a complete journey with all its contents. In both cases a modal is popped open where the user get a warning about deletion and an opportunity to revert the deletion. 
+
+<img src="static/img/readme/15.png">
