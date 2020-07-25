@@ -3,40 +3,40 @@
 {% block pageTitle %}<title>Edit Journey Information</title>{% endblock %}
 
 {% block main %}
-  <div class="row mx-auto no-gutters">
+  <div class="row mx-auto">
       <div class="col-md-12">
-        <div class="form-base">
-          <h3>Edit journey information</h3>
+        <div class="form-base py-5">
+          <h2 class="txt-white">Edit journey information</h2>
           <p><a href="{{ url_for('index') }}">Back to Main Page</a></p>
           {% for journey in this_journey %}
             <form method="POST" action="{{ url_for('edit_journey', journey_id=journey_id) }}">
               <div class="form-group">
                 <div class="row">
-                  <div class="col-4 col-md-3 form-label"><strong>TITLE</strong></div>
+                  <div class="col-4 col-md-3 form-label txt-white"><strong>TITLE</strong></div>
                   <div class="col-8 col-md-9">
                     <input type="text" class="form-control form-override" id="title" name="title" value="{{ journey.title }}" maxlength="30" required>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-4 col-md-3 form-label"><strong>START LOCATION</strong></div>
+                  <div class="col-4 col-md-3 form-label txt-white"><strong>START LOCATION</strong></div>
                   <div class="col-8 col-md-9">
                     <input type="text" class="form-control form-override" id="start_location" name="start_location" value="{{ journey.start_location }}" maxlength="25">
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-4 col-md-3 form-label"><strong>END LOCATION</strong></div>
+                  <div class="col-4 col-md-3 form-label txt-white"><strong>END LOCATION</strong></div>
                   <div class="col-8 col-md-9">
                     <input type="text" class="form-control form-override" id="end_location" name="end_location" value="{{ journey.end_location }}" maxlength="25">
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-4 col-md-3 form-label"><strong>DISTANCE (NM) </strong></div>
+                  <div class="col-4 col-md-3 form-label txt-white"><strong>DISTANCE (NM) </strong></div>
                   <div class="col-8 col-md-9">
                     <input type="number" class="form-control form-override" id="distance" name="distance" value="{{ journey.distance }}" min="0" max="21600" maxlength="5">
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-4 col-md-3 form-label"><strong>DESCRIPTION </strong></div>
+                  <div class="col-4 col-md-3 form-label txt-white"><strong>DESCRIPTION </strong></div>
                   <div class="col-8 col-md-9">
                     <textarea class="form-control form-override" id="description" name="description" rows="5" maxlength="200">{{ journey.description }}</textarea>
                   </div>
@@ -45,10 +45,10 @@
               <div class="form-group">
                 <div class="row">
                   <div class="col-4"></div>
-                  <div class="col-8"><h5>Change start and end dates and time</h5></div>
+                  <div class="col-8 txt-white"><h4>Change start and end dates and time</h4></div>
                 </div>
                 <div class="row"> 
-                  <div class="col-4 col-md-3 form-label"><strong>START</strong></div>
+                  <div class="col-4 col-md-3 form-label txt-white"><strong>START</strong></div>
                   <div class="col-4 col-md-5">
                     <input type="date" class="form-control form-override" id="start_date" name="start_date" value="{{ journey.start_datetime.strftime('%Y-%m-%d') }}" required>
                   </div>
@@ -57,7 +57,7 @@
                   </div>
                 </div>
                 <div class="row"> 
-                  <div class="col-4 col-md-3 form-label"><strong>END</strong></div>
+                  <div class="col-4 col-md-3 form-label txt-white"><strong>END</strong></div>
                   <!-- TODO: Add checkbox to activate closed journey (and function that closes any other active journey + Varning!) -->
                   <!-- TODO: Limit dates to not be set after current date and time) -->
                   <div class="col-4 col-md-5">

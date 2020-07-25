@@ -3,24 +3,24 @@
 {% block pageTitle %}<title>Edit logentry</title>{% endblock %}
 
 {% block main %}
-<div class="row mx-auto no-gutters w-100">
+<div class="row mx-auto w-100">
   <div class="col-md-12">
-    <div class="form-base">
-		<h3><i class="fas fa-clipboard-list icon-header"></i> Edit log entry</h3>
-		<p><a href="{{ url_for('index') }}">Back to Main Page</a></p>
+    <div class="form-base py-5">
+		<h2 class="txt-white"><i class="fas fa-clipboard-list icon-header icon-lightgrey"></i> Edit log entry</h2>
+		<p><a href="{{ url_for('index') }}">BACK TO MAIN PAGE</a></p>
 		{% for log in this_log %}
 		<form method="POST" enctype="multipart/form-data" action="{{ url_for('edit_log', journey_id=journey_id, log_id=log._id)}}">
 
 			<!-- #region ==== TITLE AND NOTE ====================================================== -->
 			<div class="form-group">
 				<div class="row">
-				  <div class="col-4 col-md-3 form-label"><strong>TITLE</strong></div>
+				  <div class="col-4 col-md-3 form-label txt-white"><strong>TITLE</strong></div>
 				  <div class="col-8 col-md-9">
 					<input type="text" class="form-control form-override" id="title" name="title" value="{{ log.title }}" maxlength="30" required>
 				  </div>
 				</div>
 				<div class="row">
-				  <div class="col-4 col-md-3 form-label"><strong>LOG NOTE</strong></div>
+				  <div class="col-4 col-md-3 form-label txt-white"><strong>LOG NOTE</strong></div>
 				  <div class="col-8 col-md-9">
 					<textarea class="form-control form-override" id="description" name="note" rows="6" maxlength="300" required>{{ log.note }}</textarea>
 				  </div>
@@ -31,14 +31,14 @@
 			<!-- #region ==== IMAGE =============================================================== -->
 			<div class="form-group">
 				<div class="row form-label-row">
-					<div class="col-4 col-md-3">
+					<div class="col-4 col-md-3 txt-white">
 						<label for="image" class="form-label-2">
+							<i class="fas fa-camera icons-sm icon-lightgrey"></i>
 						<strong> ADD/CHANGE<br>IMAGE</strong>(optional)</label></strong>
 					</div>
 					<!-- TODO: Fix edit image uppload -->
 					<div class="col-8 col-md-9">
 						<div class="form-group">
-							<div><label for="image" class="pt-3"><i class="fas fa-camera icons-sm"></i> Add an image (optional)</label></div>
 							<input type="file" class="image-for-input" name="image" id="image" accept="image/jpg, image/jpeg, image/png">
 							<img class="w-25 image-upload-form" src="../static/img/profile.png" alt="...">
 							<!--<input type="file" class="form-control-file form-override py-1" id="image" name="image">-->
@@ -52,21 +52,21 @@
 			<!-- #region ==== WEATHER DATA ======================================================== -->	
 			<div class="form-group">
 				<div class="row"> 
-				  <div class="col-12 pb-3"><h5>Add Weather data (all optional)</h5></div>
+				  <div class="col-12 pb-3 txt-white"><h4>Add Weather data (all optional)</h4></div>
 				</div>
 				<div class="row"> 
-				  <div class="col-3 icons-sm"><i class="fas fa-cloud-sun"></i></div>
-				  <div class="col-2 icons-sm"><i class="fas fa-temperature-low"></i></div>
-				  <div class="col-2 icons-sm"><i class="fas fa-cloud-upload-alt"></i></div>
-				  <div class="col-3 icons-sm"><i class="fas fa-paper-plane"></i></div>
-				  <div class="col-2 icons-sm"><i class="fas fa-wind"></i></div>
+				  <div class="col-3 icons-sm"><i class="fas fa-cloud-sun icon-lightgrey"></i></div>
+				  <div class="col-2 icons-sm"><i class="fas fa-temperature-low icon-lightgrey"></i></div>
+				  <div class="col-2 icons-sm"><i class="fas fa-cloud-upload-alt icon-lightgrey"></i></div>
+				  <div class="col-3 icons-sm"><i class="fas fa-paper-plane icon-lightgrey"></i></div>
+				  <div class="col-2 icons-sm"><i class="fas fa-wind icon-lightgrey"></i></div>
 				</div>
 				<div class="row"> 
-				  <div class="col-3 txt-sm">Weather condition</div>
-				  <div class="col-2 txt-sm">Temp (&#8451;)<br>(-45 - 45)</div>
-				  <div class="col-2 txt-sm">Air preassure (hPa)<br>(920 - 1080)</div>
-				  <div class="col-3  txt-sm">Wind direction</div>
-				  <div class="col-2  txt-sm">Wind speed (m/s)<br>(avg. 0 - 45)</div>
+				  <div class="col-3 txt-white">Weather condition</div>
+				  <div class="col-2 txt-white">Temp (&#8451;)<br>(-45 - 45)</div>
+				  <div class="col-2 txt-white">Air preassure (hPa)<br>(920 - 1080)</div>
+				  <div class="col-3 txt-white">Wind direction</div>
+				  <div class="col-2 txt-white">Wind speed (m/s)<br>(avg. 0 - 45)</div>
 				</div>
 				<div class="row"> 
 				  <div class="col-3 txt-sm">
@@ -105,12 +105,12 @@
 			<!-- #region ==== TRIP DATA =========================================================== -->
 			<div class="form-group">
 			<div class="row"> 
-				<div class="col-12 py-3"><h5>Add Trip data (all optional)</h5></div>
+				<div class="col-12 py-3 txt-white"><h4>Edit Trip Data (all optional)</h4></div>
 			</div>
 			<div class="row"> 
-				<div class="col-6 icons-sm"><i class="fab fa-atlassian"></i></div>
-				<div class="col-3 icons-sm"><i class="fas fa-compass"></i></div>
-				<div class="col-3 icons-sm"><i class="fas fa-tachometer-alt"></i></div>
+				<div class="col-6 icons-sm"><i class="fab fa-atlassian icon-lightgrey"></i></div>
+				<div class="col-3 icons-sm"><i class="fas fa-compass icon-lightgrey"></i></div>
+				<div class="col-3 icons-sm"><i class="fas fa-tachometer-alt icon-lightgrey"></i></div>
 			</div>
 			<div class="row"> 
 				<div class="col-6 txt-sm">Activity</div>
@@ -136,14 +136,14 @@
 				</div>
 			</div>
 			<div class="row"> 
-				<div class="col-6 icons-sm"><i class="fas fa-map-marked-alt"></i></div>
-				<div class="col-3 icons-sm"><i class="fas fa-arrows-alt-v"></i></div>
-				<div class="col-3 icons-sm"><i class="fas fa-arrows-alt-h"></i></div>
+				<div class="col-6 icons-sm"><i class="fas fa-map-marked-alt icon-lightgrey"></i></div>
+				<div class="col-3 icons-sm"><i class="fas fa-arrows-alt-v icon-lightgrey"></i></div>
+				<div class="col-3 icons-sm"><i class="fas fa-arrows-alt-h icon-lightgrey"></i></div>
 			</div>
 			<div class="row"> 
-				<div class="col-6 txt-sm">Location</div>
-				<div class="col-3  txt-sm">Latitude<br>(-90 - 90&#176;)</div>
-				<div class="col-3  txt-sm">Longitude<br>(-180 - 180&#176;)</div>
+				<div class="col-6 txt-white">Location</div>
+				<div class="col-3 txt-white">Latitude<br>(-90 - 90&#176;)</div>
+				<div class="col-3 txt-white">Longitude<br>(-180 - 180&#176;)</div>
 			</div>
 			<div class="row"> 
 				<div class="col-6 txt-sm">

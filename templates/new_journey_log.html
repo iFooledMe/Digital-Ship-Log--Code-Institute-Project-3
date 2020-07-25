@@ -3,42 +3,40 @@
 {% block pageTitle %}<title>Start a new journey</title>{% endblock %}
 
 {% block main %}
-  <div class="row mx-auto no-gutters py-3 w-95 form-base">
+  <div class="row mx-auto">
       <div class="col-md-12 W-90">
-        <div>
-          <h3><i class="fas fa-clipboard-list icon-header"></i> Add a new logentry</h3>
-          <p><a href="{{ url_for('index') }}">Back to Main Page</a></p>
+        <div class="form-base py-5">
+          <h2 class="txt-white"><i class="fas fa-clipboard-list icon-header icon-lightgrey"></i> Add a new log entry</h2>
+          <p><a href="{{ url_for('index') }}">BACK TO MAIN PAGE</a></p>
             <form method="POST" enctype="multipart/form-data" action="{{ url_for('newlog', journey_id=journey_id)}}">
               <div class="form-group">
                 <input type="text" class="form-control form-override" id="title" name="title" placeholder="Log title (max 35 characters)" maxlength="35" required>
                 <textarea class="form-control form-override" id="description" name="note" rows="6" maxlength="300" placeholder="Log note here (max 300 characters)" required></textarea>
-              <hr>
               <div class="form-group">
-                <div><label for="image" class="pt-3"><i class="fas fa-camera icons-sm"></i> Add an image (optional)</label></div>
+                <div class="txt-white"><label for="image" class="pt-3"><h4><i class="fas fa-camera icons-sm camera-icon icon-lightgrey"></i> Add an image (optional)</h4></label></div>
                 <input type="file" class="image-for-input" name="image" id="image" accept="image/jpg, image/jpeg, image/png">
                 <img class="w-25 image-upload-form" src="../static/img/profile.png" alt="...">
                 <!--<input type="file" class="form-control-file form-override py-1" id="image" name="image">-->
                 <input type="text" class="form-control form-override" id="img_cap" name="img_cap" placeholder="Add image description (max 25 characters)(optional)" maxlength="25">
               </div>
-              <hr>
               </div>
-              <div class="form-group">
+              <div class="form-group form-group-wrapper">
                 <div class="row"> 
-                  <div class="col-12"><label for="image" class="pt-3">Add Weather data (all optional)</label></div>
+                  <div class="col-12 txt-white"><label for="image" class="pt-3"><h4>Add Weather data (all optional)</h4></label></div>
                 </div>
                 <div class="row"> 
-                  <div class="col-3 icons-sm"><i class="fas fa-cloud-sun"></i></div>
-                  <div class="col-2 icons-sm"><i class="fas fa-temperature-low"></i></div>
-                  <div class="col-2 icons-sm"><i class="fas fa-cloud-upload-alt"></i></div>
-                  <div class="col-3 icons-sm"><i class="fas fa-paper-plane"></i></div>
-                  <div class="col-2 icons-sm"><i class="fas fa-wind"></i></div>
+                  <div class="col-3 icons-sm icon-lightgrey"><i class="fas fa-cloud-sun"></i></div>
+                  <div class="col-2 icons-sm icon-lightgrey"><i class="fas fa-temperature-low"></i></div>
+                  <div class="col-2 icons-sm icon-lightgrey"><i class="fas fa-cloud-upload-alt"></i></div>
+                  <div class="col-3 icons-sm icon-lightgrey"><i class="fas fa-paper-plane"></i></div>
+                  <div class="col-2 icons-sm icon-lightgrey"><i class="fas fa-wind"></i></div>
                 </div>
                 <div class="row"> 
-                  <div class="col-3 txt-sm">Weather condition</div>
-                  <div class="col-2 txt-sm">Temp (&#8451;)<br>(-45 - 45)</div>
-                  <div class="col-2 txt-sm">Air preassure (hPa)<br>(920 - 1080)</div>
-                  <div class="col-3  txt-sm">Wind direction</div>
-                  <div class="col-2  txt-sm">Wind speed (m/s)<br>(avg. 0 - 45)</div>
+                  <div class="col-3 txt-white">Weather condition</div>
+                  <div class="col-2 txt-white">Temp (&#8451;)<br>(-45 - 45)</div>
+                  <div class="col-2 txt-white">Air preassure (hPa)<br>(920 - 1080)</div>
+                  <div class="col-3 txt-white">Wind direction</div>
+                  <div class="col-2 txt-white">Wind speed (m/s)<br>(avg. 0 - 45)</div>
                 </div>
                 <div class="row"> 
                   <div class="col-3 txt-sm">
@@ -70,20 +68,19 @@
                   </div>
                 </div>
               </div>
-              <hr>   
               <div class="form-group">
                 <div class="row"> 
-                  <div class="col-12"><label for="image" class="pt-3">Add Trip data (all optional)</label></div>
+                  <div class="col-12 txt-white"><label for="image" class="pt-3"><h4>Add Trip data (all optional)</h4></label></div>
                 </div>
                 <div class="row"> 
-                  <div class="col-6 icons-sm"><i class="fab fa-atlassian"></i></div>
-                  <div class="col-3 icons-sm"><i class="fas fa-compass"></i></div>
-                  <div class="col-3 icons-sm"><i class="fas fa-tachometer-alt"></i></div>
+                  <div class="col-6 icons-sm icon-lightgrey"><i class="fab fa-atlassian"></i></div>
+                  <div class="col-3 icons-sm icon-lightgrey"><i class="fas fa-compass"></i></div>
+                  <div class="col-3 icons-sm icon-lightgrey"><i class="fas fa-tachometer-alt"></i></div>
                 </div>
                 <div class="row"> 
-                  <div class="col-6 txt-sm">Activity</div>
-                  <div class="col-3  txt-sm">Heading<br>(0 - 360&#176;)</div>
-                  <div class="col-3  txt-sm">Speed<br>(0-70 kn)</div>
+                  <div class="col-6 txt-white">Activity</div>
+                  <div class="col-3 txt-white">Heading<br>(0 - 360&#176;)</div>
+                  <div class="col-3 txt-white">Speed<br>(0-70 kn)</div>
                 </div>
                 <div class="row"> 
                   <div class="col-6 txt-sm">
@@ -102,14 +99,14 @@
                   </div>
                 </div>
                 <div class="row"> 
-                  <div class="col-6 icons-sm"><i class="fas fa-map-marked-alt"></i></div>
-                  <div class="col-3 icons-sm"><i class="fas fa-arrows-alt-v"></i></div>
-                  <div class="col-3 icons-sm"><i class="fas fa-arrows-alt-h"></i></div>
+                  <div class="col-6 icons-sm icon-lightgrey"><i class="fas fa-map-marked-alt"></i></div>
+                  <div class="col-3 icons-sm icon-lightgrey"><i class="fas fa-arrows-alt-v"></i></div>
+                  <div class="col-3 icons-sm icon-lightgrey"><i class="fas fa-arrows-alt-h"></i></div>
                 </div>
                 <div class="row"> 
-                  <div class="col-6 txt-sm">Location</div>
-                  <div class="col-3  txt-sm">Latitude<br>(-90 - 90&#176;)</div>
-                  <div class="col-3  txt-sm">Longitude<br>(-180 - 180&#176;)</div>
+                  <div class="col-6 txt-white">Location</div>
+                  <div class="col-3 txt-white">Latitude<br>(-90 - 90&#176;)</div>
+                  <div class="col-3 txt-white">Longitude<br>(-180 - 180&#176;)</div>
                 </div>
                 <div class="row"> 
                   <div class="col-6 txt-sm">
@@ -126,7 +123,6 @@
                 <button type="submit" class="btn btn-blue-grey form-override btn-override">Submit log entry</button>
             </form>
         </div>
-
       </div>
   </div>
 {% endblock %}

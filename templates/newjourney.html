@@ -3,9 +3,9 @@
 {% block pageTitle %}<title>Start a new journey</title>{% endblock %}
 
 {% block main %}
-  <div class="row mx-auto no-gutters">
+  <div class="row mx-auto">
       <div class="col-md-12">
-        <div class="form-base">
+        <div class="form-base py-5">
           <h3>Start a new jorney</h3>
           <p><a href="{{ url_for('index') }}">Back to Main Page</a></p>
             <form method="POST" action="{{ url_for('newjourney') }}">
@@ -19,7 +19,6 @@
                 <button type="submit" class="btn btn-blue-grey form-override btn-override">Start journey</button>
             </form>
         </div>
-        <hr>
       </div>
   </div>
 {% endblock %}
