@@ -18,17 +18,71 @@
 
 <body class="bg-image-full bg-image-1">
     
-    <div class="container-fluid">
+    <div class="container-fluid ">
 
 <!-- #Region ==== HEADER ====================================================================== -->
 <header>
+    <nav class="navbar navbar-expand-lg navbar-light navbar-wrapper">
+        <a class="navbar-brand" href="{{ url_for('index') }}">
+            <img class="logo" src="{{ url_for('static', filename='img/logo.png') }}" alt="">
+            <div class="logo-txt">
+                <div class="logo-txt-1">Your</div>
+                <div class="logo-txt-2">digital</div>
+                <div class="logo-txt-3">log book</div>
+            </div>
+        </a>
+        <button class="navbar-toggler navbar-hamburger" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        
+        {% if have_user %}
+            {% for user in users%}
+                <div class="navbar-user-info txt-darkgrey">
+                    <i class="far fa-user"></i> 
+                    Signed in as: <strong>{{ user.email }}</strong>
+                    <a 
+                        href="{{ url_for('logout') }}"
+                        data-toggle="tooltip" 
+                        data-placement="right" 
+                        title="Sign out">
+                        <i class="fas fa-sign-out-alt signout-icon"></i>
+                    </a>
+                </div>
 
+                <div class="collapse navbar-collapse nav-links" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item navbar-link">
+                        <a class="nav-link" href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item navbar-link">
+                        <a class="nav-link" href="https://github.com/iFooledMe/Digital-Ship-Log--Code-Institute-Project-3" target="_blank">About</a>
+                        </li>
+                    </ul>
+                </div>
+            {% endfor %} 
+        {% else %}   
+            <div class="collapse navbar-collapse nav-links" id="navbarNav">
+                <ul class="navbar-nav">
+                <li class="nav-item navbar-link">
+                    <a class="nav-link" href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item navbar-link">
+                    <a class="nav-link" href="{{ url_for('signup') }}">Sign Up <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item navbar-link">
+                    <a class="nav-link" href="https://github.com/iFooledMe/Digital-Ship-Log--Code-Institute-Project-3" target="_blank">About</a>
+                </li>
+                </ul>
+            </div>
+        {% endif %}  
+    </nav>
 </header>
 <!-- #endregion -->
 
 <!-- #Region ==== MAIN ====================================================================== --> 
         <main>
-            <div class="row no-gutters mx-auto w-100 main-wrapper">
+            <div class="row mx-auto w-100 main-wrapper">
 
                 <div class="col-12 col-md-6">
                     {% block main %}
@@ -38,7 +92,7 @@
 <!-- #endregion -->
                 
 <!-- #region ==== MAP ========================================================================= -->
-                <div class="d-none d-md-block col-md-6 map-side-base">
+                <div class="d-none d-md-block col-md-6">
                     <div id="map"></div>
                 </div>
 
@@ -190,6 +244,15 @@
         </main>
     <!-- #endregion -->
 
+<!-- #region ==== FOOTER ========================================================================= -->
+
+<footer class="page-footer font-small blue">
+    <div class="footer-copyright text-center py-3">© 2020 Copyright:
+      <a href="https://mdbootstrap.com/"> Me</a>
+    </div>
+</footer>
+
+<!-- #endregion-->
     </div>
 
 <!-- #Region ==== JAVASCRIPTS ============================================================= -->

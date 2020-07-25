@@ -39,8 +39,8 @@ def index():
 		#img_base_url = "..\static\img\users\"
 		return render_template(
 			"index.html",
-			test = "Hello from Flask!",
-			users=find_users(),
+			have_user = check_for_user(),
+			users=list(find_users()),
 			activity = get_activity(activity_code),
 			options = get_activity_options(activity_code),
 			log_headers = get_log_headers(ObjectId(session['user_id'])),
@@ -452,6 +452,9 @@ def signup():
 				}]
 			 })
 			set_session_vars(request.form['email'])
+			mongo.db.check_for_user.update_one(
+				{'_id' : ObjectId('5f1c6c41464dab8a7c623f9b')},
+				{'$set':{ 'have_user': True }})
 			return redirect(url_for("index"))
 		return render_template("signup.html", emailExist = True)		
 	elif "email" in session:
@@ -470,6 +473,9 @@ def login():
 			validUser['password']) == validUser['password']:
 			set_session_vars(request.form['email'])
 			set_all_not_editable(session['user_id'])
+			mongo.db.check_for_user.update_one(
+				{'_id' : ObjectId('5f1c6c41464dab8a7c623f9b')},
+				{'$set':{'have_user': True }})
 			return redirect(url_for('index'))
 		return renderBadLogin
 	return renderBadLogin
@@ -478,6 +484,9 @@ def login():
 @app.route("/logout")
 def logout():
 	session.clear()
+	mongo.db.check_for_user.update_one(
+		{'_id' : ObjectId('5f1c6c41464dab8a7c623f9b')},
+		{'$set':{'have_user': False }})
 	return redirect(url_for('index'))
 
 # ====================================================================================
@@ -517,6 +526,11 @@ def set_all_not_editable(user_id):
 	mongo.db.log_headers.update_many(
 		{'user_id' : ObjectId(user_id)},
 		{'$set': {'is_editable' : False } })
+
+def check_for_user():
+	have_user = mongo.db.check_for_user.find_one(
+		{'_id' : ObjectId('5f1c6c41464dab8a7c623f9b')})['have_user']
+	return have_user
 
 # ====================================================================================
 # ==== A P P . R U N =================================================================

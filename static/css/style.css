@@ -15,6 +15,7 @@ header {
 
 main {
     margin-top: 20px;
+    margin-bottom: 40px;
 }
 
 a {
@@ -51,7 +52,6 @@ h2 {
     background-attachment: fixed;
     height: 100vh;
 }
-
 
 /* =================================================================== */
 /* ==== TEXT/FONT ====================================================  */
@@ -266,13 +266,72 @@ h2 {
     font-size: 1.1em
 }
 
+.signout-icon {
+    position: relative;
+    top: 3px;
+    font-size: 1.3em;
+    padding-left: 10px;
+}
+
 /* =================================================================== */
 /* ==== SPECIFIC ===================================================== */
 
 /* ******************************************************************* */
 /* **** NAV ********************************************************** */
+.navbar-wrapper {
+    position: relative;
+}
+
 .logo {
     max-width: 150px;
+}
+
+.logo-txt {
+    position: absolute;
+    top: 20px;
+    left: 170px;
+}
+
+.logo-txt div {
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    font-size: 1.3em;
+}
+
+.logo-txt-1 {
+    position: relative;
+    left: -30px;
+}
+
+.logo-txt-2 {
+    position: relative;
+    left: -5px;
+}
+
+.logo-txt-3 {
+    position: relative;
+    left: 10px;
+}
+
+.nav-links {
+    position: relative;
+    top: 30px;
+    margin-left: 300px;
+    font-size: 1.3em;
+}
+
+.navbar-link {
+    margin-right: 10px;
+}
+
+.navbar-user-info {
+    position: absolute;
+    top: 20px;
+}
+
+.navbar-hamburger {
+    position: relative;
+    top: 15px;
 }
 
 /* ******************************************************************* */
@@ -426,39 +485,62 @@ h2 {
 .login-window {
     width: 100%;
     text-align: center;
-    padding: 10% 25%;
     text-transform: uppercase;
 }
-
-
-
 
 /* =================================================================== */
 /* ==== M E D I A  Q U E R I E S ===================================== */
 
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 992px) {
+    .navbar-user-info {
+        left: 400px;
+    }
+}
+
 /* Extra large devices (large desktops, 1200px and down) */
 @media (max-width: 1200px) {
-    
+    .navbar-user-info {
+        left: 400px;
+    }
 
 }
 
 /* Large devices (desktops, 992px and down) */
 @media (max-width: 992px) { 
-    .login-window {
-        padding: 10% 10%;
+    .nav-links {
+        position: static;
+        text-align: right;
     }
-    
-
 }
 
 /* Medium devices (tablets, 768px and down) */
 @media (max-width: 768px) { 
-    .login-window {
-        padding: 10% 5%;
-    }
-
     .logo {
         max-width: 75px;
+    }
+
+    .logo-txt {
+        top: 10px;
+        left: 110px;
+    }
+    
+    .logo-txt div {
+        font-size: 0.8em;
+    }
+
+    .logo-txt-2 {
+        position: relative;
+        left: -18px;
+    }
+    
+    .logo-txt-3 {
+        position: relative;
+        left: -10px;
+    }
+
+    .navbar-user-info {
+        right: 20px;
     }
 }
 

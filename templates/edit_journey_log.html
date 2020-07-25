@@ -39,10 +39,9 @@
 					<!-- TODO: Fix edit image uppload -->
 					<div class="col-8 col-md-9">
 						<div class="form-group">
-							<input type="file" class="image-for-input" name="image" id="image" accept="image/jpg, image/jpeg, image/png">
-							<img class="w-25 image-upload-form" src="../static/img/profile.png" alt="...">
-							<!--<input type="file" class="form-control-file form-override py-1" id="image" name="image">-->
-							<input type="text" class="form-control form-override" id="img_cap" name="img_cap" placeholder="Add image description (max 25 characters)(optional)" maxlength="25">
+							<label for="image" class="pt-3"></label>
+							<input type="file" class="form-control-file form-override py-1" id="image" name="image">
+							<input type="text" class="form-control form-override" id="img_cap" name="img_cap" value="{{ log.img_cap }}" maxlength="25">
 						</div>
 					</div>
 				</div>

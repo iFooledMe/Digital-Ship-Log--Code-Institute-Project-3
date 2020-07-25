@@ -4,8 +4,8 @@
 
 {% block main %}
 <div class="login-window">
-  <h3>Sign Up!</h3>
-  <p><a href="{{ url_for('index') }}">Back to Main Page</a></p>
+  <h3 class="txt-darkgrey">Sign Up!</h3>
+  <p class="txt-darkgrey"><a href="{{ url_for('index') }}">Back to Main Page</a></p>
   {% if emailExist %}
   <div class="alert alert-danger" role="alert">THE SELECTED EMAIL ALREADY EXIST!</div>
   <div><h5><a class="a-override" href="{{ url_for('index') }}"><strong>SIGN IN HERE!</strong></a></h5></div>
@@ -30,16 +30,9 @@
           </div>
         </div>
         <div class="form-info-window">
-          <h5>We need your home port position in order to set the map up for you.</h5>
           <p>Please use Google maps coordinates format for the latitude and longitude.
           That is a number with four decimals, <strong><em>i.e 54.2568</em></strong></p>
-          <p>To find the coordinates for your home port we recommend you do a Google search:
-            "(Your home port location name) Coordinates" Then just copy the resulting latitude and longitude 
-            values and paste them in the respective field in this form.
-          </p>
-
         </div>
-
       </div>
 
       <div class="form-group">

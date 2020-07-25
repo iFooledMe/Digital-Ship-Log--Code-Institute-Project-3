@@ -4,11 +4,11 @@
 
 {% block main %}
   <div class="login-window">
-    <h3>Welcome!</h3>
+    <h3 class="txt-darkgrey">Welcome!</h3>
     {% if badLogin %}
     <div class="alert alert-danger" role="alert">WRONG USERNAME/PASSWORD! <span class="txt-sm"><a href="{{ url_for('signup') }}"><strong>Sign up here!</strong></a></span></div>
     {% else %}
-    <p>Please sign in or <a href="{{ url_for('signup') }}"><strong>Sign up here!</strong></a></p>
+    <p class="txt-darkgrey">Please sign in or <a href="{{ url_for('signup') }}"><strong>Sign up here!</strong></a></p>
     {% endif %}
     
       <form method="POST" action="{{ url_for('login') }}">
