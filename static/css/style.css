@@ -120,7 +120,7 @@ h3 {
 }
 
 .form-base form {
-    padding: 0 10px;
+    padding: 20px 10px;
 }
 
 /* Wraps the <form> element in a form page */
@@ -141,6 +141,12 @@ h3 {
 
 .form-label-row {
     text-align: left;
+}
+
+.form-info-window {
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 5px;
+    color: #ffffff;
 }
 
 /* =================================================================== */
@@ -406,7 +412,7 @@ h3 {
     }
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (min-width: 992px) {
     
     .login-window {
         padding: 10% 10%;
@@ -417,7 +423,7 @@ h3 {
     }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (max-width: 768px) {
     
     .login-window {
         padding: 10% 5%;
@@ -425,6 +431,11 @@ h3 {
 
     .form-base {
         padding: 0 0;
+        width: 100%;
+    }
+
+    .logo {
+        max-width: 75px;
     }
 }
 

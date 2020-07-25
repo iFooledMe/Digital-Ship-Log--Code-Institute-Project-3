@@ -23,7 +23,7 @@
 <!-- #Region ==== HEADER ====================================================================== -->
 <header>
     <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid height-100 {}">
+        <div class="container-fluid">
           <a class="navbar-brand" href="{{ url_for('index') }}">
             <img class="logo" src="{{ url_for('static', filename='img/logo.png') }}" alt="Logotype">
           </a>
@@ -34,7 +34,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Link</a>
@@ -49,7 +49,7 @@
 </header>
 <!-- #endregion -->
 
-<!-- #Region ==== Main ====================================================================== --> 
+<!-- #Region ==== MAIN ====================================================================== --> 
         <main>
             <div class="row no-gutters mx-auto w-100 main-wrapper">
 
@@ -65,131 +65,154 @@
                     <div id="map"></div>
                 </div>
 
-
 <!-- MAP SCRIPT-->
 <script>                   
-function loadCoords(){
-    var coords = "{{ coords }}";
-    if (coords){
-        var cleaned = coords.split('&#34;').join('"');
-        var coords_obj = JSON.parse(cleaned);  
-        
-        // Parse values to floats
-        coords_obj.map((el) => {
-            Object.keys(el).forEach((key) => {
-            el[key] = parseFloat(el[key])
+    function loadCoords(){
+        var coords = "{{ coords }}";
+        if (coords){
+            var cleaned = coords.split('&#34;').join('"');
+            var coords_obj = JSON.parse(cleaned);  
+            
+            // Parse values to floats
+            coords_obj.map((el) => {
+                Object.keys(el).forEach((key) => {
+                el[key] = parseFloat(el[key])
+                })
             })
-        })
-    return coords_obj;
-    };
-}
-
-function getMapCenter() {
-    var center_coords = '{{ center_coords }}'
-    if (center_coords){
-        var cleaned = center_coords.split('&#34;').join('"');
-        var center_coords = JSON.parse(cleaned);  
-        
-        //Parse values to floats
-        center_coords.map((el) => {
-            Object.keys(el).forEach((key) => {
-            el[key] = parseFloat(el[key])
+        return coords_obj;
+        };
+    }
+    
+    function getMapCenter() {
+        var center_coords = '{{ center_coords }}'
+        if (center_coords){
+            var cleaned = center_coords.split('&#34;').join('"');
+            var center_coords = JSON.parse(cleaned);  
+            
+            //Parse values to floats
+            center_coords.map((el) => {
+                Object.keys(el).forEach((key) => {
+                el[key] = parseFloat(el[key])
+                })
             })
-        })
-    return center_coords;
-    };
-}
-
-function initMap() {
-    //Map settings ----------------------------------------------------------------------------------
-    var mapSettings = {
-        zoom: 3,
-        center: { lat: 38.3186, lng: -24.94933 },
-        backgroundColor: 'none',
+        return center_coords;
+        };
     }
 
-    // Create new map --------------------------------------------------------------------------------
-    var map = new google.maps.Map(document.getElementById('map'), mapSettings);
-
-
-
-    //Set map center
-    map_center_coords = getMapCenter();
-    console.log(map_center_coords[0]);
-    map.setCenter(map_center_coords[0]);
-    map.setZoom(8);
-
-    // Load coordinates for log entries to be shown on the map
-    coords = loadCoords();             
-    coords.forEach(coord => {
-        icon = getIcon(coords.indexOf(coord))
-        content = coord.toString();
-        addMarker(coord, icon, content);
-    });
-
-    function getIcon(coordIndex) {
-        
-        switch (coordIndex) {
-            case 0:
-                return 'http://maps.google.com/mapfiles/kml/paddle/orange-stars.png';
-                break;
-            case 1:
-                return '';
-                break;
-            case 2:
-                return 'http://maps.google.com/mapfiles/kml/paddle/3.png';
-                break;
-            case 3:
-                return 'http://maps.google.com/mapfiles/kml/paddle/4.png';
-                break;
-            case 4:
-                return 'http://maps.google.com/mapfiles/kml/paddle/5.png';
-                break;
-            case 5:
-                return 'http://maps.google.com/mapfiles/kml/paddle/6.png';
-                break;
-            case 6:
-                return 'http://maps.google.com/mapfiles/kml/paddle/7.png';
-                break;
-            case 7:
-                return 'http://maps.google.com/mapfiles/kml/paddle/8.png';
-                break;
-            case 8:
-                return 'http://maps.google.com/mapfiles/kml/paddle/9.png';
-                break;
-            case 9:
-                return 'http://maps.google.com/mapfiles/kml/paddle/10.png';
-                break;
+    function getHomeCoords() {
+        var home_coords = '{{ home_coords }}'
+        if (home_coords){
+            var cleaned = home_coords.split('&#34;').join('"');
+            var home_coords_obj = JSON.parse(cleaned);  
+            // Parse values to floats
+            home_coords_obj.map((el) => {
+                Object.keys(el).forEach((key) => {
+                el[key] = parseFloat(el[key])
+                })
+            })
+        return home_coords_obj;
         }
     }
-   
-    function addMarker(coords, icon, content) {
-        var marker = new google.maps.Marker(
-        {
-            position: coords,
-            map: map,
-            icon: icon,
-        });
+    
+    function initMap() {
+        //Map settings ----------------------------------------------------------------------------------
+        var mapSettings = {
+            zoom: 3,
+            center: { lat: 38.3186, lng: -24.94933 },
+            backgroundColor: 'none',
+        }
+    
+        // Create new map --------------------------------------------------------------------------------
+        var map = new google.maps.Map(document.getElementById('map'), mapSettings);
+    
+        //Set map center
+        map_center_coords = getMapCenter();
+        map.setCenter(map_center_coords[0]);
+        map.setZoom(8);
 
-        //Info Window ----------------------------------------------------------------
-        var infoWindow = new google.maps.InfoWindow({
-        content: content
-        });
+        //Add Marker for home port
+        var homePosition = getHomeCoords();
+        var homeIcon = 'http://maps.google.com/mapfiles/kml/pushpin/blue-pushpin.png';
+        var homeContent = '<h4>Your home port<h4>'
+        addMarker(homePosition[0], homeIcon, homeContent);
 
-        marker.addListener('mouseover', function(){
-            infoWindow.open(map, marker);
-        });
 
-        marker.addListener('mouseout', function(){
-            infoWindow.close(map, marker);
+    
+        // Load coordinates for log entries to be shown on the map
+        coords = loadCoords();             
+        coords.forEach(coord => {
+            icon = getIcon(coords.indexOf(coord))
+            content = coord.toString();
+            addMarker(coord, icon, content);
         });
-    }               
-}
+    
+        function getIcon(coordIndex) {
+            
+            switch (coordIndex) {
+                case 0:
+                    return 'http://maps.google.com/mapfiles/kml/paddle/orange-stars.png';
+                    break;
+                case 1:
+                    return 'http://maps.google.com/mapfiles/kml/paddle/2.png';
+                    break;
+                case 2:
+                    return 'http://maps.google.com/mapfiles/kml/paddle/3.png';
+                    break;
+                case 3:
+                    return 'http://maps.google.com/mapfiles/kml/paddle/4.png';
+                    break;
+                case 4:
+                    return 'http://maps.google.com/mapfiles/kml/paddle/5.png';
+                    break;
+                case 5:
+                    return 'http://maps.google.com/mapfiles/kml/paddle/6.png';
+                    break;
+                case 6:
+                    return 'http://maps.google.com/mapfiles/kml/paddle/7.png';
+                    break;
+                case 7:
+                    return 'http://maps.google.com/mapfiles/kml/paddle/8.png';
+                    break;
+                case 8:
+                    return 'http://maps.google.com/mapfiles/kml/paddle/9.png';
+                    break;
+                case 9:
+                    return 'http://maps.google.com/mapfiles/kml/paddle/10.png';
+                    break;
+                default: 
+                    return 'http://maps.google.com/mapfiles/kml/paddle/red-circle.png';
+                    break;
+            }
+        }
+       
+        function addMarker(coords, icon, content) {
+            var marker = new google.maps.Marker(
+            {
+                position: coords,
+                map: map,
+                icon: icon,
+            });
+    
+            //Info Window ----------------------------------------------------------------
+            var infoWindow = new google.maps.InfoWindow({
+            content: content
+            });
+    
+            marker.addListener('mouseover', function(){
+                infoWindow.open(map, marker);
+            });
+    
+            marker.addListener('mouseout', function(){
+                infoWindow.close(map, marker);
+            });
+        }               
+    }
 </script>
 
             </div>
         </main>
-<!-- #endregion -->
+    <!-- #endregion -->
+
     </div>
 
 <!-- #Region ==== JAVASCRIPTS ============================================================= -->

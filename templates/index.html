@@ -380,8 +380,8 @@
 									<p>
 										<i class="fas fa-map-marked-alt"></i> {{ log.location }} |
 										{% for pos in log.position %}
-										<i class="fas fa-arrows-alt-v"></i> {{ pos.lat }}&#176; |
-										<i class="fas fa-arrows-alt-h"></i> {{ pos.lng }}&#176;
+										<i class="fas fa-arrows-alt-v"></i> {{ log.position[0].lat }}&#176; |
+										<i class="fas fa-arrows-alt-h"></i> {{ log.position[0].lng }}&#176;
 										{% endfor %}
 									</p>
 									<p>

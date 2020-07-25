@@ -45,9 +45,21 @@ def index():
 			options = get_activity_options(activity_code),
 			log_headers = get_log_headers(ObjectId(session['user_id'])),
 			logs = list(get_log_entries(ObjectId(session['user_id']))),
+			home_coords = get_home_position(),
 			center_coords = get_center_coords(),
 			coords = get_positions())
 	return render_template("login.html")
+
+# ====================================================================================
+# ==== G E T  C O N T E N T (Log headers and log entries) ============================
+
+# ---- GET LOG HEADERS  ----
+def get_log_headers(userId):
+	return mongo.db.log_headers.find({"user_id" : userId}).sort("start_datetime",-1)
+
+# ---- GET LOG ENTRIES   ----
+def get_log_entries(userId):
+	return mongo.db.logs.find({"user_id" : userId}).sort("datetime",-1)
 
 # ====================================================================================
 # ==== G E T  P O S I T I O N S  (for map markers) ===================================
@@ -66,6 +78,16 @@ def get_positions():
 			pos_array.append(pos)
 	pos_array_json = json.dumps(pos_array)
 	return pos_array_json
+
+# ---- Get position for home port ----
+def get_home_position():
+	if "user_id" in session:
+		home_pos = mongo.db.users.find_one({
+			'_id' : ObjectId(session['user_id'])
+		})['home_port_pos']
+		home_pos = json.dumps(home_pos)
+		return home_pos
+	return [{"lat": "0.0", "lng": "0.0"}]
 
 # ---- Log entry map switch control ----
 @app.route('/map_switch/<log_id>', methods=["POST"])
@@ -113,10 +135,13 @@ def switch_all_logs(journey_id, set_map):
 
 # ---- CENTER MAP POSITION COORDINATES ----------------------------------------------
 def get_center_coords():
-	center_coords = mongo.db.users.find_one({'_id' : ObjectId(session['user_id'])})['center_map_pos']
-	print(center_coords)
-	center_coords = json.dumps(center_coords)
-	return center_coords
+	if "user_id" in session:
+		center_coords = mongo.db.users.find_one({'_id' : ObjectId(session['user_id'])})['center_map_pos']
+		center_coords = json.dumps(center_coords)
+		print(center_coords)
+		return center_coords
+	else:
+		return [{"lat": "0.0", "lng": "0.0"}]
 
 @app.route('/center_map/<log_id>', methods=['GET'])
 def center_map(log_id):
@@ -156,17 +181,6 @@ def change_activity(new_activity):
 		close_journey()
 	update_user_activity(new_activity)
 	return redirect(url_for("index"))
-
-# ====================================================================================
-# ==== G E T  C O N T E N T ==========================================================
-
-# ---- GET LOG HEADERS  ----
-def get_log_headers(userId):
-	return mongo.db.log_headers.find({"user_id" : userId}).sort("number",-1)
-
-# ---- GET LOG ENTRIES   ----
-def get_log_entries(userId):
-	return mongo.db.logs.find({"user_id" : userId}).sort("datetime",-1)
 
 # ====================================================================================
 # ==== L O G  T Y P E S  =============================================================
@@ -367,9 +381,9 @@ def edit_log(journey_id, log_id):
 			'location' : get_request_data(request.form["location"], " -- "),
 			'position' : 
 				[{
-				'latitude' : get_request_data(request.form["latitude"], " -- "),
-				'longitude' : get_request_data(request.form["longitude"], " -- ")
-				}],
+				'lat' : get_request_data(request.form["latitude"], " -- "),
+				'lng' : get_request_data(request.form["longitude"], " -- ")
+				}]
 			}})
 		if len(request.form["latitude"]) != 0 and len(request.form["longitude"]) != 0:
 			log = mongo.db.logs.find_one({
@@ -408,9 +422,6 @@ def delete_log(log_id):
 	set_all_not_editable(session['user_id'])
 	return redirect(url_for('index'))
 
-
-
-
 # ====================================================================================
 # ==== U S E R  A U T H E N T I C A T I O N  / R E G I S T R A T I O N ===============
 
@@ -427,7 +438,19 @@ def signup():
 			'last_name' : request.form["last-name"],
 			'email' : request.form["email"],
 			'password' : password_hashed,
-			'activity_code' : 0 })
+			'activity_code' : 0,
+			'home_port_name' : request.form["home-port-name"],
+			'home_port_pos' : 
+				[{
+				'lat' : request.form["latitude"],
+				'lng' : request.form["longitude"]
+				}],
+			'center_map_pos' : 
+				[{
+				'lat' : request.form["latitude"],
+				'lng' : request.form["longitude"]
+				}]
+			 })
 			set_session_vars(request.form['email'])
 			return redirect(url_for("index"))
 		return render_template("signup.html", emailExist = True)		
