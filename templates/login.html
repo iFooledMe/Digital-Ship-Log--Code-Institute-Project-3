@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block pageTitle %}<title>Login</title>{% endblock %}
+{% block pageTitle %}<title>Your Digital Log Book | Start / Sign In</title>{% endblock %}
 
 {% block main %}
   <div class="login-window">
@@ -17,7 +17,27 @@
           <button type="submit" class="btn btn-blue-grey form-override btn-override">Login</button>
       </form>
   </div>
-  <hr>
+
+  <div class="info-text-box">
+
+    <h1>Keep your ship logs free of dust!</h1>
+
+    <p>
+      This project aims to create a digital interactive log book for recreational boats and ships. As tradition on the seas offer, for recreational sailors often these logs are done in a physical logbook by pen and paper. In such a logbook normally the ship's captain enters a log daily, reporting navigational information such as heading, speed. Weather information such as wind direction, wind speed, weather conditions etc. Also there are usually  some notes about important events happening onboard the ship, like accidents, if something needs to be repaired, if the ship got new provisions, entered dock for unload, load etc. In the professional merchant fleet such log entries are mandatory and part of the international regulations. But for recreational ships and boats it is not. While many boat owners keep such a logbook in their ship/boat, often they mostly stay in a drawer collecting dust. 
+    </p>
+
+    <p class="text-lg">
+      <strong>“Your Digital Log Book”</strong> is a web-application where recreational skippers can keep and store their ships logs digitally. Maybe not so much for the importance of such logs, but more as a collection of memories from different Journeys made in the past from notes, uploaded images, navigation- and weather data and plotted map positions. At least such digital logs won’t collect any dust.
+    </p>
+
+    <p class="text-lg">
+      <h1><span class="badge badge-primary">
+        <a href="{{ url_for('signup') }}">SIGN UP NOW!</a> 
+      </span></h1>
+    </p>
+
+  </div>
+
 {% endblock %}
 
     

@@ -60,6 +60,14 @@ h2 {
     font-size: 0.7rem;
 }
 
+.text-md {
+    font-size: 1.3rem;
+}
+
+.text-lg {
+    font-size: 1.5rem;
+}
+
 .center {
     text-align: center;
 }
@@ -488,6 +496,20 @@ h2 {
     text-transform: uppercase;
 }
 
+.info-text-box {
+    margin: 30px 0;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: justify;
+    background-color: rgba(0,0,0,0.1)
+}
+
+.info-text-box h1 {
+    letter-spacing: 2px;
+}
+
+
+
 /* =================================================================== */
 /* ==== M E D I A  Q U E R I E S ===================================== */
 
@@ -503,7 +525,18 @@ h2 {
     .navbar-user-info {
         left: 400px;
     }
+}
 
+/* 1050px and down) */
+@media (max-width: 1050px) {
+    .log-header-head {
+        min-height:90px;
+    }
+    
+    .log-header-head a {
+        position: relative;
+        top: 20px;
+    }
 }
 
 /* Large devices (desktops, 992px and down) */
@@ -542,6 +575,15 @@ h2 {
     .navbar-user-info {
         right: 20px;
     }
+
+    .log-header-head {
+        height:auto;
+    }
+    
+    .log-header-head a {
+        position: static;
+    }
+
 }
 
 /* Small devices (landscape phones, 576px and down)*/

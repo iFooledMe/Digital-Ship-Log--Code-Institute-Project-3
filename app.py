@@ -21,14 +21,6 @@ app.config['UPLOADED_IMAGES_DEST'] = 'static/img/users/'
 images = UploadSet('images', IMAGES)
 configure_uploads(app, images)
 
-
-
-
-#TODO: Remove test function and template before submitting
-@app.route('/test')
-def test():
-	return render_template('test.html')
-
 # ====================================================================================
 # ==== I N D E X =====================================================================
 # TODO: Fix crash when user is removed from db but still in cache
