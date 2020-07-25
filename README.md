@@ -15,9 +15,6 @@ This project aims to create a digital interactive log book for recreational boat
 The index page where users can sign in or click on any of the links to the sign up page.
 <img src="static/img/readme/1.png">
 
-Each login attempt is validated by checking for a correct match of username and password.
-<img src="static/img/readme/2.png">
-
 ### Sign up
 The signup page where new users register. As seen in the image below there is an input control to check for existing email-addresses in the database, as the email addresses are used as usernames. A successful sign up creates a hashed binary password in the database. Other input controls are done directly in the html forms.
 <img src="static/img/readme/3.png">
@@ -47,6 +44,7 @@ When creating a new log a log title and description is mandatory (if not what’
   ### The new log entry added to the journey
   The log just created is now added as a collapsible element below the header. There is no limit to how many log entries can be added to a journey. As seen in the image all the data just submitted is presented to the user.
 <img src="static/img/readme/8.png">
+
 The new log entry is also presented in the map where a new marker for the log (if coordinates are given) is created and centered upon. Only the most recent log marker in the map has this yellow form. On the right of each header (both journey header and log entry header) there is a switch where either all map markers for the journey, or just one individual log entry marker, can be switched on and off from the map. The marker icon to the left of this switch is used to center on that particular marker in the map.
 <img src="static/img/readme/9.png">
 A journey can be ended from the “Change activity” dropdown menu.
@@ -66,4 +64,4 @@ The edit button opens form to update either the journey header data or the data 
 
 And the trash can icons remove either a single log entry or a complete journey with all its contents. In both cases a modal is popped open where the user get a warning about deletion and an opportunity to revert the deletion. 
 
-<img src="static/img/readme/15.png">
+<img src="static/img/readme/16.png">
