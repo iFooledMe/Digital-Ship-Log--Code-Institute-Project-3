@@ -21,12 +21,9 @@
     <div class="container-fluid">
 
 <!-- #Region ==== HEADER ====================================================================== -->
-
-
-<!--Main Navigation-->
 <header>
     <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
+        <div class="container-fluid height-100 {}">
           <a class="navbar-brand" href="{{ url_for('index') }}">
             <img class="logo" src="{{ url_for('static', filename='img/logo.png') }}" alt="Logotype">
           </a>
@@ -52,14 +49,17 @@
 </header>
 <!-- #endregion -->
 
+<!-- #Region ==== Main ====================================================================== --> 
         <main>
-            <div class="row no-gutters mx-auto w-100">
+            <div class="row no-gutters mx-auto w-100 main-wrapper">
 
                 <div class="col-12 col-md-6">
                     {% block main %}
                     {% endblock %}
                 </div>
 
+<!-- #endregion -->
+                
 <!-- #region ==== MAP ========================================================================= -->
                 <div class="d-none d-md-block col-md-6 map-side-base">
                     <div id="map"></div>
@@ -186,11 +186,10 @@ function initMap() {
     }               
 }
 </script>
-<!-- #endregion -->
 
             </div>
         </main>
-
+<!-- #endregion -->
     </div>
 
 <!-- #Region ==== JAVASCRIPTS ============================================================= -->

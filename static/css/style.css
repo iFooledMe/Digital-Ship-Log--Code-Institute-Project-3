@@ -14,7 +14,6 @@ header {
 
 main {
     margin-top: 20px;
-
 }
 
 a {
@@ -28,6 +27,10 @@ a.a-override i:hover {
 h3 {
     text-transform: uppercase;
     font-size: 24px;
+}
+
+.height-100 {
+    height: 150px;
 }
 
 /* =================================================================== */
@@ -238,8 +241,13 @@ h3 {
 
 /* ******************************************************************* */
 /* **** MAP ********************************************************** */
+.main-wrapper {
+    position: relative;
+}
+
 #map {
     position: fixed;
+    top: 0px;
     width: 100%;
     min-height: 90vh;
 }
