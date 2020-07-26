@@ -143,7 +143,68 @@ The following collections are hard coded and keep data for various options used 
 <img src="static/img/readme/db_9.png">
 
 ## HOW TO DEPLOY
-How to....
+If you wish to deploy this project of your own take the following steps.
+
+<strong>Clone this project to your own working directory:</strong>
+
+1. In this repository (as you’re reading this readme in it :-) on the top right click the green “Code” button
+2. Copy the given url by clicking on the copy icon (or open it up with GitHub Desktop if you have it installed)
+3. In your local IDE open Git Bash (or whatever terminal you use to work with Git)
+4. Change the current working directory to the location where you want the clone to be created
+5. In the terminal type “git clone” and the paste the url you just copied
+6. Press Enter. Your local clone will be created in the working directory you’re currently in
+
+Find more details about this procedure <a href="https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository">here</a>
+
+<strong>Set up your local IDE</strong>
+
+You need the latest version of Python 3 installed and you also need to install and import:
+
+- flask
+- flask_wtf
+- flask_uploads
+- flask_pymongo
+- bcrypt
+
+I recommend you install these using pip typing "pip3 install packageName" in the terminal
+
+<strong>Set up a MongoDB cloud service</strong>
+
+You need to set up your own MongoDB somewhere. I used Atlas that you find <a href="https://docs.atlas.mongodb.com/getting-started/">here</a> 
+
+If you don’t already have one set up a new account, create a new cluster and within there a new database.
+
+You can name it something different than the name I used, but it is important that the the names of all collections (and key values within) exactly follow the structure described in the "Database structure" section above in this document (Some of theese collections are hard coded while other collections just need to be created empty but with the same name).
+
+In Atlas you also need to whitelist your local machine's ip-address in order for Atlas to grant you access. You can use 0.0.0.0 for limitless access in a development phase, but in a real live deployment it should be set to the ip-adress of server running the app.
+
+Then in the current cluster in the Atlas daschboard, click “Connect” and then “Connect your application”. Select Driver for Python and the latest version in the list. Copy the URI.
+
+In the app.py file you just cloned to your local repository, you need to replace the 
+app.config["MONGO_URI"] = os.environ["MONGO_URI"] with the URI you just copied, and app.config["MONGO_DBNAME"] = os.environ["MONGO_DBNAME"] with the name for the database you just set up.
+ 
+I recommend you set it all up in a separate env.py file like this:
+os.environ["SECRET_KEY"] = "yourSecretKey" (Any value you wish)
+os.environ["MONGO_DBNAME"] = "nameOfTheDataBase" (That you just created)
+os.environ["MONGO_URI"] = “Mongo URI” (That you just copied)
+Don’t forget to add the env.py to .gitignore. Otherwise it will be pushed onto GitHub where your passwords will be exposed.
+
+You are now ready to work with this project on your local machine. 
+
+<strong>Deploy on Heroku</strong>
+
+1. First you need to create an account on Heroku 
+2. Create a new app (Chose region depending on where you live)
+3. You can either deploy the project by connecting Heroku to your GitHub repository (follow the instructions on Heroku site)
+4. Or use the Heroku CLI (Install the Heroku CLI <a href="https://devcenter.heroku.com/articles/heroku-cli">from here</a>)
+5. Once Heroku CLI is installed, login to Heroku by typing “heroku login” in the CLI and you will be redirected to a web browser window where you log in. 
+6. Then use Git to clone (app name) source code to your local machine (even if it is already cloned this must be done again). Type: “$ heroku git:clone -a (name of repository you are using)” in the CLI
+7. Make this new dir (name of repository) your working directory with command "cd (name of repository)"
+8. Make some small change to the code you just cloned in order to be able to push it to Git
+9. Stage all files for commit to Git with the command “git add .” + enter
+10. Commit to Git with “commit -m (Some commit message)“ + enter
+11. Finally in the CLI type "git push heroku master"
+12. In a while after a lot of stuff flying past you on the screen has stopped flying past you, the project should be deployed
 
 ## TESTING
 The test is done manualy in the following browsers:
@@ -164,7 +225,7 @@ Today most boat owners bring a touchscreen device or a laptop with them on their
 ### SCOPE
 The scope for this first MVP version focuses around the users basic abilities to create, view, update and delete log entries (CRUD operations). As a first conceptual product proving the usability of an app like this, the most important aspect is to get the user experience as smooth, intuitive and easy to use as possible. 
  
-In a product like this the sheer amount of entries of different types can get immense. Therefore aspects like how the data is presented (structure) possibly of more importance at this stage, than cool design (even if they are closely related of course)
+In a product like this the sheer amount of entries of different types can get immense. Therefore aspects like how the data is presented (structure) is possibly of more importance at this stage, than cool design (even if they are closely related of course)
 
 As the user stories presented above tells focus in this version will be in:
 - Authentication (Sign up, sign in, log out)

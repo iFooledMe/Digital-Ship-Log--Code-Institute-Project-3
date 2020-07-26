@@ -5,7 +5,6 @@ from flask_uploads import UploadSet, configure_uploads, IMAGES
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from bson.json_util import loads, dumps
-
 import bcrypt
 
 if os.path.exists("env.py"):

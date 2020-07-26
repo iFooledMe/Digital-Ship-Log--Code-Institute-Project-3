@@ -1,6 +1,5 @@
 {
   "files.exclude": {
-    "env.py": true,
     "Procfile": true,
     ".vscode": true,
     "__pycache__": true
