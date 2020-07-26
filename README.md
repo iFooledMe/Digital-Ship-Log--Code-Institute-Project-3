@@ -68,7 +68,7 @@ And the trash can icons remove either a single log entry or a complete journey w
 
 ## USER STORIES
 
-### User authentication
+### USER AUTHENTICATION
 As a user i wish to...
 - create a new account
 - Login to my personal account
@@ -76,7 +76,7 @@ As a user i wish to...
 - Recieve information if I do something not authorized
 - Be sure the data I submit is correct (defensive design)
 
-### Usability
+### USABILITY
 As a user I wish to...
 - Create one or many new journeys
   (Title, description, from where, to where, expected distance)
@@ -91,6 +91,75 @@ As a user I wish to...
 As a visitor I wish to…
 - Get information on how to use the features
 - Get general information about what the app is about
+
+## TECHNOLOGIES USED
+
+### DATABASE STRUCTURE
+
+## HOW TO DEPLOY
+
+## TESTING
+
+## UX
+
+### STRATEGY - PROJECT GOAL
+Today most boat owners bring a touchscreen device or a laptop with them on their travels. The goal with this project is to make an app making it easy and fun for recreational boat owners to store ship log entries for Journeys undertaken with their boat using modern technology. See it as a collection of memories in form of notes, images, weather and navigational data.
+
+### SCOPE
+The scope for this first MVP version focuses around the users basic abilities to create, view, update and delete log entries (CRUD operations). As a first conceptual product proving the usability of an app like this, the most important aspect is to get the user experience as smooth, intuitive and easy to use as possible. 
+ 
+In a product like this the sheer amount of entries of different types can get immense. Therefore aspects like how the data is presented (structure) possibly of more importance at this stage, than cool design (even if they are closely related of course)
+
+As the user stories presented above tells focus in this version will be in:
+- Authentication (Sign up, sign in, log out)
+- Personal space page where the user can view and work with their journeys and logs in an efficient, easy to use and intuitive way.
+- Get a basic Google maps up and running marking logs
+- This first MVP version is very focused on one single users needs to create and store logs for personal use.
+
+#### Future updates
+Features that were thought of but did not make this version includes:
+- present the log info on the map in a info window on each marker
+- Ability to filter journeys and log entries for various needs
+- Search the database for entries in journeys and logs 
+- Add ability to add independent log entries not sorted under a specific journey, i.e when the user is in the home port
+- Add ability to add issues, service and repair notes
+- Add a calendar for events
+- Add ability to add to do lists (possibly connected to the above point)
+- Add ability to store important information and documents concerning the boat and everything around (i.e manuals, how to guides, important contacts, phone numbers etc.)
+- Save favorite locations on the map with some information
+
+The long term ambition with this product is to create a sort of community for recreational boat owners where they also can share information and experiences with each other in discussions and some sort of commenting system.
+
+### STRUCTURE
+Most of the main content for the user, that is Journeys and log entries and the map, are rendered on the index template. 
+ 
+Except for that there are just a few supporting templates for adding new entries, updating existing entries, delete entries and for user authentication purposes.
+
+### SKELETON
+This is the original wireframe made for this project
+<img src="static/img/readme/main_personal_page_WireFrame.png">
+
+I guess the current outcome is not too far from these wireframes with the exception that the map now is hidden on screens with less width than 768px.
+
+### SURFACE
+Since this project is more about working with Python and MongoDB than design, I have kept it simple using mostly standard Bootstrap elements extended with some extending libraries, like "Material Design for Bootstrap".
+ 
+For the very same reason I am just using the roboto font imported from Google fonts.
+ 
+Future updates could certainly benefit from some refactoring of the design.
+ 
+Other than that, since this is about boats and the ocean, I have chosen to keep the base colors in different variations of blue. Exceptions for user feedback information and warnings where I use some red and orange.
+ 
+Text is in most parts simply either white (or light grey) on dark backgrounds, and dark grey on lighter backgrounds.
+
+
+
+
+
+
+
+
+
 
 
 
