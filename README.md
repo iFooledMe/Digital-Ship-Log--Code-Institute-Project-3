@@ -3,13 +3,18 @@
 
 ## AN INTERACTIVE LOG BOOK FOR YOUR BOAT
 ### A Code Institute Student Project
+<hr>
+<br>
+<br>
 
 ## SUMMARY
+<hr>
 This project aims to create a digital interactive log book for recreational boats and ships. As tradition on the seas offer, for recreational sailors often these logs are done in a physical logbook by pen and paper. In such a logbook normally the ship's captain enters a log daily, reporting navigational information such as heading, speed. Weather information such as wind direction, wind speed, weather conditions etc. Also there are usually  some notes about important events happening onboard the ship, like accidents, if something needs to be repaired, if the ship got new provisions, entered dock for unload, load etc. In the professional merchant fleet such log entries are mandatory and part of the international regulations. But for recreational ships and boats it is not. While many boat owners keep such a logbook in their ship/boat, often they mostly stay in a drawer collecting dust.
 
 <em><strong>“Your Digital Log Book” is a web-application where recreational skippers can keep their ships logs digitally. Maybe not so much for the importance of such logs, but more as a collection of memories from different Journeys made in the past from notes, uploaded images, navigation- and weather data and plotted map positions. At least such digital logs won’t collect any dust.</strong></em>
 
 ## FEATURES
+<hr>
 
 ### Start and Login
 The index page where users can sign in or click on any of the links to the sign up page.
@@ -67,6 +72,7 @@ And the trash can icons remove either a single log entry or a complete journey w
 <img src="static/img/readme/16.png">
 
 ## USER STORIES
+<hr>
 
 ### USER AUTHENTICATION
 As a user i wish to...
@@ -93,14 +99,62 @@ As a visitor I wish to…
 - Get general information about what the app is about
 
 ## TECHNOLOGIES USED
+<hr>
+- HTML 5
+- CSS 3 (Bootstrap 4.5.0, Popper 16.0, bootstrap-extension 4.6.1, mdbootstrap 4.19.1, fontawesome 5.13.1)
+- JAVASCRIPT (JQuery 3.5.1, popper 1.16.0, bootstrap 4.5.0, bootstrap-extension 4.6.1, mdbootstrap 4.19.1)
+- Python 3.8.5
+- MongoDB 
+- MongoDB Atlas for cloud storage
+- Google Maps Javascript API
+- Google Fonts
+- Font Awesome
+- GitHub for version control
+- Heroku for deployment
+- Visual Studio Code 1.46.1 as IDE
+- GIMP 2.10.14 for image manipulation
 
 ### DATABASE STRUCTURE
 
+#### Database model
+The main collections in the application are:
+- users (storing user data)
+- log_headers (storing journey header data)
+- logs (storing individual log data)
+
+These 3 collections are interconnected with their respective ObjectId.
+In the lowest level a log object is connected with a specific log_header and user with the "user_id = user._id" and "head_id = log_headers._id"
+
+<img src="static/img/readme/db_model.png">
+
+The following collections are hard coded and keep data for various options used in menus:
+- check_for_user (check if there is a user signed in)
+- activity_options (used for change activity dropdown options)
+- activity_statuses (used for "Current activity" in the Welcome/Activity window)
+- weather_options (used for the various weather options available creating or updating a log entry)
+- wind_dir_options (used for the various wind direction options available creating or updating a log entry)
+- wind_dir_options (used for the various sub activity options available creating or updating a log entry)
+
+<img src="static/img/readme/db_1.png">
+<img src="static/img/readme/db_2.png">
+<img src="static/img/readme/db_3.png">
+<img src="static/img/readme/db_4.png">
+<img src="static/img/readme/db_5.png">
+<img src="static/img/readme/db_6.png">
+<img src="static/img/readme/db_7.png">
+<img src="static/img/readme/db_8.png">
+<img src="static/img/readme/db_9.png">
+
 ## HOW TO DEPLOY
+<hr>
+How to....
 
 ## TESTING
+<hr>
+some test protocol
 
 ## UX
+<hr>
 
 ### STRATEGY - PROJECT GOAL
 Today most boat owners bring a touchscreen device or a laptop with them on their travels. The goal with this project is to make an app making it easy and fun for recreational boat owners to store ship log entries for Journeys undertaken with their boat using modern technology. See it as a collection of memories in form of notes, images, weather and navigational data.
@@ -144,15 +198,40 @@ This is the original wireframe made for this project
 I guess the current outcome is not too far from these wireframes with the exception that the map now is hidden on screens with less width than 768px.
 
 ### SURFACE
-Since this project is more about working with Python and MongoDB than design, I have kept it simple using mostly standard Bootstrap elements extended with some extending libraries, like "Material Design for Bootstrap".
+Since this project is more about working with Python and MongoDB than design, I have kept it simple using mostly standard Bootstrap elements extended with some libraries, like "Material Design for Bootstrap".
  
-For the very same reason I am just using the roboto font imported from Google fonts.
+For the very same reason I am just using the Roboto font imported from Google fonts.
  
 Future updates could certainly benefit from some refactoring of the design.
  
 Other than that, since this is about boats and the ocean, I have chosen to keep the base colors in different variations of blue. Exceptions for user feedback information and warnings where I use some red and orange.
  
 Text is in most parts simply either white (or light grey) on dark backgrounds, and dark grey on lighter backgrounds.
+
+## CREDITS
+
+### MEDIA
+- LOGOTYPE - pngguru @ https://www.pngguru.com/free-transparent-background-png-clipart-bbegd
+
+- BACKGROUND IMAGE - ??????????
+
+- FAVICON IMAGE - 123RF @ https://es.123rf.com/photo_138670176_stock-vector-ship-steering-wheel-logo-design-template-vector-icon.html
+
+- README FOR ILLUSTRATION - ??????????????????
+
+### CODE
+
+- LOGIN AUTHENTICATION - 
+Pretty Printed @ https://www.youtube.com/watch?v=vVx1737auSE
+
+- IMAGE UPLOADS - 
+Pretty Printed @ https://www.youtube.com/watch?v=HNw6shJv9Ck
+
+- GOOGLE MAPS SETUP - 
+Traversy Media @ https://www.youtube.com/watch?v=Zxf1mnP5zcw
+
+### AKNOWLEDGEMENTS
+Special thank you to my course tutor at Code Institute Cormac Lawlor and my dedicated mentor for this course Aaron Sinnott for all good advice and help along the way!
 
 
 
