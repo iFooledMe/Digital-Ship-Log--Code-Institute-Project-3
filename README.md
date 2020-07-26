@@ -100,6 +100,7 @@ As a visitor I wish to…
 
 ## TECHNOLOGIES USED
 <hr>
+
 - HTML 5
 - CSS 3 (Bootstrap 4.5.0, Popper 16.0, bootstrap-extension 4.6.1, mdbootstrap 4.19.1, fontawesome 5.13.1)
 - JAVASCRIPT (JQuery 3.5.1, popper 1.16.0, bootstrap 4.5.0, bootstrap-extension 4.6.1, mdbootstrap 4.19.1)
