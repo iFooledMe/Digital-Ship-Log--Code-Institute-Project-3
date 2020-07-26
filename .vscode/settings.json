@@ -2,7 +2,8 @@
   "files.exclude": {
     "Procfile": true,
     ".vscode": true,
-    "__pycache__": true
+    "__pycache__": true,
+    "env.py": true
   },
   "python.formatting.provider": "autopep8"
 }

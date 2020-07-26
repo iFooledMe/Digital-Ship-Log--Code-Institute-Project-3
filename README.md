@@ -278,11 +278,9 @@ Text is in most parts simply either white (or light grey) on dark backgrounds, a
 ### MEDIA
 - LOGOTYPE - pngguru @ https://www.pngguru.com/free-transparent-background-png-clipart-bbegd
 
-- BACKGROUND IMAGE - ??????????
+- BACKGROUND IMAGE - Wallpaperplay @ https://wallpaperplay.com/walls/full/d/0/5/213076.jpg
 
 - FAVICON IMAGE - 123RF @ https://es.123rf.com/photo_138670176_stock-vector-ship-steering-wheel-logo-design-template-vector-icon.html
-
-- README FOR ILLUSTRATION - ??????????????????
 
 ### CODE
 
