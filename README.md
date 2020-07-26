@@ -118,9 +118,10 @@ As the user stories presented above tells focus in this version will be in:
 
 #### Future updates
 Features that were thought of but did not make this version includes:
-- present the log info on the map in a info window on each marker
+- Present the log info on the map in a info window on each marker
 - Ability to filter journeys and log entries for various needs
-- Search the database for entries in journeys and logs 
+- Search the database for entries in journeys and logs
+- Pagination for journeys and log entries 
 - Add ability to add independent log entries not sorted under a specific journey, i.e when the user is in the home port
 - Add ability to add issues, service and repair notes
 - Add a calendar for events
@@ -137,6 +138,7 @@ Except for that there are just a few supporting templates for adding new entries
 
 ### SKELETON
 This is the original wireframe made for this project
+
 <img src="static/img/readme/main_personal_page_WireFrame.png">
 
 I guess the current outcome is not too far from these wireframes with the exception that the map now is hidden on screens with less width than 768px.
