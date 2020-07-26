@@ -173,6 +173,7 @@ def change_activity(new_activity):
 	if new_activity == 2:
 		return render_template(
 			'newjourney.html',
+			have_user = check_for_user(),
 			home_coords = get_home_position(),
 			center_coords = get_center_coords(),
 			coords = get_positions())
@@ -213,6 +214,7 @@ def newjourney():
 		return redirect(url_for('index'))
 	return render_template(
 		'new_journey.html',
+		have_user = check_for_user(),
 		home_coords = get_home_position(),
 		center_coords = get_center_coords(),
 		coords = get_positions())
@@ -250,7 +252,8 @@ def edit_journey(journey_id):
 		return redirect(url_for('index'))
 	this_journey = mongo.db.log_headers.find({'_id' : ObjectId(journey_id)})
 	return render_template(
-		"edit_journey.html", 
+		"edit_journey.html",
+		have_user = check_for_user(), 
 		journey_id=journey_id, 
 		this_journey=this_journey,
 		home_coords = get_home_position(),
@@ -356,7 +359,8 @@ def newlog(journey_id):
 	wind_directions = mongo.db.wind_dir_options.find()
 	activity_options = mongo.db.sub_activity_options.find()
 	return render_template(
-		'new_journey_log.html', 
+		'new_journey_log.html',
+		have_user = check_for_user(), 
 		journey_id = journey_id, 
 		weather_options = weather_options,
 		wind_directions = wind_directions,
@@ -408,7 +412,8 @@ def edit_log(journey_id, log_id):
 	activity_options = mongo.db.sub_activity_options.find()
 	this_log = mongo.db.logs.find({'_id' : ObjectId(log_id)})
 	return render_template(
-		"edit_journey_log.html", 
+		"edit_journey_log.html",
+		have_user = check_for_user(), 
 		log_id=log_id,
 		journey_id = journey_id, 
 		this_log=this_log,
@@ -474,7 +479,9 @@ def signup():
 		return render_template("signup.html", emailExist = True)		
 	elif "email" in session:
 		return redirect(url_for("index")) 
-	return render_template("signup.html")
+	return render_template(
+		"signup.html",
+		have_user = check_for_user())
 
 # **** LOG IN ****************************************************************************
 @app.route('/login', methods=['POST'])

@@ -76,27 +76,26 @@ And the trash can icons remove either a single log entry or a complete journey w
 
 ### USER AUTHENTICATION
 As a user i wish to...
-- create a new account
-- Login to my personal account
-- Logout from my account
-- Recieve information if I do something not authorized
-- Be sure the data I submit is correct (defensive design)
+- #1 - create a new account
+- #2 - Login to my personal account
+- #3 - Logout from my account
+- #4 - Recieve information if I do something not authorized
 
 ### USABILITY
 As a user I wish to...
-- Create one or many new journeys
+- #5 - Create one or many new journeys
   (Title, description, from where, to where, expected distance)
-- Within each journey create log entries
+- #6 - Within each journey create log entries
   (Title, note, image, weather data, trip data)
-- See my log entries on a map
-- See my home port in the map
-- Be able to edit, or delete journeys and log entries as I see fit
-- Store my data persistently so that they are accessible when I get back to the site next time
+- #7 - See my log entries on a map
+- #8 - See my home port in the map
+- #9 - Be able to edit, or delete journeys and log entries as I see fit
+- #10 - Store my data persistently so that they are accessible when I get back to the site next time
 
 ### INFORMATION
 As a visitor I wish to…
-- Get information on how to use the features
-- Get general information about what the app is about
+- #11 - Get information on how to use the features
+- #12 - Get general information about what the app is about
 
 ## TECHNOLOGIES USED
 <hr>
@@ -113,6 +112,7 @@ As a visitor I wish to…
 - GitHub for version control
 - Heroku for deployment
 - Visual Studio Code 1.46.1 as IDE
+- Google Chrome 84.0.4147.89 (and development tool)
 - GIMP 2.10.14 for image manipulation
 
 ### DATABASE STRUCTURE
@@ -152,7 +152,16 @@ How to....
 
 ## TESTING
 <hr>
-some test protocol
+
+The test is done manualy in the following browsers:
+- Google Chrome 84.0.4147.89 (on PC Windows 10)
+- Microsoft Edge Chromium 84.0.522.44 (on PC Windows 10)
+- Firefox 78.0.2 (on PC Windows 10)
+- Safari (on iPad pro 10.5 iOS 13.6.1)
+
+The testing is done from the perspective of each user story (presented above) in regards of functionality and responsivity.
+
+<img src="static.img/readme/test.png">
 
 ## UX
 <hr>
