@@ -5,16 +5,15 @@
 ### A Code Institute Student Project
 <hr>
 <br>
-<br>
 
 ## SUMMARY
-<hr>
+
 This project aims to create a digital interactive log book for recreational boats and ships. As tradition on the seas offer, for recreational sailors often these logs are done in a physical logbook by pen and paper. In such a logbook normally the ship's captain enters a log daily, reporting navigational information such as heading, speed. Weather information such as wind direction, wind speed, weather conditions etc. Also there are usually  some notes about important events happening onboard the ship, like accidents, if something needs to be repaired, if the ship got new provisions, entered dock for unload, load etc. In the professional merchant fleet such log entries are mandatory and part of the international regulations. But for recreational ships and boats it is not. While many boat owners keep such a logbook in their ship/boat, often they mostly stay in a drawer collecting dust.
+<br>
 
 <em><strong>“Your Digital Log Book” is a web-application where recreational skippers can keep their ships logs digitally. Maybe not so much for the importance of such logs, but more as a collection of memories from different Journeys made in the past from notes, uploaded images, navigation- and weather data and plotted map positions. At least such digital logs won’t collect any dust.</strong></em>
 
 ## FEATURES
-<hr>
 
 ### Start and Login
 The index page where users can sign in or click on any of the links to the sign up page.
@@ -72,7 +71,6 @@ And the trash can icons remove either a single log entry or a complete journey w
 <img src="static/img/readme/16.png">
 
 ## USER STORIES
-<hr>
 
 ### USER AUTHENTICATION
 As a user i wish to...
@@ -98,8 +96,6 @@ As a visitor I wish to…
 - #12 - Get general information about what the app is about
 
 ## TECHNOLOGIES USED
-<hr>
-
 - HTML 5
 - CSS 3 (Bootstrap 4.5.0, Popper 16.0, bootstrap-extension 4.6.1, mdbootstrap 4.19.1, fontawesome 5.13.1)
 - JAVASCRIPT (JQuery 3.5.1, popper 1.16.0, bootstrap 4.5.0, bootstrap-extension 4.6.1, mdbootstrap 4.19.1)
@@ -147,12 +143,9 @@ The following collections are hard coded and keep data for various options used 
 <img src="static/img/readme/db_9.png">
 
 ## HOW TO DEPLOY
-<hr>
 How to....
 
 ## TESTING
-<hr>
-
 The test is done manualy in the following browsers:
 - Google Chrome 84.0.4147.89 (on PC Windows 10)
 - Microsoft Edge Chromium 84.0.522.44 (on PC Windows 10)
@@ -161,10 +154,9 @@ The test is done manualy in the following browsers:
 
 The testing is done from the perspective of each user story (presented above) in regards of functionality and responsivity.
 
-<img src="static.img/readme/test.png">
+<img src="static/img/readme/test.png">
 
 ## UX
-<hr>
 
 ### STRATEGY - PROJECT GOAL
 Today most boat owners bring a touchscreen device or a laptop with them on their travels. The goal with this project is to make an app making it easy and fun for recreational boat owners to store ship log entries for Journeys undertaken with their boat using modern technology. See it as a collection of memories in form of notes, images, weather and navigational data.
