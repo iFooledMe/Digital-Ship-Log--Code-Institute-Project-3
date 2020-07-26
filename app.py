@@ -22,7 +22,6 @@ configure_uploads(app, images)
 
 # ====================================================================================
 # ==== I N D E X =====================================================================
-# TODO: Fix crash when user is removed from db but still in cache
 @app.route('/')
 def index():
 	if "email" in session:
@@ -331,13 +330,13 @@ def newlog(journey_id):
 			'img_url' : img_url,
 			'img_cap' : request.form["img_cap"],
 			'weather' : get_request_data(request.form["weather"], " -- "),
-			'temp' : get_request_data(request.form["temp"], " -- "),
-			'air_pressure' : get_request_data(request.form["air_pressure"], " -- "),
+			'temp' : get_request_data(request.form["temp"], " - "),
+			'air_pressure' : get_request_data(request.form["air_pressure"], " - "),
 			'wind_dir' : get_request_data(request.form["wind_dir"], " -- "),
-			'wind_speed' : get_request_data(request.form["wind_speed"], " -- "),
+			'wind_speed' : get_request_data(request.form["wind_speed"], " - "),
 			'activity' : get_request_data(request.form["activity"], " -- "),
-			'heading' : get_request_data(request.form["heading"], " -- "),
-			'speed' : get_request_data(request.form["speed"], " -- "),
+			'heading' : get_request_data(request.form["heading"], " - "),
+			'speed' : get_request_data(request.form["speed"], " - "),
 			'location' : get_request_data(request.form["location"], " -- "),
 			'position' : 
 				[{
@@ -388,7 +387,7 @@ def edit_log(journey_id, log_id):
 			'weather' : get_request_data(request.form["weather"], " -- "),
 			'temp' : get_request_data(request.form["temp"], " -- "),
 			'air_pressure' : get_request_data(request.form["air_pressure"], " -- "),
-			'wind_dir' : get_request_data(request.form["wind_dir"], " -- "),
+			'wind_dir' : get_request_data(request.form["wind_dir"], " - "),
 			'wind_speed' : get_request_data(request.form["wind_speed"], " -- "),
 			'activity' : get_request_data(request.form["activity"], " -- "),
 			'heading' : get_request_data(request.form["heading"], " -- "),

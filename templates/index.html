@@ -7,7 +7,7 @@
 		{% for user in users %}
 		<div class="status-window txt-darkgrey">
 			<h2>Welcome {{user.first_name}}</h2>
-			<p>CURRENT ACTIVITY: <i class="{{ activity.activity_icon }}"></i> </i><strong>{{activity.activity_name}}</strong></p>
+			<p>CURRENT ACTIVITY: <i class="{{ activity.activity_icon }}"></i><strong>{{activity.activity_name}}</strong></p>
 			<p><strong>Last Logentry</strong> - 9 July, 2020 - 11:56</p>
 		</div>
 		{% endfor %}
@@ -16,7 +16,7 @@
 		<!-- #region ==== DROPDOWN BUTTONS ==================================================== -->
 		<div class="status-window-buttons-div">
 			<!-- Set activity dropdown -->
-			<span class="dropdown">
+			<div class="dropdown">
 				<button
 				class="btn btn-blue-grey btn-sm status-box-btn dropdown-toggle"
 				type="button"
@@ -36,7 +36,7 @@
 				>
 				{% endfor %}
 				</div>
-			</span>
+			</div>
 		</div>
 		<!-- #endregion -->	 
 
@@ -383,10 +383,9 @@
 										<i class="fas fa-arrows-alt-h icon-lightgrey"></i> {{ log.position[0].lng }}&#176;
 										{% endfor %}
 									</p>
-									<p>
+									
 										<h5>Log note</h5>
-										{{ log.note }}
-									</p>
+										<p>{{ log.note }}</p>
 									{% if log.imagefile != "None" %}
 									<figure>
 									  <img class="img-fluid rounded" src="{{ log.img_url }}" alt="{{ log.img_cap }}">

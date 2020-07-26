@@ -32,7 +32,7 @@
                 <div class="row">
                   <div class="col-4 col-md-3 form-label txt-white"><strong>DISTANCE (NM) </strong></div>
                   <div class="col-8 col-md-9">
-                    <input type="number" class="form-control form-override" id="distance" name="distance" value="{{ journey.distance }}" min="0" max="21600" maxlength="5">
+                    <input type="number" class="form-control form-override" id="distance" name="distance" value="{{ journey.distance }}" min="0" max="21600">
                   </div>
                 </div>
                 <div class="row">
@@ -58,13 +58,11 @@
                 </div>
                 <div class="row"> 
                   <div class="col-4 col-md-3 form-label txt-white"><strong>END</strong></div>
-                  <!-- TODO: Add checkbox to activate closed journey (and function that closes any other active journey + Varning!) -->
-                  <!-- TODO: Limit dates to not be set after current date and time) -->
                   <div class="col-4 col-md-5">
                     {% if journey.end_datetime == "Ongoing" %}
                     <input type="text" class="form-control form-override" id="end_date" name="end_date" value="{{ journey.end_datetime }}" disabled>
                     {% else %}
-                    <input type="date" class="form-control form-override" id="end_date" name="end_date" value="{{ journey.start_datetime }}" required>
+                    <input type="date" class="form-control form-override" id="end_date" name="end_date" value="{{ journey.end_datetime.strftime('%Y-%m-%d') }}" required>
                     {% endif %}
                   </div>
                   <div class="col-4">

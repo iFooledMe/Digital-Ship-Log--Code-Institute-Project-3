@@ -15,6 +15,14 @@ This project aims to create a digital interactive log book for recreational boat
 
 <em><strong>“Your Digital Log Book” is a web-application where recreational skippers can keep their ships logs digitally. Maybe not so much for the importance of such logs, but more as a collection of memories from different Journeys made in the past from notes, uploaded images, navigation- and weather data and plotted map positions. At least such digital logs won’t collect any dust.</strong></em>
 
+## KNOWN ISSUES
+
+- There is an issue with the Navbar not working when editing Journey or log entry. There is a link back to start elsewhere.
+- Some issue with the aria control for the navbar hamburger button
+- There are some javascript errors originating from imported framework code that is not mine.
+- When trying to change the image for a log entry, they do not show and old image dissapear
+- Issue with date time format when trying to change Log header dates
+
 ## FEATURES
 
 ### Start and Login
