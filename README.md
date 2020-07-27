@@ -17,6 +17,7 @@ This project aims to create a digital interactive log book for recreational boat
 
 ## KNOWN ISSUES
 
+- I know there are some errors when validating the html code regarding the “ -- ” as values for form inputs where type is number. I did not have time to deal with that and since it still works just fine I left it as it is (Sorry for adding this to the readme after submission date, just thought you should know that I know :-)
 - There is an issue with the Navbar not working when editing Journey or log entry. There is a link back to start elsewhere.
 - Some issue with the aria control for the navbar hamburger button
 - There are some javascript errors originating from imported framework code that is not mine.
